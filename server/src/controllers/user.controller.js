@@ -90,7 +90,7 @@ export async function updateAvatar(req, res, next) {
     if (!req.file) return errorResponse(res, 'No file uploaded', 400);
 
     const db = getSQLiteDB();
-    const avatarUrl = req.file.path; // Cloudinary URL
+    const avatarUrl = `/uploads/avatars/${req.file.filename}`;
 
     db.prepare('UPDATE users SET avatar_url = ? WHERE id = ?').run(avatarUrl, req.user.id);
     return successResponse(res, { avatarUrl }, 'Avatar updated');

@@ -1,4 +1,5 @@
 import bcrypt from 'bcryptjs';
+import { OAuth2Client } from 'google-auth-library';
 import { v4 as uuidv4 } from 'uuid';
 import { getSQLiteDB } from '../config/db.sqlite.js';
 import {
@@ -335,4 +336,99 @@ export async function getMe(req, res) {
     lastLogin: user.last_login,
     createdAt: user.created_at,
   });
+}
+
+// ─── Google OAuth Login ───────────────────────────────────────────────────────
+export async function googleLogin(req, res, next) {
+  try {
+    const db = getSQLiteDB();
+    const { credential } = req.body;
+    
+    if (!credential) {
+      return errorResponse(res, 'Google credential token is required', 400);
+    }
+
+    const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
+    
+    // Verify the token with Google
+    const ticket = await client.verifyIdToken({
+      idToken: credential,
+      audience: process.env.GOOGLE_CLIENT_ID,
+    });
+    
+    const payload = ticket.getPayload();
+    const { email, given_name, family_name, picture, email_verified } = payload;
+    
+    if (!email_verified) {
+      return errorResponse(res, 'Google email is not verified', 401);
+    }
+
+    const lowerEmail = email.toLowerCase();
+    
+    // Check if user exists
+    let user = db.prepare(`
+      SELECT u.*, r.name AS role
+      FROM users u
+      JOIN roles r ON u.role_id = r.id
+      WHERE u.email = ?
+    `).get(lowerEmail);
+
+    if (!user) {
+      // Auto-register user as resident if they don't exist
+      const roleRow = db.prepare("SELECT id, name FROM roles WHERE name = 'resident'").get();
+      const userId = uuidv4().replace(/-/g, '');
+      const placeholderPassword = await bcrypt.hash(uuidv4(), 12); // random secure password
+      
+      db.prepare(`
+        INSERT INTO users (id, email, password_hash, first_name, last_name, role_id, is_email_verified, avatar_url)
+        VALUES (?, ?, ?, ?, ?, ?, 1, ?)
+      `).run(userId, lowerEmail, placeholderPassword, given_name || 'Resident', family_name || '', roleRow.id, picture);
+      
+      user = db.prepare(`
+        SELECT u.*, r.name AS role
+        FROM users u
+        JOIN roles r ON u.role_id = r.id
+        WHERE u.id = ?
+      `).get(userId);
+      
+      // Send welcome email asynchronously
+      sendWelcomeEmail(lowerEmail, given_name, roleRow.name).catch(console.error);
+    }
+
+    if (!user.is_active) {
+      return errorResponse(res, 'Account is deactivated. Contact committee.', 403);
+    }
+
+    // Generate our JWT tokens
+    const tokenPayload = { id: user.id, email: user.email, role: user.role };
+    const accessToken = generateAccessToken(tokenPayload);
+    const refreshToken = generateRefreshToken(tokenPayload);
+
+    // Store refresh token
+    const expiresAt = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString();
+    db.prepare(`
+      INSERT INTO refresh_tokens (id, user_id, token, expires_at)
+      VALUES (?, ?, ?, ?)
+    `).run(uuidv4().replace(/-/g, ''), user.id, refreshToken, expiresAt);
+
+    // Update last login
+    db.prepare('UPDATE users SET last_login = CURRENT_TIMESTAMP WHERE id = ?').run(user.id);
+
+    return successResponse(res, {
+      accessToken,
+      refreshToken,
+      user: {
+        id: user.id,
+        email: user.email,
+        firstName: user.first_name,
+        lastName: user.last_name,
+        role: user.role,
+        avatarUrl: user.avatar_url,
+        isEmailVerified: Boolean(user.is_email_verified),
+      },
+    }, 'Google Login successful');
+  } catch (err) {
+    console.error('Google OAuth Error:', err);
+    return errorResponse(res, `Google auth failed: ${err.message}`, 401);
+  }
 }

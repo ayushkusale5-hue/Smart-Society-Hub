@@ -2,7 +2,7 @@ import { motion } from 'framer-motion';
 import { useAuthStore } from '../../store/authStore';
 import {
   Users, Wrench, FileText, TrendingUp, AlertTriangle,
-  Car, CheckCircle, Clock, Bell, BarChart3, Building2
+  Car, CheckCircle, Clock, Bell, BarChart3, Building2, ArrowUpRight
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import {
@@ -11,41 +11,43 @@ import {
 } from 'recharts';
 
 const monthlyData = [
-  { month: 'Feb', complaints: 12, resolved: 9, revenue: 45000 },
+  { month: 'Feb', complaints: 12, resolved: 9,  revenue: 45000 },
   { month: 'Mar', complaints: 19, resolved: 15, revenue: 52000 },
-  { month: 'Apr', complaints: 8, resolved: 7, revenue: 48000 },
+  { month: 'Apr', complaints: 8,  resolved: 7,  revenue: 48000 },
   { month: 'May', complaints: 15, resolved: 12, revenue: 55000 },
   { month: 'Jun', complaints: 22, resolved: 18, revenue: 60000 },
-  { month: 'Jul', complaints: 11, resolved: 9, revenue: 58000 },
+  { month: 'Jul', complaints: 11, resolved: 9,  revenue: 58000 },
 ];
 
 const complaintCategories = [
-  { name: 'Plumbing', value: 35, color: '#6366f1' },
+  { name: 'Plumbing',   value: 35, color: '#6366f1' },
   { name: 'Electrical', value: 25, color: '#a855f7' },
-  { name: 'Civil', value: 20, color: '#3b82f6' },
-  { name: 'Security', value: 12, color: '#f59e0b' },
-  { name: 'Other', value: 8, color: '#22c55e' },
+  { name: 'Civil',      value: 20, color: '#3b82f6' },
+  { name: 'Security',   value: 12, color: '#f59e0b' },
+  { name: 'Other',      value: 8,  color: '#22c55e' },
 ];
 
 const StatCard = ({ icon: Icon, label, value, sub, color, change, delay }) => (
-  <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay }}
+  <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay, duration: 0.45 }}
     className="stat-card">
-    <div className="flex items-start justify-between mb-3">
-      <div className="w-11 h-11 rounded-xl flex items-center justify-center"
-        style={{ background: `${color}10`, border: `1px solid ${color}20` }}>
-        <Icon size={20} style={{ color }} />
+    <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: 16 }}>
+      <div style={{ width: 50, height: 50, borderRadius: 15, display: 'flex', alignItems: 'center', justifyContent: 'center', background: `${color}10`, border: `1.5px solid ${color}22` }}>
+        <Icon size={22} style={{ color }} />
       </div>
-      {change && (
-        <span className={`text-xs font-semibold px-2 py-0.5 rounded-full ${
-          change > 0 ? 'text-green-700 bg-green-50 border border-green-200' : 'text-red-700 bg-red-50 border border-red-200'
-        }`}>
+      {change != null && (
+        <span style={{
+          fontSize: 12, fontWeight: 700, padding: '4px 10px', borderRadius: 99,
+          color: change > 0 ? '#15803d' : '#b91c1c',
+          background: change > 0 ? '#f0fdf4' : '#fef2f2',
+          border: `1px solid ${change > 0 ? '#bbf7d0' : '#fecaca'}`
+        }}>
           {change > 0 ? '↑' : '↓'} {Math.abs(change)}%
         </span>
       )}
     </div>
-    <div className="text-2xl font-bold" style={{ color: 'var(--color-text-primary)' }}>{value}</div>
-    <div className="text-xs font-semibold uppercase tracking-wide mt-1.5" style={{ color: 'var(--color-text-secondary)' }}>{label}</div>
-    {sub && <div className="text-xs mt-1" style={{ color: 'var(--color-text-muted)' }}>{sub}</div>}
+    <div style={{ fontSize: 30, fontWeight: 900, color: '#0f172a', letterSpacing: '-0.025em', lineHeight: 1 }}>{value}</div>
+    <div style={{ fontSize: 12, fontWeight: 700, color: '#9ca3af', textTransform: 'uppercase', letterSpacing: '0.07em', marginTop: 10 }}>{label}</div>
+    {sub && <div style={{ fontSize: 13, color: '#9ca3af', marginTop: 6 }}>{sub}</div>}
   </motion.div>
 );
 
@@ -53,145 +55,157 @@ export default function CommitteeDashboard() {
   const { user } = useAuthStore();
 
   const stats = [
-    { icon: Users, label: 'Total Residents', value: '248', sub: '12 pending approval', color: '#6366f1', change: 5, delay: 0.1 },
-    { icon: Wrench, label: 'Open Complaints', value: '14', sub: '3 urgent', color: '#d97706', change: -8, delay: 0.15 },
-    { icon: FileText, label: 'Monthly Revenue', value: '₹5.8L', sub: 'Jul 2026', color: '#16a34a', change: 12, delay: 0.2 },
-    { icon: AlertTriangle, label: 'Security Incidents', value: '2', sub: 'This month', color: '#dc2626', change: -50, delay: 0.25 },
-    { icon: Car, label: 'Parking Slots', value: '38/50', sub: '12 available', color: '#2563eb', change: null, delay: 0.3 },
-    { icon: Building2, label: 'Facility Bookings', value: '7', sub: 'This week', color: '#7c3aed', change: 20, delay: 0.35 },
-    { icon: TrendingUp, label: 'Collection Rate', value: '94%', sub: '₹23K pending', color: '#059669', change: 2, delay: 0.4 },
-    { icon: CheckCircle, label: 'Complaints Resolved', value: '82%', sub: 'This month', color: '#db2777', change: 5, delay: 0.45 },
+    { icon: Users,         label: 'Total Residents',     value: '248',  sub: '12 pending approval', color: '#6366f1', change: 5,    delay: 0.06 },
+    { icon: Wrench,        label: 'Open Complaints',     value: '14',   sub: '3 urgent',            color: '#d97706', change: -8,   delay: 0.10 },
+    { icon: FileText,      label: 'Monthly Revenue',     value: '₹5.8L',sub: 'Jul 2026',            color: '#16a34a', change: 12,   delay: 0.14 },
+    { icon: AlertTriangle, label: 'Security Incidents',  value: '2',    sub: 'This month',           color: '#dc2626', change: -50,  delay: 0.18 },
+    { icon: Car,           label: 'Parking Slots',       value: '38/50',sub: '12 available',         color: '#2563eb', change: null, delay: 0.22 },
+    { icon: Building2,     label: 'Facility Bookings',   value: '7',    sub: 'This week',            color: '#7c3aed', change: 20,   delay: 0.26 },
+    { icon: TrendingUp,    label: 'Collection Rate',     value: '94%',  sub: '₹23K pending',        color: '#059669', change: 2,    delay: 0.30 },
+    { icon: CheckCircle,   label: 'Complaints Resolved', value: '82%',  sub: 'This month',           color: '#db2777', change: 5,    delay: 0.34 },
   ];
 
   const pendingActions = [
-    { type: 'approval', msg: 'Priya Sharma — Resident approval pending', time: '2h ago', priority: 'high' },
-    { type: 'complaint', msg: 'Complaint #C-041 — Elevator breakdown (Urgent)', time: '4h ago', priority: 'urgent' },
-    { type: 'booking', msg: 'Clubhouse booking approval — Mr. Rajan', time: '6h ago', priority: 'normal' },
-    { type: 'vendor', msg: 'Vendor invoice pending review — CleanCo', time: '1d ago', priority: 'normal' },
-    { type: 'payment', msg: '14 residents have overdue maintenance bills', time: '2d ago', priority: 'high' },
+    { msg: 'Priya Sharma — Resident approval pending',        time: '2h ago', priority: 'high' },
+    { msg: 'Complaint #C-041 — Elevator breakdown (Urgent)',  time: '4h ago', priority: 'urgent' },
+    { msg: 'Clubhouse booking approval — Mr. Rajan',          time: '6h ago', priority: 'normal' },
+    { msg: 'Vendor invoice pending review — CleanCo',         time: '1d ago', priority: 'normal' },
+    { msg: '14 residents have overdue maintenance bills',     time: '2d ago', priority: 'high' },
   ];
 
+  const priorityColor = { urgent: '#ef4444', high: '#f59e0b', normal: '#3b82f6' };
+  const priorityLabel = { urgent: 'Urgent', high: 'High', normal: 'Normal' };
+
   return (
-    <div className="space-y-6 animate-fade-in">
-      {/* Header */}
-      <motion.div initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }}
-        className="p-6 rounded-2xl relative overflow-hidden"
-        style={{ background: 'linear-gradient(135deg, #7c3aed, #4f46e5)' }}>
-        <div className="absolute -right-8 -top-8 w-40 h-40 rounded-full opacity-10"
-          style={{ background: 'radial-gradient(circle, white, transparent)' }} />
-        <div className="relative flex flex-col md:flex-row md:items-start justify-between gap-4">
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 32 }} className="animate-fade-in">
+
+      {/* ── Header ─────────────────────────────────────────────────── */}
+      <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }}
+        style={{ padding: '40px 44px', borderRadius: 28, position: 'relative', overflow: 'hidden', background: 'linear-gradient(135deg, #7c3aed 0%, #6d28d9 50%, #4f46e5 100%)', boxShadow: '0 16px 48px rgba(124,58,237,0.3)' }}>
+        <div style={{ position: 'absolute', width: 350, height: 350, borderRadius: '50%', top: -100, right: -60, background: 'radial-gradient(circle, rgba(255,255,255,0.07), transparent 70%)', pointerEvents: 'none' }} />
+        <div style={{ position: 'relative', display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', flexWrap: 'wrap', gap: 24 }}>
           <div>
-            <div className="flex items-center gap-2 mb-2">
-              <span className="badge badge-primary bg-white/20 text-white border-white/30">Committee Member</span>
-            </div>
-            <h2 className="text-2xl font-bold text-white">{user?.firstName} {user?.lastName}</h2>
-            <p className="text-indigo-200 text-sm mt-1">Society Administration Dashboard</p>
+            <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6, fontSize: 12, fontWeight: 700, color: 'rgba(255,255,255,0.7)', background: 'rgba(255,255,255,0.12)', padding: '5px 14px', borderRadius: 99, border: '1px solid rgba(255,255,255,0.18)', marginBottom: 14 }}>
+              Committee Member
+            </span>
+            <h2 style={{ fontSize: 36, fontWeight: 900, color: '#ffffff', letterSpacing: '-0.025em', lineHeight: 1.1, marginBottom: 8 }}>
+              {user?.firstName} {user?.lastName}
+            </h2>
+            <p style={{ fontSize: 15, color: 'rgba(255,255,255,0.6)' }}>Society Administration Dashboard</p>
           </div>
-          <div className="flex flex-wrap gap-3">
-            <Link to="/notices/manage" className="btn bg-white/20 hover:bg-white/30 text-white border border-white/30 btn-sm">
-              <Bell size={14} /> Post Notice
+          <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
+            <Link to="/notices/manage" className="btn btn-md"
+              style={{ background: 'rgba(255,255,255,0.15)', color: 'white', border: '1px solid rgba(255,255,255,0.25)', backdropFilter: 'blur(8px)' }}>
+              <Bell size={15} /> Post Notice
             </Link>
-            <Link to="/polls/manage" className="btn bg-white text-indigo-700 hover:bg-gray-50 border border-white btn-sm">
+            <Link to="/polls/manage" className="btn btn-md"
+              style={{ background: '#ffffff', color: '#6d28d9', fontWeight: 700 }}>
               Create Poll
             </Link>
           </div>
         </div>
       </motion.div>
 
-      {/* Stats grid */}
+      {/* ── Stats Grid ─────────────────────────────────────────────── */}
       <div>
-        <h3 className="text-xs font-bold uppercase tracking-wider mb-3" style={{ color: 'var(--color-text-muted)' }}>Society Overview</h3>
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 stagger-children">
+        <h3 style={{ fontSize: 11.5, fontWeight: 800, color: '#9ca3af', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 20 }}>Society Overview</h3>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: 16 }} className="stagger-children">
           {stats.map((s) => <StatCard key={s.label} {...s} />)}
         </div>
       </div>
 
-      {/* Charts + Pending Actions */}
-      <div className="grid lg:grid-cols-3 gap-5">
-        {/* Complaints trend chart */}
-        <div className="lg:col-span-2 card">
-          <h3 className="font-semibold text-sm" style={{ color: 'var(--color-text-primary)' }}>Complaints Trend</h3>
-          <p className="text-xs mb-5" style={{ color: 'var(--color-text-muted)' }}>Monthly raised vs resolved</p>
-          <div style={{ height: '220px', width: '100%' }}>
+      {/* ── Charts ─────────────────────────────────────────────────── */}
+      <div className="grid grid-cols-1 lg:grid-cols-[1fr_340px] gap-5 items-start">
+        {/* Complaints trend */}
+        <div style={{ background: '#ffffff', border: '1px solid #e8ecf4', borderRadius: 24, padding: '32px', boxShadow: '0 2px 16px rgba(0,0,0,0.04)' }}>
+          <div style={{ marginBottom: 28 }}>
+            <h3 style={{ fontSize: 17, fontWeight: 800, color: '#0f172a', letterSpacing: '-0.015em' }}>Complaints Trend</h3>
+            <p style={{ fontSize: 13.5, color: '#9ca3af', marginTop: 4 }}>Monthly raised vs. resolved</p>
+          </div>
+          <div style={{ height: 260 }}>
             <ResponsiveContainer width="100%" height="100%">
               <AreaChart data={monthlyData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
                 <defs>
                   <linearGradient id="gradRaised" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="#6366f1" stopOpacity={0.2} />
+                    <stop offset="5%"  stopColor="#6366f1" stopOpacity={0.18} />
                     <stop offset="95%" stopColor="#6366f1" stopOpacity={0} />
                   </linearGradient>
                   <linearGradient id="gradResolved" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="#16a34a" stopOpacity={0.2} />
+                    <stop offset="5%"  stopColor="#16a34a" stopOpacity={0.18} />
                     <stop offset="95%" stopColor="#16a34a" stopOpacity={0} />
                   </linearGradient>
                 </defs>
-                <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" vertical={false} />
-                <XAxis dataKey="month" tick={{ fill: '#64748b', fontSize: 11 }} axisLine={false} tickLine={false} dy={10} />
-                <YAxis tick={{ fill: '#64748b', fontSize: 11 }} axisLine={false} tickLine={false} />
+                <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" vertical={false} />
+                <XAxis dataKey="month" tick={{ fill: '#9ca3af', fontSize: 12 }} axisLine={false} tickLine={false} dy={10} />
+                <YAxis tick={{ fill: '#9ca3af', fontSize: 12 }} axisLine={false} tickLine={false} />
                 <Tooltip
-                  contentStyle={{ background: '#ffffff', border: '1px solid #e2e8f0', borderRadius: '8px', boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)', fontSize: '12px' }}
-                  itemStyle={{ padding: '2px 0' }}
-                />
-                <Area type="monotone" dataKey="complaints" stroke="#6366f1" strokeWidth={2} fill="url(#gradRaised)" name="Raised" activeDot={{ r: 4, strokeWidth: 0 }} />
-                <Area type="monotone" dataKey="resolved" stroke="#16a34a" strokeWidth={2} fill="url(#gradResolved)" name="Resolved" activeDot={{ r: 4, strokeWidth: 0 }} />
+                  contentStyle={{ background: '#ffffff', border: '1px solid #e8ecf4', borderRadius: 14, boxShadow: '0 8px 24px rgba(0,0,0,0.1)', fontSize: 13, padding: '12px 16px' }}
+                  itemStyle={{ padding: '2px 0' }} />
+                <Area type="monotone" dataKey="complaints" stroke="#6366f1" strokeWidth={2.5} fill="url(#gradRaised)" name="Raised" activeDot={{ r: 5, strokeWidth: 0, fill: '#6366f1' }} />
+                <Area type="monotone" dataKey="resolved"   stroke="#16a34a" strokeWidth={2.5} fill="url(#gradResolved)" name="Resolved" activeDot={{ r: 5, strokeWidth: 0, fill: '#16a34a' }} />
               </AreaChart>
             </ResponsiveContainer>
           </div>
         </div>
 
-        {/* Complaint categories pie */}
-        <div className="card flex flex-col">
-          <h3 className="font-semibold text-sm" style={{ color: 'var(--color-text-primary)' }}>By Category</h3>
-          <p className="text-xs mb-3" style={{ color: 'var(--color-text-muted)' }}>This month</p>
-          <div className="flex-1 flex flex-col justify-center">
-            <ResponsiveContainer width="100%" height={150}>
-              <PieChart>
-                <Pie data={complaintCategories} cx="50%" cy="50%" innerRadius={45} outerRadius={70}
-                  dataKey="value" paddingAngle={2} stroke="none">
-                  {complaintCategories.map((entry) => (
-                    <Cell key={entry.name} fill={entry.color} />
-                  ))}
-                </Pie>
-                <Tooltip contentStyle={{ background: '#ffffff', border: '1px solid #e2e8f0', borderRadius: '8px', fontSize: '12px' }} itemStyle={{ color: '#0f172a' }} />
-              </PieChart>
-            </ResponsiveContainer>
-            <div className="space-y-2 mt-4 px-2">
-              {complaintCategories.map((c) => (
-                <div key={c.name} className="flex items-center justify-between text-xs">
-                  <div className="flex items-center gap-2">
-                    <div className="w-2.5 h-2.5 rounded-full" style={{ background: c.color }} />
-                    <span style={{ color: 'var(--color-text-secondary)' }}>{c.name}</span>
-                  </div>
-                  <span className="font-medium" style={{ color: 'var(--color-text-primary)' }}>{c.value}%</span>
+        {/* Pie chart */}
+        <div style={{ background: '#ffffff', border: '1px solid #e8ecf4', borderRadius: 24, padding: '32px', boxShadow: '0 2px 16px rgba(0,0,0,0.04)' }}>
+          <div style={{ marginBottom: 20 }}>
+            <h3 style={{ fontSize: 17, fontWeight: 800, color: '#0f172a', letterSpacing: '-0.015em' }}>By Category</h3>
+            <p style={{ fontSize: 13.5, color: '#9ca3af', marginTop: 4 }}>This month</p>
+          </div>
+          <ResponsiveContainer width="100%" height={180}>
+            <PieChart>
+              <Pie data={complaintCategories} cx="50%" cy="50%" innerRadius={52} outerRadius={80} dataKey="value" paddingAngle={3} stroke="none">
+                {complaintCategories.map((entry) => (
+                  <Cell key={entry.name} fill={entry.color} />
+                ))}
+              </Pie>
+              <Tooltip contentStyle={{ background: '#ffffff', border: '1px solid #e8ecf4', borderRadius: 12, fontSize: 13 }} />
+            </PieChart>
+          </ResponsiveContainer>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginTop: 16 }}>
+            {complaintCategories.map((c) => (
+              <div key={c.name} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                  <div style={{ width: 10, height: 10, borderRadius: '50%', background: c.color, flexShrink: 0 }} />
+                  <span style={{ fontSize: 13.5, color: '#374151' }}>{c.name}</span>
                 </div>
-              ))}
-            </div>
+                <span style={{ fontSize: 13.5, fontWeight: 700, color: '#0f172a' }}>{c.value}%</span>
+              </div>
+            ))}
           </div>
         </div>
       </div>
 
-      {/* Pending actions */}
+      {/* ── Pending Actions ─────────────────────────────────────────── */}
       <div>
-        <div className="flex items-center justify-between mb-3">
-          <h3 className="text-xs font-bold uppercase tracking-wider" style={{ color: 'var(--color-text-muted)' }}>Pending Actions</h3>
-          <span className="badge badge-warning">{pendingActions.length} items</span>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 20 }}>
+          <h3 style={{ fontSize: 11.5, fontWeight: 800, color: '#9ca3af', textTransform: 'uppercase', letterSpacing: '0.08em' }}>Pending Actions</h3>
+          <span style={{ fontSize: 12, fontWeight: 700, color: '#b45309', background: '#fffbeb', padding: '4px 12px', borderRadius: 99, border: '1px solid #fde68a' }}>
+            {pendingActions.length} items
+          </span>
         </div>
-        <div className="card p-0 overflow-hidden divide-y" style={{ borderColor: 'var(--border-color)' }}>
+        <div style={{ background: '#ffffff', border: '1px solid #e8ecf4', borderRadius: 24, overflow: 'hidden', boxShadow: '0 2px 16px rgba(0,0,0,0.04)' }}>
           {pendingActions.map((action, i) => (
-            <div key={i} className="flex items-center justify-between p-4 transition-colors hover:bg-slate-50">
-              <div className="flex items-start gap-3">
-                <div className={`w-2 h-2 rounded-full flex-shrink-0 mt-1.5 ${
-                  action.priority === 'urgent' ? 'bg-red-500' :
-                  action.priority === 'high' ? 'bg-amber-500' : 'bg-blue-400'
-                }`} />
+            <div key={i} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '20px 28px', borderBottom: i < pendingActions.length - 1 ? '1px solid #f4f6fb' : 'none', transition: 'background 0.15s ease' }}
+              onMouseEnter={e => e.currentTarget.style.background = '#fafbff'}
+              onMouseLeave={e => e.currentTarget.style.background = 'transparent'}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4 }}>
+                  <div style={{ width: 10, height: 10, borderRadius: '50%', background: priorityColor[action.priority] }} />
+                </div>
                 <div>
-                  <p className="text-sm font-medium" style={{ color: 'var(--color-text-primary)' }}>{action.msg}</p>
-                  <p className="text-xs flex items-center gap-1 mt-1" style={{ color: 'var(--color-text-muted)' }}>
+                  <p style={{ fontSize: 14.5, fontWeight: 600, color: '#0f172a' }}>{action.msg}</p>
+                  <p style={{ display: 'flex', alignItems: 'center', gap: 5, fontSize: 12.5, color: '#9ca3af', marginTop: 5 }}>
                     <Clock size={12} /> {action.time}
+                    <span style={{ marginLeft: 8, fontSize: 11.5, fontWeight: 700, color: priorityColor[action.priority], background: `${priorityColor[action.priority]}12`, padding: '2px 8px', borderRadius: 99 }}>
+                      {priorityLabel[action.priority]}
+                    </span>
                   </p>
                 </div>
               </div>
-              <button className="btn btn-secondary btn-sm whitespace-nowrap ml-4">Review</button>
+              <button className="btn btn-secondary btn-sm" style={{ marginLeft: 16, whiteSpace: 'nowrap' }}>Review</button>
             </div>
           ))}
         </div>

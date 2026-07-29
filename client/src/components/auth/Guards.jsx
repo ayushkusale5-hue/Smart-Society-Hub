@@ -1,5 +1,5 @@
-import { Navigate, useLocation } from 'react-router-dom';
-import { useAuthStore } from '../../store/authStore';
+import { Navigate, useLocation } from "react-router-dom";
+import { useAuthStore } from "../../store/authStore";
 
 // Redirect to login if not authenticated
 export function AuthGuard({ children }) {
@@ -37,11 +37,11 @@ export function RoleGuard({ children, allowedRoles }) {
 
 export function getDashboardRoute(role) {
   const routes = {
-    resident: '/dashboard/resident',
-    committee: '/dashboard/committee',
-    security: '/dashboard/security',
-    maintenance: '/dashboard/maintenance',
-    vendor: '/dashboard/vendor',
+    resident: "/dashboard/resident",
+    committee: "/dashboard/committee",
+    security: "/dashboard/security",
+    maintenance: "/dashboard/maintenance",
+    vendor: "/dashboard/vendor",
   };
-  return routes[role] || '/dashboard/resident';
+  return routes[role] || "/dashboard/resident";
 }

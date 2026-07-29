@@ -1,51 +1,56 @@
 import { motion } from 'framer-motion';
 import { useAuthStore } from '../../store/authStore';
-import { Wrench, CheckCircle, Clock, Camera, AlertTriangle, ListTodo, Hammer } from 'lucide-react';
+import { Wrench, CheckCircle, Clock, Camera, AlertTriangle, ListTodo, Hammer, Home, FolderOpen, ChevronRight } from 'lucide-react';
 
 const PRIORITY_COLORS = { high: '#dc2626', medium: '#d97706', low: '#16a34a', urgent: '#ea580c' };
-const STATUS_COLORS = { open: '#6366f1', in_progress: '#d97706', resolved: '#16a34a', pending: '#2563eb' };
+const STATUS_COLORS   = { open: '#6366f1', in_progress: '#d97706', resolved: '#16a34a', pending: '#2563eb' };
+const STATUS_BG       = { open: '#eef2ff', in_progress: '#fffbeb', resolved: '#f0fdf4', pending: '#eff6ff' };
 
 export default function MaintenanceDashboard() {
   const { user } = useAuthStore();
 
   const tasks = [
-    { id: 'C-034', title: 'Leaking pipe in bathroom', flat: 'A-204', category: 'Plumbing', priority: 'high', status: 'in_progress', assignedAt: '2h ago' },
-    { id: 'C-037', title: 'Electrical short circuit', flat: 'B-105', category: 'Electrical', priority: 'urgent', status: 'open', assignedAt: '4h ago' },
-    { id: 'C-029', title: 'Broken window latch', flat: 'C-302', category: 'Civil', priority: 'low', status: 'open', assignedAt: '1d ago' },
-    { id: 'C-031', title: 'Common area light not working', flat: 'Common', category: 'Electrical', priority: 'medium', status: 'in_progress', assignedAt: '2d ago' },
+    { id: 'C-034', title: 'Leaking pipe in bathroom',       flat: 'A-204',  category: 'Plumbing',   priority: 'high',   status: 'in_progress', assignedAt: '2h ago' },
+    { id: 'C-037', title: 'Electrical short circuit',       flat: 'B-105',  category: 'Electrical', priority: 'urgent', status: 'open',        assignedAt: '4h ago' },
+    { id: 'C-029', title: 'Broken window latch',            flat: 'C-302',  category: 'Civil',      priority: 'low',    status: 'open',        assignedAt: '1d ago' },
+    { id: 'C-031', title: 'Common area light not working',  flat: 'Common', category: 'Electrical', priority: 'medium', status: 'in_progress', assignedAt: '2d ago' },
   ];
 
   return (
-    <div className="space-y-6 animate-fade-in">
-      {/* Header */}
-      <motion.div initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }}
-        className="p-6 rounded-2xl relative overflow-hidden"
-        style={{ background: 'linear-gradient(135deg, #d97706, #ea580c)' }}>
-        <div className="absolute -right-8 -top-8 w-40 h-40 rounded-full opacity-10"
-          style={{ background: 'radial-gradient(circle, white, transparent)' }} />
-          
-        <div className="relative">
-          <div className="flex items-center gap-2 mb-2">
-            <Hammer size={16} className="text-amber-100" />
-            <span className="badge bg-white/20 text-white border-white/30">Maintenance Staff</span>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 32 }} className="animate-fade-in">
+
+      {/* ── Header ─────────────────────────────────────────────────── */}
+      <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }}
+        style={{ padding: '40px 44px', borderRadius: 28, position: 'relative', overflow: 'hidden', background: 'linear-gradient(135deg, #d97706 0%, #b45309 50%, #ea580c 100%)', boxShadow: '0 16px 48px rgba(217,119,6,0.3)' }}>
+        <div style={{ position: 'absolute', width: 350, height: 350, borderRadius: '50%', top: -80, right: -60, background: 'radial-gradient(circle, rgba(255,255,255,0.07), transparent 70%)', pointerEvents: 'none' }} />
+
+        <div style={{ position: 'relative' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 14 }}>
+            <Hammer size={16} style={{ color: 'rgba(255,255,255,0.65)' }} />
+            <span style={{ fontSize: 12, fontWeight: 700, color: 'rgba(255,255,255,0.7)', background: 'rgba(255,255,255,0.15)', padding: '4px 14px', borderRadius: 99, border: '1px solid rgba(255,255,255,0.2)' }}>
+              Maintenance Staff
+            </span>
           </div>
-          <h2 className="text-2xl font-bold text-white">{user?.firstName} {user?.lastName}</h2>
-          <p className="text-amber-100 text-sm mt-1">Maintenance task management & complaint resolution</p>
+          <h2 style={{ fontSize: 36, fontWeight: 900, color: '#ffffff', letterSpacing: '-0.025em', lineHeight: 1.1, marginBottom: 8 }}>
+            {user?.firstName} {user?.lastName}
+          </h2>
+          <p style={{ fontSize: 15, color: 'rgba(255,255,255,0.6)', marginBottom: 32 }}>Maintenance task management & complaint resolution</p>
 
           {/* Quick stats row */}
-          <div className="grid grid-cols-3 gap-4 mt-6">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-xl">
             {[
-              { label: 'Assigned', value: '4', icon: ListTodo },
-              { label: 'In Progress', value: '2', icon: Clock },
+              { label: 'Assigned',        value: '4', icon: ListTodo },
+              { label: 'In Progress',     value: '2', icon: Clock },
               { label: 'Completed Today', value: '3', icon: CheckCircle },
             ].map((s) => (
-              <div key={s.label} className="flex items-center gap-4 bg-white/10 border border-white/20 rounded-xl p-3 backdrop-blur-sm">
-                <div className="w-10 h-10 rounded-lg bg-white/20 flex items-center justify-center">
-                  <s.icon size={18} className="text-white" />
+              <div key={s.label}
+                style={{ display: 'flex', alignItems: 'center', gap: 14, background: 'rgba(255,255,255,0.12)', border: '1px solid rgba(255,255,255,0.2)', borderRadius: 16, padding: '16px 20px', backdropFilter: 'blur(8px)' }}>
+                <div style={{ width: 42, height: 42, borderRadius: 13, background: 'rgba(255,255,255,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                  <s.icon size={20} className="text-white" />
                 </div>
                 <div>
-                  <div className="text-xl font-bold text-white">{s.value}</div>
-                  <div className="text-xs text-amber-100 font-medium">{s.label}</div>
+                  <div style={{ fontSize: 24, fontWeight: 900, color: '#ffffff', lineHeight: 1, letterSpacing: '-0.025em' }}>{s.value}</div>
+                  <div style={{ fontSize: 12.5, color: 'rgba(255,255,255,0.6)', marginTop: 4, fontWeight: 600 }}>{s.label}</div>
                 </div>
               </div>
             ))}
@@ -53,68 +58,71 @@ export default function MaintenanceDashboard() {
         </div>
       </motion.div>
 
-      {/* Task list */}
+      {/* ── Task List ──────────────────────────────────────────────── */}
       <div>
-        <div className="flex items-center justify-between mb-3">
-          <h3 className="text-xs font-bold uppercase tracking-wider" style={{ color: 'var(--color-text-muted)' }}>My Assigned Tasks</h3>
-          <span className="badge badge-warning">{tasks.length} active</span>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 20 }}>
+          <h3 style={{ fontSize: 11.5, fontWeight: 800, color: '#9ca3af', textTransform: 'uppercase', letterSpacing: '0.08em' }}>My Assigned Tasks</h3>
+          <span style={{ fontSize: 12, fontWeight: 700, color: '#b45309', background: '#fffbeb', padding: '4px 12px', borderRadius: 99, border: '1px solid #fde68a' }}>
+            {tasks.length} active
+          </span>
         </div>
-        
-        <div className="space-y-4">
+
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
           {tasks.map((task, i) => (
-            <motion.div key={task.id} initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.05 * i }}
-              className="card p-5 group cursor-pointer hover:border-indigo-200">
-              <div className="flex flex-col md:flex-row md:items-start justify-between gap-4">
-                <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0"
-                    style={{ background: `${PRIORITY_COLORS[task.priority]}15` }}>
-                    <AlertTriangle size={20} style={{ color: PRIORITY_COLORS[task.priority] }} />
+            <motion.div key={task.id}
+              initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.06 * i, duration: 0.4 }}
+              style={{ background: '#ffffff', border: '1.5px solid #e8ecf4', borderRadius: 24, padding: '28px 32px', boxShadow: '0 2px 16px rgba(0,0,0,0.04)', transition: 'all 0.25s ease', cursor: 'pointer' }}
+              whileHover={{ borderColor: PRIORITY_COLORS[task.priority] + '35', y: -2, boxShadow: `0 8px 28px ${PRIORITY_COLORS[task.priority]}10` }}>
+              <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 24 }}>
+
+                {/* Left: icon + info */}
+                <div style={{ display: 'flex', alignItems: 'flex-start', gap: 20, flex: 1 }}>
+                  <div style={{ width: 56, height: 56, borderRadius: 18, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, background: `${PRIORITY_COLORS[task.priority]}10`, border: `1.5px solid ${PRIORITY_COLORS[task.priority]}20` }}>
+                    <AlertTriangle size={24} style={{ color: PRIORITY_COLORS[task.priority] }} />
                   </div>
-                  <div>
-                    <div className="flex items-center gap-2 mb-1.5">
-                      <span className="text-xs font-mono font-semibold" style={{ color: 'var(--color-text-muted)' }}>#{task.id}</span>
-                      <span className="badge" style={{
-                        background: `${PRIORITY_COLORS[task.priority]}10`,
-                        color: PRIORITY_COLORS[task.priority],
+                  <div style={{ flex: 1 }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 8 }}>
+                      <span style={{ fontSize: 12.5, fontFamily: 'monospace', fontWeight: 700, color: '#9ca3af' }}>#{task.id}</span>
+                      <span style={{
+                        fontSize: 11.5, fontWeight: 700, padding: '3px 10px', borderRadius: 99, textTransform: 'capitalize',
+                        color: PRIORITY_COLORS[task.priority], background: `${PRIORITY_COLORS[task.priority]}10`,
                         border: `1px solid ${PRIORITY_COLORS[task.priority]}25`
                       }}>{task.priority}</span>
                     </div>
-                    <h4 className="font-bold text-base mb-2" style={{ color: 'var(--color-text-primary)' }}>{task.title}</h4>
-                    
-                    <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-xs font-medium" style={{ color: 'var(--color-text-secondary)' }}>
-                      <span className="flex items-center gap-1.5 bg-slate-100 px-2.5 py-1 rounded-md">
-                        🏠 {task.flat}
+                    <h4 style={{ fontSize: 17, fontWeight: 800, color: '#0f172a', letterSpacing: '-0.01em', marginBottom: 14, lineHeight: 1.3 }}>{task.title}</h4>
+                    <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 8 }}>
+                      <span style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 13, fontWeight: 600, color: '#374151', background: '#f4f6fb', padding: '5px 12px', borderRadius: 8, border: '1px solid #e8ecf4' }}>
+                        <Home size={12} style={{ color: '#9ca3af' }} /> {task.flat}
                       </span>
-                      <span className="flex items-center gap-1.5 bg-slate-100 px-2.5 py-1 rounded-md">
-                        📁 {task.category}
+                      <span style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 13, fontWeight: 600, color: '#374151', background: '#f4f6fb', padding: '5px 12px', borderRadius: 8, border: '1px solid #e8ecf4' }}>
+                        <FolderOpen size={12} style={{ color: '#9ca3af' }} /> {task.category}
                       </span>
-                      <span className="flex items-center gap-1.5 text-slate-500">
+                      <span style={{ display: 'flex', alignItems: 'center', gap: 5, fontSize: 13, color: '#9ca3af', fontWeight: 500 }}>
                         <Clock size={12} /> {task.assignedAt}
                       </span>
                     </div>
                   </div>
                 </div>
 
-                {/* Actions */}
-                <div className="flex flex-col items-end justify-between gap-4 border-t md:border-t-0 md:border-l border-slate-100 pt-4 md:pt-0 md:pl-4 mt-2 md:mt-0 w-full md:w-auto">
-                  <span className="badge w-max" style={{
-                    background: `${STATUS_COLORS[task.status]}10`,
-                    color: STATUS_COLORS[task.status],
-                    border: `1px solid ${STATUS_COLORS[task.status]}25`,
+                {/* Right: status + actions */}
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 16, flexShrink: 0 }}>
+                  <span style={{
+                    fontSize: 12.5, fontWeight: 700, padding: '6px 14px', borderRadius: 99, textTransform: 'capitalize',
+                    color: STATUS_COLORS[task.status], background: STATUS_BG[task.status],
+                    border: `1px solid ${STATUS_COLORS[task.status]}25`
                   }}>
                     {task.status.replace('_', ' ')}
                   </span>
-                  
-                  <div className="flex flex-wrap gap-2 w-full md:w-auto justify-end">
+                  <div style={{ display: 'flex', gap: 10 }}>
                     {task.status === 'open' && (
-                      <button className="btn btn-secondary btn-sm w-full md:w-auto">Start Work</button>
+                      <button className="btn btn-secondary btn-sm">Start Work</button>
                     )}
                     {task.status === 'in_progress' && (
                       <>
-                        <button className="btn btn-ghost btn-sm gap-1 flex-1 md:flex-initial">
+                        <button className="btn btn-ghost btn-sm" style={{ gap: 6 }}>
                           <Camera size={14} /> Photo
                         </button>
-                        <button className="btn btn-primary btn-sm gap-1 flex-1 md:flex-initial">
+                        <button className="btn btn-primary btn-sm" style={{ gap: 6 }}>
                           <CheckCircle size={14} /> Mark Done
                         </button>
                       </>
