@@ -10,15 +10,24 @@ import { initSQLite } from './config/db.sqlite.js';
 import { initSocket } from './config/socket.js';
 import { errorHandler } from './middleware/error.middleware.js';
 
-// Routes
+
 import authRoutes from './routes/auth.routes.js';
 import userRoutes from './routes/user.routes.js';
 import complaintRoutes from './routes/complaint.routes.js';
+import visitorRoutes from './routes/visitor.routes.js';
+import noticeRoutes from './routes/notice.routes.js';
+import notificationRoutes from './routes/notification.routes.js';
+import analyticsRoutes from './routes/analytics.routes.js';
+import billingRoutes from './routes/billing.routes.js';
+import pollRoutes from './routes/poll.routes.js';
+import facilityRoutes from './routes/facility.routes.js';
+import parkingRoutes from './routes/parking.routes.js';
+import marketplaceRoutes from './routes/marketplace.routes.js';
 
 const app = express();
 const httpServer = createServer(app);
 
-// ─── Middleware ───────────────────────────────────────────────────────────────
+
 app.use(helmet());
 app.use(cors({
   origin: process.env.CLIENT_URL || 'http://localhost:5173',
@@ -30,32 +39,41 @@ import path from 'path';
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
-// Serve uploaded files
+
 app.use('/uploads', express.static(path.join(process.cwd(), 'uploads')));
 
-// ─── Routes ───────────────────────────────────────────────────────────────────
+
 app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/complaints', complaintRoutes);
+app.use('/api/visitors', visitorRoutes);
+app.use('/api/notices', noticeRoutes);
+app.use('/api/notifications', notificationRoutes);
+app.use('/api/analytics', analyticsRoutes);
+app.use('/api/billing', billingRoutes);
+app.use('/api/polls', pollRoutes);
+app.use('/api/facilities', facilityRoutes);
+app.use('/api/parking', parkingRoutes);
+app.use('/api/marketplace', marketplaceRoutes);
 
-// Health check
+
 app.get('/api/health', (_req, res) => {
   res.json({ status: 'ok', timestamp: new Date().toISOString() });
 });
 
-// ─── Error Handler ────────────────────────────────────────────────────────────
+
 app.use(errorHandler);
 
-// ─── Start Server ─────────────────────────────────────────────────────────────
+
 const PORT = process.env.PORT || 5000;
 
 async function startServer() {
   try {
-    // Initialize databases
+    
     await connectMongo();
     await initSQLite();
 
-    // Initialize Socket.IO
+    
     initSocket(httpServer);
 
     httpServer.listen(PORT, () => {

@@ -1,6 +1,6 @@
 import { errorResponse } from '../utils/response.utils.js';
 
-/**
+
  * authorize(...roles) — allow only specific roles
  * Usage: router.get('/admin', authenticate, authorize('committee', 'admin'), handler)
  */
@@ -22,7 +22,7 @@ export function authorize(...allowedRoles) {
   };
 }
 
-/**
+
  * requireEmailVerified — block unverified users
  */
 export function requireEmailVerified(req, res, next) {
@@ -32,7 +32,7 @@ export function requireEmailVerified(req, res, next) {
   next();
 }
 
-/**
+
  * isSelf — allow only the user themselves or committee
  */
 export function isSelfOrCommittee(req, res, next) {

@@ -17,7 +17,7 @@ import {
 } from '../utils/email.utils.js';
 import { successResponse, errorResponse } from '../utils/response.utils.js';
 
-// ─── Register ─────────────────────────────────────────────────────────────────
+
 export async function register(req, res, next) {
   try {
     const db = getSQLiteDB();
@@ -33,27 +33,27 @@ export async function register(req, res, next) {
       societyId,
     } = req.body;
 
-    // Check if email already exists
+    
     const existing = db.prepare('SELECT id FROM users WHERE email = ?').get(email.toLowerCase());
     if (existing) {
       return errorResponse(res, 'Email already registered', 409);
     }
 
-    // Get role ID
+    
     const roleRow = db.prepare('SELECT id, name FROM roles WHERE name = ?').get(role);
     if (!roleRow) {
       return errorResponse(res, 'Invalid role specified', 400);
     }
 
-    // Hash password
+    
     const passwordHash = await bcrypt.hash(password, 12);
 
-    // Generate email verification token
+    
     const userId = uuidv4().replace(/-/g, '');
     const verificationToken = generateEmailVerificationToken({ id: userId });
     const verificationExpires = new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString();
 
-    // Insert user
+    
     db.prepare(`
       INSERT INTO users (id, email, password_hash, first_name, last_name, phone, role_id,
                          flat_number, tower, society_id, email_verification_token, email_verification_expires)
@@ -73,7 +73,7 @@ export async function register(req, res, next) {
       verificationExpires
     );
 
-    // Send verification email (non-blocking)
+    
     sendVerificationEmail(email, firstName, verificationToken).catch(console.error);
 
     return successResponse(
@@ -87,7 +87,7 @@ export async function register(req, res, next) {
   }
 }
 
-// ─── Login ────────────────────────────────────────────────────────────────────
+
 export async function login(req, res, next) {
   try {
     const db = getSQLiteDB();
@@ -113,19 +113,19 @@ export async function login(req, res, next) {
       return errorResponse(res, 'Invalid email or password', 401);
     }
 
-    // Generate tokens
+    
     const tokenPayload = { id: user.id, email: user.email, role: user.role };
     const accessToken = generateAccessToken(tokenPayload);
     const refreshToken = generateRefreshToken(tokenPayload);
 
-    // Store refresh token
+    
     const expiresAt = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString();
     db.prepare(`
       INSERT INTO refresh_tokens (id, user_id, token, expires_at)
       VALUES (?, ?, ?, ?)
     `).run(uuidv4().replace(/-/g, ''), user.id, refreshToken, expiresAt);
 
-    // Update last_login
+    
     db.prepare('UPDATE users SET last_login = CURRENT_TIMESTAMP WHERE id = ?').run(user.id);
 
     return successResponse(res, {
@@ -149,7 +149,7 @@ export async function login(req, res, next) {
   }
 }
 
-// ─── Refresh Token ────────────────────────────────────────────────────────────
+
 export async function refreshToken(req, res, next) {
   try {
     const db = getSQLiteDB();
@@ -157,7 +157,7 @@ export async function refreshToken(req, res, next) {
 
     if (!token) return errorResponse(res, 'Refresh token required', 401);
 
-    // Verify token signature
+    
     let decoded;
     try {
       decoded = verifyRefreshToken(token);
@@ -165,7 +165,7 @@ export async function refreshToken(req, res, next) {
       return errorResponse(res, 'Invalid or expired refresh token', 401);
     }
 
-    // Check token exists in DB and not expired
+    
     const storedToken = db.prepare(`
       SELECT * FROM refresh_tokens
       WHERE token = ? AND expires_at > datetime('now') AND user_id = ?
@@ -173,7 +173,7 @@ export async function refreshToken(req, res, next) {
 
     if (!storedToken) return errorResponse(res, 'Refresh token invalid or expired', 401);
 
-    // Generate new access token
+    
     const newAccessToken = generateAccessToken({
       id: decoded.id,
       email: decoded.email,
@@ -186,7 +186,7 @@ export async function refreshToken(req, res, next) {
   }
 }
 
-// ─── Logout ───────────────────────────────────────────────────────────────────
+
 export async function logout(req, res, next) {
   try {
     const db = getSQLiteDB();
@@ -202,7 +202,7 @@ export async function logout(req, res, next) {
   }
 }
 
-// ─── Verify Email ─────────────────────────────────────────────────────────────
+
 export async function verifyEmail(req, res, next) {
   try {
     const db = getSQLiteDB();
@@ -239,7 +239,7 @@ export async function verifyEmail(req, res, next) {
   }
 }
 
-// ─── Forgot Password ──────────────────────────────────────────────────────────
+
 export async function forgotPassword(req, res, next) {
   try {
     const db = getSQLiteDB();
@@ -247,7 +247,7 @@ export async function forgotPassword(req, res, next) {
 
     const user = db.prepare('SELECT id, first_name FROM users WHERE email = ?').get(email.toLowerCase());
 
-    // Always return success to avoid email enumeration
+    
     if (!user) {
       return successResponse(res, {}, 'If your email is registered, you will receive a reset link.');
     }
@@ -267,7 +267,7 @@ export async function forgotPassword(req, res, next) {
   }
 }
 
-// ─── Reset Password ───────────────────────────────────────────────────────────
+
 export async function resetPassword(req, res, next) {
   try {
     const db = getSQLiteDB();
@@ -300,7 +300,7 @@ export async function resetPassword(req, res, next) {
       password_reset_expires = NULL WHERE id = ?
     `).run(passwordHash, user.id);
 
-    // Invalidate all refresh tokens
+    
     db.prepare('DELETE FROM refresh_tokens WHERE user_id = ?').run(user.id);
 
     return successResponse(res, {}, 'Password reset successful. Please login.');
@@ -309,7 +309,7 @@ export async function resetPassword(req, res, next) {
   }
 }
 
-// ─── Get Current User ─────────────────────────────────────────────────────────
+
 export async function getMe(req, res) {
   const db = getSQLiteDB();
   const user = db.prepare(`
@@ -338,7 +338,7 @@ export async function getMe(req, res) {
   });
 }
 
-// ─── Google OAuth Login ───────────────────────────────────────────────────────
+
 export async function googleLogin(req, res, next) {
   try {
     const db = getSQLiteDB();
@@ -350,7 +350,7 @@ export async function googleLogin(req, res, next) {
 
     const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
     
-    // Verify the token with Google
+    
     const ticket = await client.verifyIdToken({
       idToken: credential,
       audience: process.env.GOOGLE_CLIENT_ID,
@@ -365,7 +365,7 @@ export async function googleLogin(req, res, next) {
 
     const lowerEmail = email.toLowerCase();
     
-    // Check if user exists
+    
     let user = db.prepare(`
       SELECT u.*, r.name AS role
       FROM users u
@@ -374,10 +374,10 @@ export async function googleLogin(req, res, next) {
     `).get(lowerEmail);
 
     if (!user) {
-      // Auto-register user as resident if they don't exist
+      
       const roleRow = db.prepare("SELECT id, name FROM roles WHERE name = 'resident'").get();
       const userId = uuidv4().replace(/-/g, '');
-      const placeholderPassword = await bcrypt.hash(uuidv4(), 12); // random secure password
+      const placeholderPassword = await bcrypt.hash(uuidv4(), 12); 
       
       db.prepare(`
         INSERT INTO users (id, email, password_hash, first_name, last_name, role_id, is_email_verified, avatar_url)
@@ -391,7 +391,7 @@ export async function googleLogin(req, res, next) {
         WHERE u.id = ?
       `).get(userId);
       
-      // Send welcome email asynchronously
+      
       sendWelcomeEmail(lowerEmail, given_name, roleRow.name).catch(console.error);
     }
 
@@ -399,19 +399,19 @@ export async function googleLogin(req, res, next) {
       return errorResponse(res, 'Account is deactivated. Contact committee.', 403);
     }
 
-    // Generate our JWT tokens
+    
     const tokenPayload = { id: user.id, email: user.email, role: user.role };
     const accessToken = generateAccessToken(tokenPayload);
     const refreshToken = generateRefreshToken(tokenPayload);
 
-    // Store refresh token
+    
     const expiresAt = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString();
     db.prepare(`
       INSERT INTO refresh_tokens (id, user_id, token, expires_at)
       VALUES (?, ?, ?, ?)
     `).run(uuidv4().replace(/-/g, ''), user.id, refreshToken, expiresAt);
 
-    // Update last login
+    
     db.prepare('UPDATE users SET last_login = CURRENT_TIMESTAMP WHERE id = ?').run(user.id);
 
     return successResponse(res, {

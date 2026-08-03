@@ -1,4 +1,4 @@
-/**
+
  * Smart Society Hub — localStorage Data Service
  * Replaces MongoDB + SQLite with browser localStorage
  * All data is stored in organized namespaced keys.
@@ -6,7 +6,7 @@
 
 const PREFIX = 'ssh_';
 
-// ─── Core Helpers ─────────────────────────────────────────────────────────
+
 
 function getKey(collection) {
   return `${PREFIX}${collection}`;
@@ -33,10 +33,10 @@ function now() {
   return new Date().toISOString();
 }
 
-// ─── Generic CRUD ─────────────────────────────────────────────────────────
+
 
 export const db = {
-  // Find all records
+  
   findAll(collection, filter = {}) {
     const data = readAll(collection);
     if (Object.keys(filter).length === 0) return data;
@@ -45,7 +45,7 @@ export const db = {
     );
   },
 
-  // Find one record
+  
   findOne(collection, filter = {}) {
     const data = readAll(collection);
     return data.find((item) =>
@@ -53,12 +53,12 @@ export const db = {
     ) || null;
   },
 
-  // Find by ID
+  
   findById(collection, id) {
     return this.findOne(collection, { id });
   },
 
-  // Create a new record
+  
   create(collection, data) {
     const records = readAll(collection);
     const newRecord = {
@@ -72,7 +72,7 @@ export const db = {
     return newRecord;
   },
 
-  // Update by ID (merges fields)
+  
   update(collection, id, updates) {
     const records = readAll(collection);
     const idx = records.findIndex((r) => r.id === id);
@@ -82,7 +82,7 @@ export const db = {
     return records[idx];
   },
 
-  // Delete by ID
+  
   delete(collection, id) {
     const records = readAll(collection);
     const filtered = records.filter((r) => r.id !== id);
@@ -90,7 +90,7 @@ export const db = {
     return filtered.length < records.length;
   },
 
-  // Delete all matching
+  
   deleteMany(collection, filter = {}) {
     const records = readAll(collection);
     const filtered = records.filter(
@@ -99,15 +99,15 @@ export const db = {
     writeAll(collection, filtered);
   },
 
-  // Count matching records
+  
   count(collection, filter = {}) {
     return this.findAll(collection, filter).length;
   },
 
-  // Paginated query
+  
   paginate(collection, filter = {}, { page = 1, limit = 20, sortBy = 'createdAt', sortDir = 'desc' } = {}) {
     let data = this.findAll(collection, filter);
-    // Sort
+    
     data.sort((a, b) => {
       const va = a[sortBy]; const vb = b[sortBy];
       if (!va) return 1; if (!vb) return -1;
@@ -130,12 +130,12 @@ export const db = {
     };
   },
 
-  // Drop an entire collection (for dev/reset)
+  
   clear(collection) {
     localStorage.removeItem(getKey(collection));
   },
 
-  // Clear ALL app data (factory reset)
+  
   clearAll() {
     Object.keys(localStorage)
       .filter((k) => k.startsWith(PREFIX))
@@ -143,13 +143,13 @@ export const db = {
   },
 };
 
-// ─── Seed Data ─────────────────────────────────────────────────────────────
+
 
 export function seedInitialData() {
-  // Only seed if no users exist yet
+  
   if (db.findAll('users').length > 0) return;
 
-  // Seed facilities
+  
   const facilities = [
     { name: 'Club House', type: 'clubhouse', description: 'Multi-purpose event hall', capacity: 200, pricePerHour: 500, operatingHours: { open: '08:00', close: '22:00' }, isActive: true },
     { name: 'Gymnasium', type: 'gym', description: 'Fully equipped modern gym', capacity: 30, pricePerHour: 0, operatingHours: { open: '05:00', close: '22:00' }, isActive: true },
@@ -159,7 +159,7 @@ export function seedInitialData() {
   ];
   facilities.forEach((f) => db.create('facilities', { ...f, societyId: 'default' }));
 
-  // Seed sample notices
+  
   db.create('notices', {
     societyId: 'default',
     title: 'Welcome to Smart Society Hub!',
@@ -174,7 +174,7 @@ export function seedInitialData() {
   console.log('✅ Initial data seeded to localStorage');
 }
 
-// Collection name constants
+
 export const COLLECTIONS = {
   USERS:         'users',
   VISITORS:      'visitors',

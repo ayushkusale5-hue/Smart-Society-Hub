@@ -2,36 +2,39 @@ import mongoose from 'mongoose';
 
 const notificationSchema = new mongoose.Schema(
   {
-    recipientId: {
-      type: Number, // Reference to SQLite User ID
+    userId: {
+      type: String, 
       required: true,
       index: true,
     },
+    societyId: { type: String, index: true },
+    title: { type: String, required: true },
+    message: { type: String, required: true },
     type: {
       type: String,
-      required: true,
-      enum: ['Visitor', 'Complaint', 'General', 'System', 'Billing'],
-      default: 'General',
+      enum: [
+        'visitor_arrived', 'visitor_approved', 'visitor_rejected',
+        'complaint_update', 'complaint_assigned',
+        'bill_due', 'bill_paid',
+        'notice_posted', 'poll_created', 'poll_ended',
+        'event_reminder', 'booking_approved', 'booking_rejected',
+        'sos_alert', 'security_incident',
+        'maintenance_update',
+        'marketplace_interest',
+        'system',
+      ],
+      default: 'system',
     },
-    title: {
-      type: String,
-      required: true,
-      trim: true,
-    },
-    message: {
-      type: String,
-      required: true,
-    },
-    isRead: {
-      type: Boolean,
-      default: false,
-    },
-    link: {
-      type: String, // Optional URL to redirect when clicked
-      default: null,
-    },
+    isRead: { type: Boolean, default: false, index: true },
+    referenceId: { type: String },
+    referenceModel: { type: String },
+    link: { type: String },
   },
   { timestamps: true }
 );
 
-export const Notification = mongoose.model('Notification', notificationSchema);
+notificationSchema.index({ userId: 1, isRead: 1, createdAt: -1 });
+
+const Notification = mongoose.model('Notification', notificationSchema);
+export { Notification };
+export default Notification;

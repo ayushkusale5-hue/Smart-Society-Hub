@@ -1,12 +1,12 @@
 import { Complaint } from '../models/mongo/Complaint.js';
 import { successResponse, errorResponse } from '../utils/response.utils.js';
 
-// ─── Create Complaint (Resident) ──────────────────────────────────────────────
+
 export async function createComplaint(req, res, next) {
   try {
     const { title, description, category, priority } = req.body;
     
-    // Process uploaded images
+    
     const images = req.files ? req.files.map(f => `/uploads/complaints/${f.filename}`) : [];
 
     const complaint = new Complaint({
@@ -25,26 +25,26 @@ export async function createComplaint(req, res, next) {
   }
 }
 
-// ─── Get Complaints ───────────────────────────────────────────────────────────
+
 export async function getComplaints(req, res, next) {
   try {
     const { status, category, priority } = req.query;
     
-    // Base filter
+    
     const filter = {};
     if (status) filter.status = status;
     if (category) filter.category = category;
     if (priority) filter.priority = priority;
 
-    // Role-based filtering
+    
     if (req.user.role === 'resident') {
-      // Residents only see their own complaints
+      
       filter.residentId = req.user.id;
     } else if (req.user.role === 'maintenance') {
-      // Maintenance staff only see complaints assigned to them
+      
       filter.assignedTo = req.user.id;
     }
-    // Committee sees all complaints (filtered by query params if any)
+    
 
     const complaints = await Complaint.find(filter).sort({ createdAt: -1 });
     return successResponse(res, complaints);
@@ -53,7 +53,7 @@ export async function getComplaints(req, res, next) {
   }
 }
 
-// ─── Update Complaint Status ──────────────────────────────────────────────────
+
 export async function updateStatus(req, res, next) {
   try {
     const { id } = req.params;
@@ -62,7 +62,7 @@ export async function updateStatus(req, res, next) {
     const complaint = await Complaint.findById(id);
     if (!complaint) return errorResponse(res, 'Complaint not found', 404);
 
-    // Permission checks
+    
     if (req.user.role === 'resident') {
       return errorResponse(res, 'Residents cannot update complaint status', 403);
     }
@@ -83,11 +83,11 @@ export async function updateStatus(req, res, next) {
   }
 }
 
-// ─── Assign Complaint (Committee only) ────────────────────────────────────────
+
 export async function assignComplaint(req, res, next) {
   try {
     const { id } = req.params;
-    const { assignedTo } = req.body; // SQLite User ID of maintenance staff
+    const { assignedTo } = req.body; 
 
     if (req.user.role !== 'committee') {
       return errorResponse(res, 'Only committee members can assign complaints', 403);
@@ -101,6 +101,27 @@ export async function assignComplaint(req, res, next) {
 
     await complaint.save();
     return successResponse(res, complaint, 'Complaint assigned successfully');
+  } catch (err) {
+    next(err);
+  }
+}
+
+
+export async function deleteComplaint(req, res, next) {
+  try {
+    const complaint = await Complaint.findById(req.params.id);
+    if (!complaint) return errorResponse(res, 'Complaint not found', 404);
+
+    if (complaint.residentId !== req.user.id && req.user.role !== 'committee') {
+      return errorResponse(res, 'Unauthorized', 403);
+    }
+
+    if (complaint.status === 'resolved' || complaint.status === 'in_progress') {
+      return errorResponse(res, 'Cannot withdraw a complaint that is in progress or resolved', 400);
+    }
+
+    await Complaint.findByIdAndDelete(req.params.id);
+    return successResponse(res, null, 'Complaint withdrawn successfully');
   } catch (err) {
     next(err);
   }

@@ -13,7 +13,7 @@ import { uploadAvatar } from '../middleware/upload.middleware.js';
 
 const router = Router();
 
-// All routes require authentication
+
 router.use(authenticate);
 
 router.get('/', authorize('committee'), getAllUsers);

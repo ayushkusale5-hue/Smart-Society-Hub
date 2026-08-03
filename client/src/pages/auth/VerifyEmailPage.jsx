@@ -6,7 +6,7 @@ import { authService } from '../../services/auth.service';
 export default function VerifyEmailPage() {
   const [searchParams] = useSearchParams();
   const token = searchParams.get('token');
-  const [status, setStatus] = useState('loading'); // loading, success, error
+  const [status, setStatus] = useState('loading'); 
   const [message, setMessage] = useState('Verifying your email address...');
 
   useEffect(() => {
@@ -29,7 +29,7 @@ export default function VerifyEmailPage() {
 
   return (
     <div className="min-h-screen flex items-center justify-center p-6 relative overflow-hidden" style={{ background: '#f4f6fb' }}>
-      {/* Decorative Orbs */}
+      {
       <div className="absolute w-[500px] h-[500px] rounded-full bg-indigo-500/10 blur-3xl -top-48 -left-48 pointer-events-none" />
       <div className="absolute w-[400px] h-[400px] rounded-full bg-purple-500/10 blur-3xl -bottom-32 -right-32 pointer-events-none" />
 

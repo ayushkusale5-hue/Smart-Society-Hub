@@ -32,9 +32,9 @@ const bookingSchema = new mongoose.Schema(
     societyId: { type: String, required: true, index: true },
 
     date: { type: Date, required: true },
-    startTime: { type: String, required: true }, // "HH:mm"
+    startTime: { type: String, required: true }, 
     endTime: { type: String, required: true },
-    duration: { type: Number }, // in hours
+    duration: { type: Number }, 
 
     purpose: { type: String },
     attendees: { type: Number, default: 1 },

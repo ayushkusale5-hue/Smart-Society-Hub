@@ -9,23 +9,10 @@ import {
   AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip,
   ResponsiveContainer, PieChart, Pie, Cell
 } from 'recharts';
+import { useQuery } from '@tanstack/react-query';
+import { analyticsService } from '../../services/analytics.service';
 
-const monthlyData = [
-  { month: 'Feb', complaints: 12, resolved: 9,  revenue: 45000 },
-  { month: 'Mar', complaints: 19, resolved: 15, revenue: 52000 },
-  { month: 'Apr', complaints: 8,  resolved: 7,  revenue: 48000 },
-  { month: 'May', complaints: 15, resolved: 12, revenue: 55000 },
-  { month: 'Jun', complaints: 22, resolved: 18, revenue: 60000 },
-  { month: 'Jul', complaints: 11, resolved: 9,  revenue: 58000 },
-];
 
-const complaintCategories = [
-  { name: 'Plumbing',   value: 35, color: '#6366f1' },
-  { name: 'Electrical', value: 25, color: '#a855f7' },
-  { name: 'Civil',      value: 20, color: '#3b82f6' },
-  { name: 'Security',   value: 12, color: '#f59e0b' },
-  { name: 'Other',      value: 8,  color: '#22c55e' },
-];
 
 const StatCard = ({ icon: Icon, label, value, sub, color, change, delay }) => (
   <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay, duration: 0.45 }}
@@ -54,10 +41,25 @@ const StatCard = ({ icon: Icon, label, value, sub, color, change, delay }) => (
 export default function CommitteeDashboard() {
   const { user } = useAuthStore();
 
+  const { data: analyticsRes, isLoading } = useQuery({
+    queryKey: ['committee-analytics'],
+    queryFn: () => analyticsService.getCommitteeAnalytics(),
+  });
+
+  const analytics = analyticsRes?.data || {
+    trends: [],
+    categories: [],
+    overview: { totalComplaints: 0, openComplaints: 0, visitorsToday: 0 }
+  };
+
+  const monthlyData = analytics.trends;
+  const complaintCategories = analytics.categories;
+  const totalCatValue = complaintCategories.reduce((acc, c) => acc + c.value, 0) || 1;
+
   const stats = [
-    { icon: Users,         label: 'Total Residents',     value: '248',  sub: '12 pending approval', color: '#6366f1', change: 5,    delay: 0.06 },
-    { icon: Wrench,        label: 'Open Complaints',     value: '14',   sub: '3 urgent',            color: '#d97706', change: -8,   delay: 0.10 },
-    { icon: FileText,      label: 'Monthly Revenue',     value: '₹5.8L',sub: 'Jul 2026',            color: '#16a34a', change: 12,   delay: 0.14 },
+    { icon: Users,         label: 'Active Residents',    value: '248',  sub: '12 pending approval', color: '#6366f1', change: 5,    delay: 0.06 },
+    { icon: Wrench,        label: 'Open Complaints',     value: analytics.overview.openComplaints, sub: `${analytics.overview.totalComplaints} total`, color: '#d97706', delay: 0.10 },
+    { icon: Users,         label: 'Visitors Today',      value: analytics.overview.visitorsToday, sub: 'Gate flow', color: '#16a34a', change: 12,   delay: 0.14 },
     { icon: AlertTriangle, label: 'Security Incidents',  value: '2',    sub: 'This month',           color: '#dc2626', change: -50,  delay: 0.18 },
     { icon: Car,           label: 'Parking Slots',       value: '38/50',sub: '12 available',         color: '#2563eb', change: null, delay: 0.22 },
     { icon: Building2,     label: 'Facility Bookings',   value: '7',    sub: 'This week',            color: '#7c3aed', change: 20,   delay: 0.26 },
@@ -77,26 +79,25 @@ export default function CommitteeDashboard() {
   const priorityLabel = { urgent: 'Urgent', high: 'High', normal: 'Normal' };
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 32 }} className="animate-fade-in">
+    <div className="flex flex-col gap-8 animate-fade-in">
 
-      {/* ── Header ─────────────────────────────────────────────────── */}
+      {
       <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }}
-        style={{ padding: '40px 44px', borderRadius: 28, position: 'relative', overflow: 'hidden', background: 'linear-gradient(135deg, #7c3aed 0%, #6d28d9 50%, #4f46e5 100%)', boxShadow: '0 16px 48px rgba(124,58,237,0.3)' }}>
-        <div style={{ position: 'absolute', width: 350, height: 350, borderRadius: '50%', top: -100, right: -60, background: 'radial-gradient(circle, rgba(255,255,255,0.07), transparent 70%)', pointerEvents: 'none' }} />
-        <div style={{ position: 'relative', display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', flexWrap: 'wrap', gap: 24 }}>
+        className="welcome-banner"
+        style={{ background: 'linear-gradient(135deg, #7c3aed 0%, #6d28d9 50%, #4f46e5 100%)', boxShadow: '0 16px 48px rgba(124,58,237,0.3)' }}>
+        <div style={{ position: 'absolute', width: 300, height: 300, borderRadius: '50%', top: -100, right: -60, background: 'radial-gradient(circle, rgba(255,255,255,0.07), transparent 70%)', pointerEvents: 'none' }} />
+        <div className="welcome-banner-inner">
           <div>
-            <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6, fontSize: 12, fontWeight: 700, color: 'rgba(255,255,255,0.7)', background: 'rgba(255,255,255,0.12)', padding: '5px 14px', borderRadius: 99, border: '1px solid rgba(255,255,255,0.18)', marginBottom: 14 }}>
+            <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6, fontSize: 12, fontWeight: 700, color: 'rgba(255,255,255,0.7)', background: 'rgba(255,255,255,0.12)', padding: '5px 14px', borderRadius: 99, border: '1px solid rgba(255,255,255,0.18)', marginBottom: 12 }}>
               Committee Member
             </span>
-            <h2 style={{ fontSize: 36, fontWeight: 900, color: '#ffffff', letterSpacing: '-0.025em', lineHeight: 1.1, marginBottom: 8 }}>
-              {user?.firstName} {user?.lastName}
-            </h2>
-            <p style={{ fontSize: 15, color: 'rgba(255,255,255,0.6)' }}>Society Administration Dashboard</p>
+            <h2 className="welcome-banner-title">{user?.firstName} {user?.lastName}</h2>
+            <p style={{ fontSize: 14, color: 'rgba(255,255,255,0.6)' }}>Society Administration Dashboard</p>
           </div>
-          <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
+          <div className="flex gap-2 flex-wrap">
             <Link to="/notices/manage" className="btn btn-md"
               style={{ background: 'rgba(255,255,255,0.15)', color: 'white', border: '1px solid rgba(255,255,255,0.25)', backdropFilter: 'blur(8px)' }}>
-              <Bell size={15} /> Post Notice
+              <Bell size={14} /> Post Notice
             </Link>
             <Link to="/polls/manage" className="btn btn-md"
               style={{ background: '#ffffff', color: '#6d28d9', fontWeight: 700 }}>
@@ -106,17 +107,17 @@ export default function CommitteeDashboard() {
         </div>
       </motion.div>
 
-      {/* ── Stats Grid ─────────────────────────────────────────────── */}
+      {
       <div>
-        <h3 style={{ fontSize: 11.5, fontWeight: 800, color: '#9ca3af', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 20 }}>Society Overview</h3>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: 16 }} className="stagger-children">
+        <h3 className="text-xs font-extrabold text-slate-400 uppercase tracking-widest mb-5">Society Overview</h3>
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 stagger-children">
           {stats.map((s) => <StatCard key={s.label} {...s} />)}
         </div>
       </div>
 
-      {/* ── Charts ─────────────────────────────────────────────────── */}
+      {
       <div className="grid grid-cols-1 lg:grid-cols-[1fr_340px] gap-5 items-start">
-        {/* Complaints trend */}
+        {
         <div style={{ background: '#ffffff', border: '1px solid #e8ecf4', borderRadius: 24, padding: '32px', boxShadow: '0 2px 16px rgba(0,0,0,0.04)' }}>
           <div style={{ marginBottom: 28 }}>
             <h3 style={{ fontSize: 17, fontWeight: 800, color: '#0f172a', letterSpacing: '-0.015em' }}>Complaints Trend</h3>
@@ -148,7 +149,7 @@ export default function CommitteeDashboard() {
           </div>
         </div>
 
-        {/* Pie chart */}
+        {
         <div style={{ background: '#ffffff', border: '1px solid #e8ecf4', borderRadius: 24, padding: '32px', boxShadow: '0 2px 16px rgba(0,0,0,0.04)' }}>
           <div style={{ marginBottom: 20 }}>
             <h3 style={{ fontSize: 17, fontWeight: 800, color: '#0f172a', letterSpacing: '-0.015em' }}>By Category</h3>
@@ -165,20 +166,20 @@ export default function CommitteeDashboard() {
             </PieChart>
           </ResponsiveContainer>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginTop: 16 }}>
-            {complaintCategories.map((c) => (
+            {complaintCategories.slice(0, 4).map((c) => (
               <div key={c.name} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
                   <div style={{ width: 10, height: 10, borderRadius: '50%', background: c.color, flexShrink: 0 }} />
                   <span style={{ fontSize: 13.5, color: '#374151' }}>{c.name}</span>
                 </div>
-                <span style={{ fontSize: 13.5, fontWeight: 700, color: '#0f172a' }}>{c.value}%</span>
+                <span style={{ fontSize: 13.5, fontWeight: 700, color: '#0f172a' }}>{Math.round((c.value / totalCatValue) * 100)}%</span>
               </div>
             ))}
           </div>
         </div>
       </div>
 
-      {/* ── Pending Actions ─────────────────────────────────────────── */}
+      {
       <div>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 20 }}>
           <h3 style={{ fontSize: 11.5, fontWeight: 800, color: '#9ca3af', textTransform: 'uppercase', letterSpacing: '0.08em' }}>Pending Actions</h3>

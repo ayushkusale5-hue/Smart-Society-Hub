@@ -2,12 +2,12 @@ import mongoose from 'mongoose';
 
 const complaintSchema = new mongoose.Schema(
   {
-    raisedBy: { type: String, required: true, index: true }, // SQLite user ID
+    raisedBy: { type: String, required: true, index: true }, 
     societyId: { type: String, required: true, index: true },
     flatNumber: { type: String },
     tower: { type: String },
 
-    // Complaint details
+    
     title: { type: String, required: true, trim: true },
     description: { type: String, required: true },
     category: {
@@ -21,7 +21,7 @@ const complaintSchema = new mongoose.Schema(
       default: 'medium',
     },
 
-    // Status tracking
+    
     status: {
       type: String,
       enum: ['open', 'in_progress', 'resolved', 'closed', 'rejected'],
@@ -29,26 +29,26 @@ const complaintSchema = new mongoose.Schema(
       index: true,
     },
 
-    // Images
-    images: [{ type: String }], // Cloudinary URLs
+    
+    images: [{ type: String }], 
 
-    // Assignment
-    assignedTo: { type: String }, // Maintenance staff SQLite user ID
+    
+    assignedTo: { type: String }, 
     assignedAt: { type: Date },
 
-    // Resolution
+    
     resolvedAt: { type: Date },
     resolutionNote: { type: String },
     completionImages: [{ type: String }],
 
-    // Feedback
+    
     feedback: {
       rating: { type: Number, min: 1, max: 5 },
       comment: { type: String },
       submittedAt: { type: Date },
     },
 
-    // Status history
+    
     statusHistory: [
       {
         status: { type: String },

@@ -1,6 +1,6 @@
-# Product Requirements Document (PRD)
 
-# Smart Society Hub
+
+
 
 **Version:** 1.0
 
@@ -24,7 +24,7 @@
 
 ---
 
-# 1. Product Overview
+
 
 Smart Society Hub is an all-in-one digital platform that simplifies the management of residential societies by connecting residents, committee members, security guards, maintenance staff, and vendors through one centralized system.
 
@@ -32,7 +32,7 @@ The platform streamlines visitor management, maintenance requests, community com
 
 ---
 
-# 2. Problem Statement
+
 
 Most apartment societies still rely on WhatsApp groups, paper registers, phone calls, and spreadsheets.
 
@@ -50,7 +50,7 @@ Smart Society Hub solves these problems through a modern web platform.
 
 ---
 
-# 3. Goals
+
 
 - Digitize society operations
 - Improve resident communication
@@ -62,9 +62,9 @@ Smart Society Hub solves these problems through a modern web platform.
 
 ---
 
-# 4. User Roles
 
-## Resident
+
+
 
 Can
 
@@ -80,7 +80,7 @@ Can
 
 ---
 
-## Committee Member
+
 
 Can
 
@@ -95,7 +95,7 @@ Can
 
 ---
 
-## Security Guard
+
 
 Can
 
@@ -108,7 +108,7 @@ Can
 
 ---
 
-## Maintenance Staff
+
 
 Can
 
@@ -119,7 +119,7 @@ Can
 
 ---
 
-## Vendor
+
 
 Can
 
@@ -130,11 +130,11 @@ Can
 
 ---
 
-# 5. Functional Modules
+
 
 ---
 
-## Authentication
+
 
 Features
 
@@ -146,7 +146,7 @@ Features
 
 ---
 
-## Visitor Management
+
 
 Features
 
@@ -159,7 +159,7 @@ Features
 
 ---
 
-## Complaint Management
+
 
 Features
 
@@ -173,7 +173,7 @@ Features
 
 ---
 
-## Maintenance Billing
+
 
 Features
 
@@ -185,7 +185,7 @@ Features
 
 ---
 
-## Parking Management
+
 
 Features
 
@@ -197,7 +197,7 @@ Features
 
 ---
 
-## Community Marketplace
+
 
 Residents can
 
@@ -208,7 +208,7 @@ Residents can
 
 ---
 
-## Notice Board
+
 
 Committee can
 
@@ -219,7 +219,7 @@ Committee can
 
 ---
 
-## Event Management
+
 
 Features
 
@@ -230,7 +230,7 @@ Features
 
 ---
 
-## Facility Booking
+
 
 Residents can book
 
@@ -248,7 +248,7 @@ Booking includes
 
 ---
 
-## Polls & Voting
+
 
 Committee can create
 
@@ -261,7 +261,7 @@ Residents vote digitally.
 
 ---
 
-## Lost & Found
+
 
 Residents can
 
@@ -272,7 +272,7 @@ Residents can
 
 ---
 
-## CCTV Incident Reports
+
 
 Security can
 
@@ -283,7 +283,7 @@ Security can
 
 ---
 
-## Emergency SOS
+
 
 Residents press SOS.
 
@@ -297,7 +297,7 @@ receive alerts instantly.
 
 ---
 
-## Notification System
+
 
 Real-time
 
@@ -312,7 +312,7 @@ Real-time
 
 ---
 
-## Analytics Dashboard
+
 
 Committee Dashboard
 
@@ -327,11 +327,11 @@ Committee Dashboard
 
 ---
 
-# 6. AI Features (Optional)
+
 
 Inspired by DevPilot AI
 
-## AI Complaint Categorizer
+
 
 Automatically classifies complaints.
 
@@ -351,7 +351,7 @@ Priority
 
 ---
 
-## AI Notice Generator
+
 
 Committee types
 
@@ -361,7 +361,7 @@ AI generates professional notice.
 
 ---
 
-## AI Society Assistant
+
 
 Residents ask
 
@@ -373,13 +373,13 @@ Residents ask
 
 ---
 
-## AI Complaint Summary
+
 
 Summarizes monthly complaints.
 
 ---
 
-## AI Maintenance Prediction
+
 
 Predicts
 
@@ -388,7 +388,7 @@ Predicts
 
 ---
 
-# 7. Real-Time Features
+
 
 Socket.IO
 
@@ -401,9 +401,9 @@ Socket.IO
 
 ---
 
-# 8. Database Architecture
 
-## SQLite3
+
+
 
 Store
 
@@ -418,7 +418,7 @@ Fast structured relational data.
 
 ---
 
-## MongoDB
+
 
 Store
 
@@ -438,7 +438,7 @@ Flexible document structure.
 
 ---
 
-# 9. Suggested Folder Structure
+
 
 ```
 SmartSocietyHub/
@@ -457,7 +457,7 @@ docs/
 
 ---
 
-# 10. Future Scope
+
 
 - Mobile App
 - Face Recognition Entry
@@ -472,9 +472,9 @@ docs/
 
 ---
 
-# 11. Tech Stack
 
-### Frontend
+
+
 
 - React
 - Vite
@@ -484,7 +484,7 @@ docs/
 - Zustand
 - Framer Motion
 
-### Backend
+
 
 - Node.js
 - Express.js
@@ -492,29 +492,29 @@ docs/
 - JWT
 - Multer
 
-### Database
+
 
 - MongoDB Compass
 - SQLite3
 
-### Storage
+
 
 - Cloudinary
 
-### Authentication
+
 
 - JWT
 - Google OAuth (Optional)
 
-### Charts
+
 
 - Chart.js / Recharts
 
 ---
 
-## Features Summary
 
-### Users
+
+
 
 - Resident
 - Committee Member
@@ -522,7 +522,7 @@ docs/
 - Maintenance Staff
 - Vendor
 
-### Core Modules
+
 
 - Authentication & RBAC
 - Visitor QR Pass Management

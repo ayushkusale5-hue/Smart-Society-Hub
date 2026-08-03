@@ -12,7 +12,7 @@ export function authenticate(req, res, next) {
     const token = authHeader.split(' ')[1];
     const decoded = verifyAccessToken(token);
 
-    // Verify user still exists and is active
+    
     const db = getSQLiteDB();
     const user = db.prepare(`
       SELECT u.id, u.email, u.first_name, u.last_name, u.role_id, u.flat_number,
@@ -44,7 +44,7 @@ export function authenticate(req, res, next) {
   }
 }
 
-// Optional auth — doesn't fail if no token
+
 export function optionalAuth(req, res, next) {
   try {
     const authHeader = req.headers.authorization;
@@ -62,7 +62,7 @@ export function optionalAuth(req, res, next) {
       if (user) req.user = user;
     }
   } catch (_) {
-    // Ignore errors for optional auth
+    
   }
   next();
 }

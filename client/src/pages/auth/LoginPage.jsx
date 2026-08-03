@@ -104,9 +104,9 @@ export default function LoginPage() {
 
   return (
     <div className="auth-container">
-      {/* ── Left Panel ────────────────────────────────────────────────── */}
+      {
       <div className="auth-left hidden lg:flex">
-        {/* Background orbs */}
+        {
         <div
           style={{
             position: "absolute",
@@ -142,7 +142,7 @@ export default function LoginPage() {
           transition={{ duration: 0.65 }}
           style={{ maxWidth: 480, position: "relative", zIndex: 1 }}
         >
-          {/* Brand */}
+          {
           <div className="flex items-center gap-3" style={{ marginBottom: 60 }}>
             <div
               className="flex items-center justify-center"
@@ -277,7 +277,7 @@ export default function LoginPage() {
         </motion.div>
       </div>
 
-      {/* ── Right Panel ───────────────────────────────────────────────── */}
+      {
       <div className="auth-right">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -285,7 +285,7 @@ export default function LoginPage() {
           transition={{ duration: 0.5 }}
           className="auth-card"
         >
-          {/* Icon + heading */}
+          {
           <div className="text-center" style={{ marginBottom: 36 }}>
             <div
               className="inline-flex items-center justify-center mb-5"
@@ -314,7 +314,7 @@ export default function LoginPage() {
             </p>
           </div>
 
-          {/* Error */}
+          {
           {error && (
             <motion.div
               initial={{ opacity: 0, y: -10 }}
@@ -334,7 +334,7 @@ export default function LoginPage() {
             </motion.div>
           )}
 
-          {/* Form */}
+          {
           <form onSubmit={handleSubmit} id="login-form">
             <div className="form-group">
               <label className="label" htmlFor="email">
@@ -474,7 +474,7 @@ export default function LoginPage() {
             />
           </div>
 
-          {/* Demo hint */}
+          {
           <div
             style={{
               marginTop: 24,

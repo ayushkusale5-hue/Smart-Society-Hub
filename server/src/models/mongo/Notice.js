@@ -2,35 +2,32 @@ import mongoose from 'mongoose';
 
 const noticeSchema = new mongoose.Schema(
   {
-    title: {
+    title: { type: String, required: true, trim: true },
+    content: { type: String, required: true },
+    type: {
       type: String,
       required: true,
-      trim: true,
+      enum: ['general', 'emergency', 'event', 'maintenance', 'payment', 'meeting'],
+      default: 'general',
     },
-    content: {
+    priority: {
       type: String,
+      enum: ['low', 'normal', 'high', 'urgent'],
+      default: 'normal',
+    },
+    isPinned: { type: Boolean, default: false },
+    createdBy: {
+      type: String, 
       required: true,
     },
-    category: {
-      type: String,
-      required: true,
-      enum: ['General', 'Emergency', 'Event', 'Maintenance'],
-      default: 'General',
-    },
-    isPinned: {
-      type: Boolean,
-      default: false,
-    },
-    authorId: {
-      type: Number, // Reference to SQLite User ID (Committee Member)
-      required: true,
-    },
-    attachments: {
-      type: [String], // URLs to local storage documents/images
-      default: [],
-    },
+    societyId: { type: String, index: true },
+    attachments: { type: [String], default: [] },
+    expiresAt: { type: Date, default: null },
+    viewedBy: { type: [String], default: [] },
   },
   { timestamps: true }
 );
+
+noticeSchema.index({ societyId: 1, isPinned: -1, createdAt: -1 });
 
 export const Notice = mongoose.model('Notice', noticeSchema);

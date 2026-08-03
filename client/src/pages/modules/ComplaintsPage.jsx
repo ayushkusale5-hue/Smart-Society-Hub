@@ -29,7 +29,7 @@ export default function ComplaintsPage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [filterStatus, setFilterStatus] = useState('');
   
-  // Fetch Complaints
+  
   const { data: response, isLoading } = useQuery({
     queryKey: ['complaints', filterStatus],
     queryFn: () => complaintService.getComplaints(filterStatus ? { status: filterStatus } : {}),
@@ -53,7 +53,7 @@ export default function ComplaintsPage() {
         </button>
       </div>
 
-      {/* Filters */}
+      {
       <div className="flex gap-3 overflow-x-auto pb-4 scrollbar-hide">
         <button 
           onClick={() => setFilterStatus('')}
@@ -72,7 +72,7 @@ export default function ComplaintsPage() {
         ))}
       </div>
 
-      {/* Complaints Grid */}
+      {
       {isLoading ? (
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
           {[1,2,3].map(i => <div key={i} className="h-64 bg-slate-100/50 rounded-3xl animate-pulse border border-slate-200/50" />)}
@@ -122,14 +122,32 @@ export default function ComplaintsPage() {
                 </div>
               )}
 
-              <div className="pt-4 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500 font-medium">
+              <div className="pt-4 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500 font-medium mt-auto">
                 <div className="flex items-center gap-1.5 bg-slate-50 px-2.5 py-1.5 rounded-lg">
                   <AlertCircle size={14} className="text-slate-400" />
                   {complaint.category}
                 </div>
-                <div className="flex items-center gap-1.5">
-                  <Clock size={14} className="text-slate-400" />
-                  {format(new Date(complaint.createdAt), 'MMM d, h:mm a')}
+                <div className="flex items-center gap-3">
+                  <div className="flex items-center gap-1.5">
+                    <Clock size={14} className="text-slate-400" />
+                    {format(new Date(complaint.createdAt), 'MMM d, h:mm a')}
+                  </div>
+                  {complaint.status === 'Pending' && (
+                    <button
+                      onClick={() => {
+                        if (window.confirm('Are you sure you want to withdraw this complaint?')) {
+                          complaintService.deleteComplaint(complaint._id)
+                            .then(() => toast.success('Complaint withdrawn'))
+                            .catch(err => toast.error(err.response?.data?.message || 'Failed to withdraw'))
+                            .finally(() => queryClient.invalidateQueries(['complaints']));
+                        }
+                      }}
+                      className="text-red-500 hover:text-red-700 font-bold bg-red-50 px-2 py-1.5 rounded-lg transition-colors"
+                      title="Withdraw Complaint"
+                    >
+                      Withdraw
+                    </button>
+                  )}
                 </div>
               </div>
             </motion.div>
@@ -137,7 +155,7 @@ export default function ComplaintsPage() {
         </div>
       )}
 
-      {/* Create Modal */}
+      {
       <AnimatePresence>
         {isModalOpen && (
           <CreateComplaintModal 
@@ -185,22 +203,22 @@ function CreateComplaintModal({ onClose, onSuccess }) {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-sm">
+    <div className="modal-backdrop">
       <motion.div 
         initial={{ opacity: 0, scale: 0.95 }} 
         animate={{ opacity: 1, scale: 1 }} 
         exit={{ opacity: 0, scale: 0.95 }}
-        className="bg-white rounded-3xl shadow-2xl w-full max-w-xl overflow-hidden flex flex-col max-h-[90vh]"
+        className="modal-content"
       >
-        <div className="p-6 border-b border-slate-100 flex justify-between items-center bg-slate-50/50">
-          <h2 className="text-xl font-bold text-slate-900">Raise New Complaint</h2>
-          <button onClick={onClose} className="w-8 h-8 flex items-center justify-center rounded-full bg-slate-200 text-slate-500 hover:bg-slate-300 transition-colors">
+        <div className="modal-header">
+          <h2>Raise New Complaint</h2>
+          <button onClick={onClose} className="modal-close">
             <X size={18} />
           </button>
         </div>
 
-        <div className="p-6 overflow-y-auto">
-          <form id="complaintForm" onSubmit={handleSubmit}>
+        <div className="modal-body">
+          <form id="complaintForm" onSubmit={handleSubmit} className="space-y-4">
             <div className="form-group">
               <label className="label">Title <span className="text-red-500">*</span></label>
               <input type="text" 
@@ -268,7 +286,7 @@ function CreateComplaintModal({ onClose, onSuccess }) {
           </form>
         </div>
 
-        <div className="p-6 border-t border-[#e8ecf4] bg-[#f4f6fb] flex justify-end items-center gap-4 rounded-b-3xl">
+        <div className="modal-footer">
           <button type="button" onClick={onClose} className="btn btn-ghost">
             Cancel
           </button>

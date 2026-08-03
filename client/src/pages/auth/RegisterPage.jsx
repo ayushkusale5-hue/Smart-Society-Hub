@@ -90,7 +90,7 @@ export default function RegisterPage() {
 
   return (
     <div className="auth-container">
-      {/* ── Left Panel ────────────────────────────────────────────────── */}
+      {
       <div className="auth-left hidden lg:flex">
         <div style={{ position: 'absolute', width: 500, height: 500, borderRadius: '50%', top: -150, right: -150, background: 'radial-gradient(circle, rgba(255,255,255,0.07), transparent 70%)', pointerEvents: 'none' }} />
 
@@ -132,7 +132,7 @@ export default function RegisterPage() {
         </motion.div>
       </div>
 
-      {/* ── Right Panel ───────────────────────────────────────────────── */}
+      {
       <div className="auth-right">
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}
           className="auth-card">
@@ -148,7 +148,7 @@ export default function RegisterPage() {
             </p>
           </div>
 
-          {/* Progress bar */}
+          {
           <div style={{ display: 'flex', gap: 8, marginBottom: 32 }}>
             {[1, 2].map((s) => (
               <div key={s} style={{ flex: 1, height: 5, borderRadius: 99, transition: 'all 0.3s ease',

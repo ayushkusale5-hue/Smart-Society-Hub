@@ -1,4 +1,4 @@
-// Node.js v22+ built-in SQLite (no external package needed)
+
 import { DatabaseSync } from 'node:sqlite';
 import path from 'path';
 import fs from 'fs';
@@ -18,16 +18,16 @@ export async function initSQLite() {
     ? path.resolve(process.env.SQLITE_DB_PATH)
     : path.resolve(__dirname, '../../../database/smart_society.db');
 
-  // Ensure directory exists
+  
   fs.mkdirSync(path.dirname(dbPath), { recursive: true });
 
   db = new DatabaseSync(dbPath);
 
-  // Enable WAL mode and foreign keys
+  
   db.exec('PRAGMA journal_mode = WAL');
   db.exec('PRAGMA foreign_keys = ON');
 
-  // ─── Schema ───────────────────────────────────────────────────────────────
+  
   db.exec(`
     CREATE TABLE IF NOT EXISTS roles (
       id INTEGER PRIMARY KEY AUTOINCREMENT,

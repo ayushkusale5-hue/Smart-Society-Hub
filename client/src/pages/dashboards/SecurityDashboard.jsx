@@ -34,35 +34,34 @@ export default function SecurityDashboard() {
   ];
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 32 }} className="animate-fade-in">
+    <div className="flex flex-col gap-8 animate-fade-in">
 
-      {/* ── Header ─────────────────────────────────────────────────── */}
+      {
       <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }}
-        style={{ padding: '40px 44px', borderRadius: 28, position: 'relative', overflow: 'hidden', background: 'linear-gradient(135deg, #2563eb 0%, #1d4ed8 50%, #1e40af 100%)', boxShadow: '0 16px 48px rgba(37,99,235,0.3)' }}>
-        <div style={{ position: 'absolute', width: 350, height: 350, borderRadius: '50%', top: -80, right: -60, background: 'radial-gradient(circle, rgba(255,255,255,0.07), transparent 70%)', pointerEvents: 'none' }} />
+        className="welcome-banner"
+        style={{ background: 'linear-gradient(135deg, #2563eb 0%, #1d4ed8 50%, #1e40af 100%)', boxShadow: '0 16px 48px rgba(37,99,235,0.3)' }}>
+        <div style={{ position: 'absolute', width: 300, height: 300, borderRadius: '50%', top: -80, right: -60, background: 'radial-gradient(circle, rgba(255,255,255,0.07), transparent 70%)', pointerEvents: 'none' }} />
 
         <div style={{ position: 'relative' }}>
-          <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', flexWrap: 'wrap', gap: 24, marginBottom: 32 }}>
+          <div className="welcome-banner-inner" style={{ marginBottom: 24 }}>
             <div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 14 }}>
-                <Shield size={16} style={{ color: 'rgba(255,255,255,0.6)' }} />
+              <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 12 }}>
+                <Shield size={14} style={{ color: 'rgba(255,255,255,0.6)' }} />
                 <span style={{ fontSize: 12, fontWeight: 700, color: 'rgba(255,255,255,0.65)', background: 'rgba(255,255,255,0.12)', padding: '4px 14px', borderRadius: 99, border: '1px solid rgba(255,255,255,0.18)' }}>
                   Security Dashboard
                 </span>
               </div>
-              <h2 style={{ fontSize: 36, fontWeight: 900, color: '#ffffff', letterSpacing: '-0.025em', lineHeight: 1.1, marginBottom: 8 }}>
-                {user?.firstName} {user?.lastName}
-              </h2>
-              <p style={{ fontSize: 15, color: 'rgba(255,255,255,0.6)' }}>Gate management & visitor control</p>
+              <h2 className="welcome-banner-title">{user?.firstName} {user?.lastName}</h2>
+              <p style={{ fontSize: 14, color: 'rgba(255,255,255,0.6)' }}>Gate management &amp; visitor control</p>
             </div>
-            <div style={{ textAlign: 'right' }}>
-              <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.5)', marginBottom: 4 }}>Current Shift</div>
-              <div style={{ fontSize: 20, fontWeight: 800, color: '#ffffff' }}>Morning</div>
-              <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.5)', marginTop: 4 }}>6 AM – 2 PM</div>
+            <div className="hidden sm:block" style={{ textAlign: 'right' }}>
+              <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.5)', marginBottom: 4 }}>Current Shift</div>
+              <div style={{ fontSize: 18, fontWeight: 800, color: '#ffffff' }}>Morning</div>
+              <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.5)', marginTop: 4 }}>6 AM – 2 PM</div>
             </div>
           </div>
 
-          {/* SOS Button */}
+          {
           <motion.button whileHover={{ scale: 1.01 }} whileTap={{ scale: 0.98 }} id="sos-alert-btn"
             style={{ width: '100%', padding: '18px 24px', borderRadius: 16, background: 'linear-gradient(135deg, #dc2626, #b91c1c)', border: 'none', color: 'white', fontWeight: 800, fontSize: 16, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10, boxShadow: '0 8px 28px rgba(220,38,38,0.4)', letterSpacing: '-0.01em' }}>
             <AlertTriangle size={20} />
@@ -71,18 +70,18 @@ export default function SecurityDashboard() {
         </div>
       </motion.div>
 
-      {/* ── Stats ──────────────────────────────────────────────────── */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: 16 }} className="stagger-children">
+      {
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 stagger-children">
         <StatCard icon={Users}        label="Visitors Today" value="12" color="#4f46e5" delay={0.08} />
         <StatCard icon={CheckCircle}  label="Entries"        value="9"  color="#16a34a" delay={0.14} />
         <StatCard icon={Car}          label="Exits"          value="6"  color="#2563eb" delay={0.20} />
         <StatCard icon={AlertTriangle}label="Incidents"      value="0"  color="#dc2626" delay={0.26} />
       </div>
 
-      {/* ── Main Content ───────────────────────────────────────────── */}
+      {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 items-start">
 
-        {/* QR Scan panel */}
+        {
         <div style={{ background: '#ffffff', border: '1px solid #e8ecf4', borderRadius: 24, padding: '48px 40px', textAlign: 'center', boxShadow: '0 2px 16px rgba(0,0,0,0.04)', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
           <div style={{ width: 80, height: 80, borderRadius: 24, display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#eef2ff', border: '2px solid #c7d2fe', marginBottom: 24 }}>
             <QrCode size={36} style={{ color: '#6366f1' }} />
@@ -106,7 +105,7 @@ export default function SecurityDashboard() {
           </div>
         </div>
 
-        {/* Expected visitors */}
+        {
         <div style={{ background: '#ffffff', border: '1px solid #e8ecf4', borderRadius: 24, overflow: 'hidden', boxShadow: '0 2px 16px rgba(0,0,0,0.04)' }}>
           <div style={{ padding: '24px 28px', borderBottom: '1px solid #f4f6fb', background: '#fafbff', display: 'flex', alignItems: 'center', gap: 10 }}>
             <Eye size={17} style={{ color: '#2563eb' }} />
@@ -145,7 +144,7 @@ export default function SecurityDashboard() {
         </div>
       </div>
 
-      {/* ── Entry/Exit Log ─────────────────────────────────────────── */}
+      {
       <div>
         <h3 style={{ fontSize: 11.5, fontWeight: 800, color: '#9ca3af', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 20 }}>Recent Entry / Exit Log</h3>
         <div style={{ background: '#ffffff', border: '1px solid #e8ecf4', borderRadius: 24, overflow: 'hidden', boxShadow: '0 2px 16px rgba(0,0,0,0.04)' }}>

@@ -34,12 +34,12 @@ const complaintSchema = new mongoose.Schema(
       default: [],
     },
     residentId: {
-      type: Number, // Reference to SQLite User ID
+      type: String, 
       required: true,
       index: true,
     },
     assignedTo: {
-      type: Number, // Reference to SQLite User ID (Maintenance Staff)
+      type: String, 
       default: null,
     },
     resolutionNotes: {

@@ -43,29 +43,29 @@ export default function LandingPage() {
   return (
     <div className="min-h-screen font-sans" style={{ background: '#f8fafc' }}>
 
-      {/* ── Navbar ─────────────────────────────────────────────────────── */}
-      <nav className="fixed top-0 w-full z-50 flex items-center justify-between px-10 py-5"
+      {
+      <nav className="fixed top-0 w-full z-50 flex items-center justify-between px-4 sm:px-10 py-4"
         style={{ background: 'rgba(255,255,255,0.92)', backdropFilter: 'blur(16px)', borderBottom: '1px solid #e2e8f0' }}>
-        <div className="flex items-center gap-4">
-          <div className="w-10 h-10 rounded-xl flex items-center justify-center"
+        <div className="flex items-center gap-3">
+          <div className="w-9 h-9 rounded-xl flex items-center justify-center"
             style={{ background: 'linear-gradient(135deg, #6366f1, #4f46e5)', boxShadow: '0 4px 14px rgba(99,102,241,0.35)' }}>
-            <Building2 size={20} className="text-white" />
+            <Building2 size={18} className="text-white" />
           </div>
-          <span className="font-bold text-slate-800" style={{ fontSize: 22 }}>Smart Society Hub</span>
+          <span className="font-bold text-slate-800 text-base sm:text-xl">Smart Society Hub</span>
         </div>
-        <div className="flex items-center gap-6">
-          <Link to="/login" className="text-slate-700 font-bold hover:text-indigo-600 transition-colors" style={{ fontSize: 17 }}>Sign In</Link>
-          <Link to="/register" className="btn btn-primary" style={{ padding: '10px 24px', fontSize: 15, borderRadius: 12 }}>
-            Get Started <ArrowRight size={16} />
+        <div className="flex items-center gap-3 sm:gap-6">
+          <Link to="/login" className="text-slate-700 font-bold hover:text-indigo-600 transition-colors text-sm sm:text-base">Sign In</Link>
+          <Link to="/register" className="btn btn-primary" style={{ padding: '9px 18px', fontSize: 14, borderRadius: 12 }}>
+            Get Started <ArrowRight size={14} />
           </Link>
         </div>
       </nav>
 
-      {/* ── Hero ───────────────────────────────────────────────────────── */}
+      {
       <section className="relative flex items-center justify-center overflow-hidden"
         style={{ minHeight: '100vh', paddingTop: 100, background: '#ffffff' }}>
 
-        {/* Decorative blobs */}
+        {
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           <div className="absolute"
             style={{ width: 800, height: 800, borderRadius: '50%', top: -250, right: -250,
@@ -96,36 +96,37 @@ export default function LandingPage() {
           </motion.h1>
 
           <motion.p {...fadeUp} transition={{ duration: 0.55, delay: 0.12 }}
-            className="text-slate-500 mx-auto text-center"
-            style={{ textAlign: 'center', fontSize: 24, lineHeight: 1.7, maxWidth: 800, marginBottom: 64 }}>
+            className="text-slate-500 mx-auto text-center px-4"
+            style={{ textAlign: 'center', fontSize: 'clamp(15px, 2.5vw, 22px)', lineHeight: 1.7, maxWidth: 750, marginBottom: 48 }}>
             Replace WhatsApp groups, paper registers and spreadsheets with
             one beautiful platform connecting residents, committee, security and vendors.
           </motion.p>
 
           <motion.div {...fadeUp} transition={{ duration: 0.5, delay: 0.18 }}
-            className="flex items-center justify-center gap-6 flex-wrap" style={{ marginBottom: 100 }}>
+            className="flex items-center justify-center gap-5 sm:gap-8 flex-wrap px-4" style={{ marginBottom: 64 }}>
             <Link to="/register" id="hero-get-started"
+              className="btn btn-primary"
               style={{
-                display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 12,
-                background: 'linear-gradient(135deg, #6366f1, #4f46e5)', color: 'white',
-                padding: '22px 48px', borderRadius: 16, fontSize: 20, fontWeight: 700,
-                boxShadow: '0 8px 32px rgba(99,102,241,0.4)', textDecoration: 'none'
+                padding: 'clamp(12px, 2vw, 20px) clamp(24px, 4vw, 44px)',
+                borderRadius: 16, fontSize: 'clamp(15px, 2vw, 18px)', fontWeight: 700,
+                boxShadow: '0 8px 32px rgba(99,102,241,0.4)', textDecoration: 'none', gap: 10
               }}>
               Get Started Free
-              <ArrowRight size={24} />
+              <ArrowRight size={20} />
             </Link>
             <Link to="/login" id="hero-sign-in"
               style={{
-                display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 12,
+                display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 10,
                 background: '#f8fafc', color: '#0f172a', border: '2px solid #e2e8f0',
-                padding: '22px 48px', borderRadius: 16, fontSize: 20, fontWeight: 700,
+                padding: 'clamp(12px, 2vw, 20px) clamp(24px, 4vw, 44px)',
+                borderRadius: 16, fontSize: 'clamp(15px, 2vw, 18px)', fontWeight: 700,
                 textDecoration: 'none'
               }}>
               Sign In
             </Link>
           </motion.div>
 
-          {/* Stats row */}
+          {
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.35 }}
             className="flex justify-center gap-8 flex-wrap max-w-5xl mx-auto">
             {stats.map((s) => (
@@ -145,7 +146,7 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* ── Features ───────────────────────────────────────────────────── */}
+      {
       <section id="features" style={{ padding: 'clamp(60px, 10vw, 160px) clamp(20px, 5vw, 40px)', background: '#f8fafc' }}>
         <div style={{ maxWidth: 1400, margin: '0 auto' }}>
           <div className="text-center" style={{ marginBottom: 100 }}>
@@ -187,7 +188,7 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* ── User Roles ─────────────────────────────────────────────────── */}
+      {
       <section style={{ padding: 'clamp(60px, 10vw, 160px) clamp(20px, 5vw, 40px)', background: '#ffffff', borderTop: '1px solid #e2e8f0', borderBottom: '1px solid #e2e8f0' }}>
         <div style={{ maxWidth: 1400, margin: '0 auto' }}>
           <div className="text-center" style={{ marginBottom: 100 }}>
@@ -232,7 +233,7 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* ── CTA ────────────────────────────────────────────────────────── */}
+      {
       <section style={{ padding: 'clamp(60px, 10vw, 160px) clamp(20px, 5vw, 40px)', background: '#f8fafc' }}>
         <div style={{ maxWidth: 1100, margin: '0 auto' }}>
           <motion.div initial={{ opacity: 0, scale: 0.96 }} whileInView={{ opacity: 1, scale: 1 }}
@@ -280,7 +281,7 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* ── Footer ─────────────────────────────────────────────────────── */}
+      {
       <footer style={{ background: '#ffffff', borderTop: '1px solid #e2e8f0', padding: '64px 40px', textAlign: 'center' }}>
         <div className="flex items-center justify-center gap-4 mb-6">
           <div className="w-10 h-10 rounded-xl flex items-center justify-center"

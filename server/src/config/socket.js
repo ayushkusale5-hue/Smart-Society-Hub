@@ -16,7 +16,7 @@ export function initSocket(httpServer) {
     },
   });
 
-  // Middleware — authenticate socket connections
+  
   io.use((socket, next) => {
     const token = socket.handshake.auth?.token;
     if (token) {
@@ -28,29 +28,29 @@ export function initSocket(httpServer) {
   io.on('connection', (socket) => {
     console.log(`🔌 Socket connected: ${socket.id}`);
 
-    // Join user to their personal room for targeted notifications
+    
     socket.on('join:user', (userId) => {
       socket.join(`user:${userId}`);
       console.log(`👤 User ${userId} joined their room`);
     });
 
-    // Join role-based room (e.g. security guards)
+    
     socket.on('join:role', (role) => {
       socket.join(`role:${role}`);
       console.log(`🏷️  Joined role room: ${role}`);
     });
 
-    // Join society room
+    
     socket.on('join:society', (societyId) => {
       socket.join(`society:${societyId}`);
     });
 
-    // Real-time chat
+    
     socket.on('chat:message', (data) => {
       io.to(`society:${data.societyId}`).emit('chat:message', data);
     });
 
-    // SOS Alert
+    
     socket.on('sos:trigger', (data) => {
       io.to(`role:security`).emit('sos:alert', data);
       io.to(`role:committee`).emit('sos:alert', data);
@@ -67,17 +67,17 @@ export function initSocket(httpServer) {
   return io;
 }
 
-// Helper: emit notification to a specific user
+
 export function emitToUser(userId, event, data) {
   if (io) io.to(`user:${userId}`).emit(event, data);
 }
 
-// Helper: emit to a role group
+
 export function emitToRole(role, event, data) {
   if (io) io.to(`role:${role}`).emit(event, data);
 }
 
-// Helper: emit to entire society
+
 export function emitToSociety(societyId, event, data) {
   if (io) io.to(`society:${societyId}`).emit(event, data);
 }

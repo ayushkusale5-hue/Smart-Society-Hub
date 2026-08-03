@@ -17,40 +17,39 @@ export default function MaintenanceDashboard() {
   ];
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 32 }} className="animate-fade-in">
+    <div className="flex flex-col gap-8 animate-fade-in">
 
-      {/* ── Header ─────────────────────────────────────────────────── */}
+      {
       <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }}
-        style={{ padding: '40px 44px', borderRadius: 28, position: 'relative', overflow: 'hidden', background: 'linear-gradient(135deg, #d97706 0%, #b45309 50%, #ea580c 100%)', boxShadow: '0 16px 48px rgba(217,119,6,0.3)' }}>
-        <div style={{ position: 'absolute', width: 350, height: 350, borderRadius: '50%', top: -80, right: -60, background: 'radial-gradient(circle, rgba(255,255,255,0.07), transparent 70%)', pointerEvents: 'none' }} />
+        className="welcome-banner"
+        style={{ background: 'linear-gradient(135deg, #d97706 0%, #b45309 50%, #ea580c 100%)', boxShadow: '0 16px 48px rgba(217,119,6,0.3)' }}>
+        <div style={{ position: 'absolute', width: 300, height: 300, borderRadius: '50%', top: -80, right: -60, background: 'radial-gradient(circle, rgba(255,255,255,0.07), transparent 70%)', pointerEvents: 'none' }} />
 
         <div style={{ position: 'relative' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 14 }}>
-            <Hammer size={16} style={{ color: 'rgba(255,255,255,0.65)' }} />
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 12 }}>
+            <Hammer size={14} style={{ color: 'rgba(255,255,255,0.65)' }} />
             <span style={{ fontSize: 12, fontWeight: 700, color: 'rgba(255,255,255,0.7)', background: 'rgba(255,255,255,0.15)', padding: '4px 14px', borderRadius: 99, border: '1px solid rgba(255,255,255,0.2)' }}>
               Maintenance Staff
             </span>
           </div>
-          <h2 style={{ fontSize: 36, fontWeight: 900, color: '#ffffff', letterSpacing: '-0.025em', lineHeight: 1.1, marginBottom: 8 }}>
-            {user?.firstName} {user?.lastName}
-          </h2>
-          <p style={{ fontSize: 15, color: 'rgba(255,255,255,0.6)', marginBottom: 32 }}>Maintenance task management & complaint resolution</p>
+          <h2 className="welcome-banner-title">{user?.firstName} {user?.lastName}</h2>
+          <p style={{ fontSize: 14, color: 'rgba(255,255,255,0.6)', marginBottom: 24 }}>Maintenance task management &amp; complaint resolution</p>
 
-          {/* Quick stats row */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-xl">
+          {
+          <div className="grid grid-cols-3 gap-3 max-w-lg">
             {[
               { label: 'Assigned',        value: '4', icon: ListTodo },
               { label: 'In Progress',     value: '2', icon: Clock },
               { label: 'Completed Today', value: '3', icon: CheckCircle },
             ].map((s) => (
               <div key={s.label}
-                style={{ display: 'flex', alignItems: 'center', gap: 14, background: 'rgba(255,255,255,0.12)', border: '1px solid rgba(255,255,255,0.2)', borderRadius: 16, padding: '16px 20px', backdropFilter: 'blur(8px)' }}>
-                <div style={{ width: 42, height: 42, borderRadius: 13, background: 'rgba(255,255,255,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                  <s.icon size={20} className="text-white" />
+                style={{ display: 'flex', alignItems: 'center', gap: 12, background: 'rgba(255,255,255,0.12)', border: '1px solid rgba(255,255,255,0.2)', borderRadius: 14, padding: '12px 16px', backdropFilter: 'blur(8px)' }}>
+                <div style={{ width: 36, height: 36, borderRadius: 11, background: 'rgba(255,255,255,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                  <s.icon size={16} className="text-white" />
                 </div>
                 <div>
-                  <div style={{ fontSize: 24, fontWeight: 900, color: '#ffffff', lineHeight: 1, letterSpacing: '-0.025em' }}>{s.value}</div>
-                  <div style={{ fontSize: 12.5, color: 'rgba(255,255,255,0.6)', marginTop: 4, fontWeight: 600 }}>{s.label}</div>
+                  <div style={{ fontSize: 20, fontWeight: 900, color: '#ffffff', lineHeight: 1, letterSpacing: '-0.025em' }}>{s.value}</div>
+                  <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.6)', marginTop: 3, fontWeight: 600 }}>{s.label}</div>
                 </div>
               </div>
             ))}
@@ -58,7 +57,7 @@ export default function MaintenanceDashboard() {
         </div>
       </motion.div>
 
-      {/* ── Task List ──────────────────────────────────────────────── */}
+      {
       <div>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 20 }}>
           <h3 style={{ fontSize: 11.5, fontWeight: 800, color: '#9ca3af', textTransform: 'uppercase', letterSpacing: '0.08em' }}>My Assigned Tasks</h3>
@@ -75,7 +74,7 @@ export default function MaintenanceDashboard() {
               whileHover={{ borderColor: PRIORITY_COLORS[task.priority] + '35', y: -2, boxShadow: `0 8px 28px ${PRIORITY_COLORS[task.priority]}10` }}>
               <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 24 }}>
 
-                {/* Left: icon + info */}
+                {
                 <div style={{ display: 'flex', alignItems: 'flex-start', gap: 20, flex: 1 }}>
                   <div style={{ width: 56, height: 56, borderRadius: 18, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, background: `${PRIORITY_COLORS[task.priority]}10`, border: `1.5px solid ${PRIORITY_COLORS[task.priority]}20` }}>
                     <AlertTriangle size={24} style={{ color: PRIORITY_COLORS[task.priority] }} />
@@ -104,7 +103,7 @@ export default function MaintenanceDashboard() {
                   </div>
                 </div>
 
-                {/* Right: status + actions */}
+                {
                 <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 16, flexShrink: 0 }}>
                   <span style={{
                     fontSize: 12.5, fontWeight: 700, padding: '6px 14px', borderRadius: 99, textTransform: 'capitalize',

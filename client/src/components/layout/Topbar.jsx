@@ -1,6 +1,6 @@
-import { useState } from 'react';
-import { Menu, Bell, Search, ChevronDown } from 'lucide-react';
+import { Menu, Search, ChevronDown } from 'lucide-react';
 import { useAuthStore } from '../../store/authStore';
+import NotificationPanel from './NotificationPanel';
 
 const ROLE_LABELS = {
   resident:    'Resident Dashboard',
@@ -20,12 +20,15 @@ const ROLE_COLORS = {
 
 export default function Topbar({ onMenuToggle, title }) {
   const { user } = useAuthStore();
-  const [hasNotifications] = useState(true);
   const accentColor = ROLE_COLORS[user?.role] || '#6366f1';
+
+  const avatarUrl = user?.avatarUrl
+    ? (user.avatarUrl.startsWith('http') ? user.avatarUrl : `${import.meta.env.VITE_API_URL?.replace('/api', '') || 'http://localhost:5000'}${user.avatarUrl}`)
+    : null;
 
   return (
     <header className="topbar">
-      {/* Left */}
+      {
       <div style={{ display: 'flex', alignItems: 'center', gap: 16, flex: 1 }}>
         <button id="sidebar-toggle" onClick={onMenuToggle}
           className="lg:hidden btn btn-ghost btn-icon-sm"
@@ -42,7 +45,7 @@ export default function Topbar({ onMenuToggle, title }) {
         </div>
       </div>
 
-      {/* Center — Search */}
+      {
       <div className="hidden md:flex items-center flex-1 justify-center" style={{ maxWidth: 340 }}>
         <div style={{ position: 'relative', width: '100%' }}>
           <Search size={15} style={{ position: 'absolute', left: 14, top: '50%', transform: 'translateY(-50%)', color: '#9ca3af' }} />
@@ -56,28 +59,30 @@ export default function Topbar({ onMenuToggle, title }) {
         </div>
       </div>
 
-      {/* Right */}
+      {
       <div style={{ display: 'flex', alignItems: 'center', gap: 10, flex: 1, justifyContent: 'flex-end' }}>
-        {/* Notification bell */}
-        <button id="notifications-btn"
-          style={{ width: 42, height: 42, borderRadius: 12, display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative', border: '1.5px solid #e8ecf4', background: '#ffffff', cursor: 'pointer', transition: 'all 0.2s ease', color: '#6b7280' }}
-          onMouseEnter={e => e.currentTarget.style.borderColor = '#c7d2fe'}
-          onMouseLeave={e => e.currentTarget.style.borderColor = '#e8ecf4'}>
-          <Bell size={18} />
-          {hasNotifications && (
-            <span style={{ position: 'absolute', top: 8, right: 8, width: 8, height: 8, background: '#ef4444', borderRadius: '50%', border: '2px solid white' }} />
-          )}
-        </button>
+        {
+        <NotificationPanel />
 
-        {/* Divider */}
+        {
         <div style={{ width: 1, height: 32, background: '#e8ecf4', margin: '0 4px' }} />
 
-        {/* User avatar */}
+        {
         <div style={{ display: 'flex', alignItems: 'center', gap: 10, cursor: 'pointer', padding: '6px 10px', borderRadius: 12, transition: 'all 0.2s ease', border: '1.5px solid transparent' }}
           onMouseEnter={e => { e.currentTarget.style.background = '#f4f6fb'; e.currentTarget.style.borderColor = '#e8ecf4'; }}
           onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.borderColor = 'transparent'; }}>
-          <div style={{ width: 36, height: 36, borderRadius: 11, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 13, fontWeight: 800, color: 'white', background: `linear-gradient(135deg, ${accentColor}, ${accentColor}cc)`, flexShrink: 0 }}>
-            {user?.firstName?.[0]}{user?.lastName?.[0]}
+          <div style={{
+            width: 36, height: 36, borderRadius: 11,
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            fontSize: 13, fontWeight: 800, color: 'white',
+            background: `linear-gradient(135deg, ${accentColor}, ${accentColor}cc)`,
+            flexShrink: 0, overflow: 'hidden',
+          }}>
+            {avatarUrl ? (
+              <img src={avatarUrl} alt="avatar" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+            ) : (
+              <>{user?.firstName?.[0]}{user?.lastName?.[0]}</>
+            )}
           </div>
           <div className="hidden sm:block">
             <div style={{ fontSize: 13.5, fontWeight: 700, color: '#0f172a', lineHeight: 1.2 }}>

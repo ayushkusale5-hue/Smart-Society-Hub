@@ -32,11 +32,11 @@ const pollSchema = new mongoose.Schema(
       required: true,
     },
     creatorId: {
-      type: Number, // Reference to SQLite User ID (Committee Member)
+      type: Number, 
       required: true,
     },
     votedUsers: {
-      type: [Number], // Array of SQLite User IDs who have already voted
+      type: [Number], 
       default: [],
     },
   },

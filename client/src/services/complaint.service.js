@@ -2,7 +2,7 @@ import api from './api';
 
 export const complaintService = {
   createComplaint: async (formData) => {
-    // formData is used because we upload images (multipart/form-data)
+    
     return api.post('/complaints', formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
@@ -25,5 +25,9 @@ export const complaintService = {
 
   assignComplaint: async (id, assignedTo) => {
     return api.patch(`/complaints/${id}/assign`, { assignedTo });
+  },
+
+  deleteComplaint: async (id) => {
+    return api.delete(`/complaints/${id}`);
   },
 };

@@ -14,7 +14,7 @@ const pollSchema = new mongoose.Schema(
     options: [
       {
         text: { type: String, required: true },
-        votes: [{ type: String }], // Array of voter user IDs
+        votes: [{ type: String }], 
       },
     ],
 

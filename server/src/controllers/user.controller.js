@@ -2,7 +2,7 @@ import bcrypt from 'bcryptjs';
 import { getSQLiteDB } from '../config/db.sqlite.js';
 import { successResponse, errorResponse, paginatedResponse } from '../utils/response.utils.js';
 
-// ─── Get All Users (Committee only) ──────────────────────────────────────────
+
 export async function getAllUsers(req, res, next) {
   try {
     const db = getSQLiteDB();
@@ -40,7 +40,7 @@ export async function getAllUsers(req, res, next) {
   }
 }
 
-// ─── Get Single User ──────────────────────────────────────────────────────────
+
 export async function getUserById(req, res, next) {
   try {
     const db = getSQLiteDB();
@@ -60,7 +60,7 @@ export async function getUserById(req, res, next) {
   }
 }
 
-// ─── Update Profile ───────────────────────────────────────────────────────────
+
 export async function updateProfile(req, res, next) {
   try {
     const db = getSQLiteDB();
@@ -84,7 +84,7 @@ export async function updateProfile(req, res, next) {
   }
 }
 
-// ─── Update Avatar ────────────────────────────────────────────────────────────
+
 export async function updateAvatar(req, res, next) {
   try {
     if (!req.file) return errorResponse(res, 'No file uploaded', 400);
@@ -99,7 +99,7 @@ export async function updateAvatar(req, res, next) {
   }
 }
 
-// ─── Change Password ──────────────────────────────────────────────────────────
+
 export async function changePassword(req, res, next) {
   try {
     const db = getSQLiteDB();
@@ -113,7 +113,7 @@ export async function changePassword(req, res, next) {
     const newHash = await bcrypt.hash(newPassword, 12);
     db.prepare('UPDATE users SET password_hash = ? WHERE id = ?').run(newHash, req.user.id);
 
-    // Invalidate all refresh tokens
+    
     db.prepare('DELETE FROM refresh_tokens WHERE user_id = ?').run(req.user.id);
 
     return successResponse(res, {}, 'Password changed. Please login again.');
@@ -122,7 +122,7 @@ export async function changePassword(req, res, next) {
   }
 }
 
-// ─── Toggle User Active (Committee) ──────────────────────────────────────────
+
 export async function toggleUserActive(req, res, next) {
   try {
     const db = getSQLiteDB();
@@ -139,7 +139,7 @@ export async function toggleUserActive(req, res, next) {
   }
 }
 
-// Helper
+
 function formatUser(u) {
   return {
     id: u.id,

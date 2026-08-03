@@ -23,9 +23,9 @@ const notificationSchema = new mongoose.Schema(
       required: true,
     },
     isRead: { type: Boolean, default: false, index: true },
-    referenceId: { type: String }, // ID of related entity
-    referenceModel: { type: String }, // e.g. 'Complaint', 'Visitor'
-    link: { type: String }, // Frontend route to navigate to
+    referenceId: { type: String }, 
+    referenceModel: { type: String }, 
+    link: { type: String }, 
   },
   { timestamps: true }
 );

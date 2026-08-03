@@ -2,48 +2,64 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 import { useEffect } from "react";
 
-// Storage seed
+
 import { seedInitialData } from "./services/storage.service.js";
 
-// Guards & Layout
+
 import { AuthGuard, GuestGuard, RoleGuard } from "./components/auth/Guards";
 import DashboardLayout from "./components/layout/DashboardLayout";
 
-// Auth Pages
+
 import LoginPage from "./pages/auth/LoginPage";
 import RegisterPage from "./pages/auth/RegisterPage";
 import ForgotPasswordPage from "./pages/auth/ForgotPasswordPage";
 import VerifyEmailPage from "./pages/auth/VerifyEmailPage";
 import ResetPasswordPage from "./pages/auth/ResetPasswordPage";
 
-// Landing
+
 import LandingPage from "./pages/LandingPage";
 
-// Dashboards
+
 import ResidentDashboard from "./pages/dashboards/ResidentDashboard";
 import CommitteeDashboard from "./pages/dashboards/CommitteeDashboard";
 import SecurityDashboard from "./pages/dashboards/SecurityDashboard";
 import MaintenanceDashboard from "./pages/dashboards/MaintenanceDashboard";
 import VendorDashboard from "./pages/dashboards/VendorDashboard";
 
-// Error pages
+
 import { NotFoundPage, UnauthorizedPage } from "./pages/ErrorPages";
 
-// Modules (Phase 2)
+
 import ComplaintsPage from "./pages/modules/ComplaintsPage";
 import ManageComplaintsPage from "./pages/modules/ManageComplaintsPage";
+import VisitorPage from "./pages/modules/VisitorPage";
+import VisitorGatePage from "./pages/modules/VisitorGatePage";
+import AllVisitorsPage from "./pages/modules/AllVisitorsPage";
+import NoticeBoardPage from "./pages/modules/NoticeBoardPage";
+import ManageNoticesPage from "./pages/modules/ManageNoticesPage";
+import ResidentsPage from "./pages/modules/ResidentsPage";
+import SettingsPage from "./pages/modules/SettingsPage";
+import BillingPage from './pages/modules/BillingPage';
+import ManageBillingPage from './pages/modules/ManageBillingPage';
+import PollsPage from './pages/modules/PollsPage';
+import ManagePollsPage from './pages/modules/ManagePollsPage';
+import FacilitiesPage from './pages/modules/FacilitiesPage';
+import ManageFacilitiesPage from './pages/modules/ManageFacilitiesPage';
+import ParkingPage from './pages/modules/ParkingPage';
+import ManageParkingPage from './pages/modules/ManageParkingPage';
+import MarketplacePage from './pages/modules/MarketplacePage';
 
-// Auth store
+
 import { useAuthStore } from "./store/authStore";
 import { getDashboardRoute } from "./components/auth/Guards";
 
-// Smart redirect based on role
+
 function DashboardRedirect() {
   const { user } = useAuthStore();
   return <Navigate to={getDashboardRoute(user?.role)} replace />;
 }
 
-// Placeholder page for future modules
+
 const ComingSoon = ({ label }) => (
   <div className="card p-12 text-center">
     <div className="text-4xl mb-4">🚧</div>
@@ -60,7 +76,7 @@ const ComingSoon = ({ label }) => (
 );
 
 function App() {
-  // Seed localStorage with initial data on first load
+  
   useEffect(() => {
     seedInitialData();
   }, []);
@@ -68,10 +84,10 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        {/* Public landing */}
+        {
         <Route path="/" element={<LandingPage />} />
 
-        {/* Auth routes */}
+        {
         <Route
           path="/login"
           element={
@@ -113,7 +129,7 @@ function App() {
           }
         />
 
-        {/* Dashboard routes (require auth) */}
+        {
         <Route
           path="/dashboard"
           element={
@@ -165,7 +181,7 @@ function App() {
           />
         </Route>
 
-        {/* All module routes under the authenticated dashboard layout */}
+        {
         <Route
           element={
             <AuthGuard>
@@ -175,7 +191,7 @@ function App() {
         >
           <Route
             path="/visitors"
-            element={<ComingSoon label="Visitor Management — Phase 2" />}
+            element={<VisitorPage />}
           />
           <Route
             path="/complaints"
@@ -183,19 +199,19 @@ function App() {
           />
           <Route
             path="/billing"
-            element={<ComingSoon label="Maintenance Billing — Phase 2" />}
+            element={<BillingPage />}
           />
           <Route
             path="/parking"
-            element={<ComingSoon label="Parking Management — Phase 3" />}
+            element={<ParkingPage />}
           />
           <Route
             path="/notices"
-            element={<ComingSoon label="Notice Board — Phase 3" />}
+            element={<NoticeBoardPage />}
           />
           <Route
             path="/polls"
-            element={<ComingSoon label="Polls & Voting — Phase 3" />}
+            element={<PollsPage />}
           />
           <Route
             path="/events"
@@ -203,11 +219,11 @@ function App() {
           />
           <Route
             path="/facilities"
-            element={<ComingSoon label="Facility Booking — Phase 3" />}
+            element={<FacilitiesPage />}
           />
           <Route
             path="/marketplace"
-            element={<ComingSoon label="Community Marketplace — Phase 3" />}
+            element={<MarketplacePage />}
           />
           <Route
             path="/lost-found"
@@ -227,16 +243,16 @@ function App() {
           />
           <Route
             path="/settings"
-            element={<ComingSoon label="Settings — Phase 2" />}
+            element={<SettingsPage />}
           />
-          {/* Committee */}
+          {
           <Route
             path="/visitors/all"
-            element={<ComingSoon label="All Visitors — Phase 2" />}
+            element={<AllVisitorsPage />}
           />
           <Route
             path="/residents"
-            element={<ComingSoon label="Residents Management — Phase 2" />}
+            element={<ResidentsPage />}
           />
           <Route
             path="/complaints/manage"
@@ -244,15 +260,15 @@ function App() {
           />
           <Route
             path="/billing/manage"
-            element={<ComingSoon label="Billing Management — Phase 2" />}
+            element={<ManageBillingPage />}
           />
           <Route
             path="/notices/manage"
-            element={<ComingSoon label="Manage Notices — Phase 3" />}
+            element={<ManageNoticesPage />}
           />
           <Route
             path="/polls/manage"
-            element={<ComingSoon label="Manage Polls — Phase 3" />}
+            element={<ManagePollsPage />}
           />
           <Route
             path="/events/manage"
@@ -260,24 +276,24 @@ function App() {
           />
           <Route
             path="/facilities/manage"
-            element={<ComingSoon label="Manage Facilities — Phase 3" />}
+            element={<ManageFacilitiesPage />}
           />
           <Route
             path="/parking/manage"
-            element={<ComingSoon label="Manage Parking — Phase 3" />}
+            element={<ManageParkingPage />}
           />
           <Route
             path="/vendors"
             element={<ComingSoon label="Vendors — Phase 3" />}
           />
-          {/* Security */}
+          {
           <Route
             path="/visitors/gate"
-            element={<ComingSoon label="Visitor Gate — Phase 2" />}
+            element={<VisitorGatePage />}
           />
           <Route
             path="/visitors/expected"
-            element={<ComingSoon label="Expected Visitors — Phase 2" />}
+            element={<VisitorGatePage />}
           />
           <Route
             path="/incidents"
@@ -287,7 +303,7 @@ function App() {
             path="/vehicles"
             element={<ComingSoon label="Vehicle Logs — Phase 4" />}
           />
-          {/* Maintenance */}
+          {
           <Route
             path="/tasks"
             element={<ComingSoon label="My Tasks — Phase 2" />}
@@ -300,7 +316,7 @@ function App() {
             path="/complaints/assigned"
             element={<ManageComplaintsPage />}
           />
-          {/* Vendor */}
+          {
           <Route
             path="/service-requests"
             element={<ComingSoon label="Service Requests — Phase 2" />}
@@ -315,12 +331,12 @@ function App() {
           />
         </Route>
 
-        {/* Error pages */}
+        {
         <Route path="/unauthorized" element={<UnauthorizedPage />} />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
 
-      {/* Global toast notifications */}
+      {
       <Toaster
         position="top-right"
         toastOptions={{

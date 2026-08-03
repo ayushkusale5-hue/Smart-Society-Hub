@@ -1,7 +1,7 @@
 import { Navigate, useLocation } from "react-router-dom";
 import { useAuthStore } from "../../store/authStore";
 
-// Redirect to login if not authenticated
+
 export function AuthGuard({ children }) {
   const { isAuthenticated } = useAuthStore();
   const location = useLocation();
@@ -13,7 +13,7 @@ export function AuthGuard({ children }) {
   return children;
 }
 
-// Redirect to dashboard if already authenticated
+
 export function GuestGuard({ children }) {
   const { isAuthenticated, user } = useAuthStore();
 
@@ -24,7 +24,7 @@ export function GuestGuard({ children }) {
   return children;
 }
 
-// Only allow specific roles
+
 export function RoleGuard({ children, allowedRoles }) {
   const { user } = useAuthStore();
 

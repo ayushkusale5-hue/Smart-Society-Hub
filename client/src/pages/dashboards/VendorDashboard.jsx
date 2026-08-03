@@ -25,46 +25,45 @@ export default function VendorDashboard() {
   ];
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 32 }} className="animate-fade-in">
+    <div className="flex flex-col gap-8 animate-fade-in">
 
-      {/* ── Header ─────────────────────────────────────────────────── */}
+      {
       <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }}
-        style={{ padding: '40px 44px', borderRadius: 28, position: 'relative', overflow: 'hidden', background: 'linear-gradient(135deg, #059669 0%, #047857 50%, #10b981 100%)', boxShadow: '0 16px 48px rgba(5,150,105,0.3)' }}>
-        <div style={{ position: 'absolute', width: 350, height: 350, borderRadius: '50%', top: -80, right: -60, background: 'radial-gradient(circle, rgba(255,255,255,0.07), transparent 70%)', pointerEvents: 'none' }} />
+        className="welcome-banner"
+        style={{ background: 'linear-gradient(135deg, #059669 0%, #047857 50%, #10b981 100%)', boxShadow: '0 16px 48px rgba(5,150,105,0.3)' }}>
+        <div style={{ position: 'absolute', width: 300, height: 300, borderRadius: '50%', top: -80, right: -60, background: 'radial-gradient(circle, rgba(255,255,255,0.07), transparent 70%)', pointerEvents: 'none' }} />
 
         <div style={{ position: 'relative' }}>
-          <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', flexWrap: 'wrap', gap: 24, marginBottom: 36 }}>
+          <div className="welcome-banner-inner" style={{ marginBottom: 24 }}>
             <div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 14 }}>
-                <Store size={16} style={{ color: 'rgba(255,255,255,0.65)' }} />
+              <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 12 }}>
+                <Store size={14} style={{ color: 'rgba(255,255,255,0.65)' }} />
                 <span style={{ fontSize: 12, fontWeight: 700, color: 'rgba(255,255,255,0.7)', background: 'rgba(255,255,255,0.15)', padding: '4px 14px', borderRadius: 99, border: '1px solid rgba(255,255,255,0.2)' }}>
                   Vendor Partner
                 </span>
               </div>
-              <h2 style={{ fontSize: 36, fontWeight: 900, color: '#ffffff', letterSpacing: '-0.025em', lineHeight: 1.1, marginBottom: 8 }}>
-                {user?.firstName} {user?.lastName}
-              </h2>
-              <p style={{ fontSize: 15, color: 'rgba(255,255,255,0.6)' }}>Service provider for Smart Society Hub</p>
+              <h2 className="welcome-banner-title">{user?.firstName} {user?.lastName}</h2>
+              <p style={{ fontSize: 14, color: 'rgba(255,255,255,0.6)' }}>Service provider for Smart Society Hub</p>
             </div>
           </div>
 
-          {/* Stats row */}
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+          {
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
             {headerStats.map((s) => (
               <div key={s.label}
-                style={{ background: 'rgba(255,255,255,0.12)', border: '1px solid rgba(255,255,255,0.2)', borderRadius: 18, padding: '20px', textAlign: 'center', backdropFilter: 'blur(8px)', transition: 'all 0.2s ease' }}
+                style={{ background: 'rgba(255,255,255,0.12)', border: '1px solid rgba(255,255,255,0.2)', borderRadius: 16, padding: '16px', textAlign: 'center', backdropFilter: 'blur(8px)', transition: 'all 0.2s ease' }}
                 onMouseEnter={e => e.currentTarget.style.background = 'rgba(255,255,255,0.18)'}
                 onMouseLeave={e => e.currentTarget.style.background = 'rgba(255,255,255,0.12)'}>
-                <s.icon size={22} style={{ color: s.color, fill: s.fill ? s.color : 'none', margin: '0 auto 12px' }} />
-                <div style={{ fontSize: 26, fontWeight: 900, color: '#ffffff', letterSpacing: '-0.025em', lineHeight: 1 }}>{s.value}</div>
-                <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.55)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em', marginTop: 8 }}>{s.label}</div>
+                <s.icon size={20} style={{ color: s.color, fill: s.fill ? s.color : 'none', margin: '0 auto 10px' }} />
+                <div style={{ fontSize: 22, fontWeight: 900, color: '#ffffff', letterSpacing: '-0.025em', lineHeight: 1 }}>{s.value}</div>
+                <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.55)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em', marginTop: 6 }}>{s.label}</div>
               </div>
             ))}
           </div>
         </div>
       </motion.div>
 
-      {/* ── Service Requests ───────────────────────────────────────── */}
+      {
       <div>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 20 }}>
           <h3 style={{ fontSize: 11.5, fontWeight: 800, color: '#9ca3af', textTransform: 'uppercase', letterSpacing: '0.08em' }}>Service Requests</h3>
@@ -83,7 +82,7 @@ export default function VendorDashboard() {
                 whileHover={{ y: -2, boxShadow: '0 8px 28px rgba(0,0,0,0.08)', borderColor: '#c7d2fe' }}>
                 <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 24 }}>
 
-                  {/* Left */}
+                  {
                   <div style={{ flex: 1 }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 12 }}>
                       <span style={{ fontSize: 12.5, fontFamily: 'monospace', fontWeight: 700, color: '#9ca3af' }}>#{sr.id}</span>
@@ -105,7 +104,7 @@ export default function VendorDashboard() {
                     </div>
                   </div>
 
-                  {/* Right: actions */}
+                  {
                   <div style={{ display: 'flex', flexDirection: 'column', gap: 10, flexShrink: 0 }}>
                     {sr.status === 'pending' && (
                       <>

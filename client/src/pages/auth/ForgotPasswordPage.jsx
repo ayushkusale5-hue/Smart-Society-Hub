@@ -18,7 +18,7 @@ export default function ForgotPasswordPage() {
       await authService.forgotPassword(email);
       setSent(true);
     } catch (_) {
-      // Always show success to prevent email enumeration
+      
       setSent(true);
     } finally {
       setIsLoading(false);
