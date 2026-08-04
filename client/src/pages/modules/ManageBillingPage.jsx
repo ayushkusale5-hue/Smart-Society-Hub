@@ -55,7 +55,6 @@ export default function ManageBillingPage() {
         </button>
       </div>
 
-      {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
           <p className="text-sm font-bold text-slate-500 uppercase tracking-wider mb-2">Total Collected</p>
@@ -159,7 +158,6 @@ export default function ManageBillingPage() {
         </div>
       </div>
 
-      {
       <AnimatePresence>
         {isModalOpen && (
           <div className="modal-backdrop">

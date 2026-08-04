@@ -43,9 +43,9 @@ export default function LandingPage() {
   return (
     <div className="min-h-screen font-sans" style={{ background: '#f8fafc' }}>
 
-      {
-      <nav className="fixed top-0 w-full z-50 flex items-center justify-between px-4 sm:px-10 py-4"
-        style={{ background: 'rgba(255,255,255,0.92)', backdropFilter: 'blur(16px)', borderBottom: '1px solid #e2e8f0' }}>
+      <nav className="fixed top-0 w-full z-50 border-b border-slate-200/50"
+        style={{ background: 'rgba(255,255,255,0.95)', backdropFilter: 'blur(16px)' }}>
+        <div className="max-w-7xl mx-auto flex items-center justify-between px-6 sm:px-10 py-4">
         <div className="flex items-center gap-3">
           <div className="w-9 h-9 rounded-xl flex items-center justify-center"
             style={{ background: 'linear-gradient(135deg, #6366f1, #4f46e5)', boxShadow: '0 4px 14px rgba(99,102,241,0.35)' }}>
@@ -59,13 +59,12 @@ export default function LandingPage() {
             Get Started <ArrowRight size={14} />
           </Link>
         </div>
+        </div>
       </nav>
 
-      {
       <section className="relative flex items-center justify-center overflow-hidden"
         style={{ minHeight: '100vh', paddingTop: 100, background: '#ffffff' }}>
 
-        {
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           <div className="absolute"
             style={{ width: 800, height: 800, borderRadius: '50%', top: -250, right: -250,
@@ -126,7 +125,6 @@ export default function LandingPage() {
             </Link>
           </motion.div>
 
-          {
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.35 }}
             className="flex justify-center gap-8 flex-wrap max-w-5xl mx-auto">
             {stats.map((s) => (
@@ -146,7 +144,6 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {
       <section id="features" style={{ padding: 'clamp(60px, 10vw, 160px) clamp(20px, 5vw, 40px)', background: '#f8fafc' }}>
         <div style={{ maxWidth: 1400, margin: '0 auto' }}>
           <div className="text-center" style={{ marginBottom: 100 }}>
@@ -188,7 +185,6 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {
       <section style={{ padding: 'clamp(60px, 10vw, 160px) clamp(20px, 5vw, 40px)', background: '#ffffff', borderTop: '1px solid #e2e8f0', borderBottom: '1px solid #e2e8f0' }}>
         <div style={{ maxWidth: 1400, margin: '0 auto' }}>
           <div className="text-center" style={{ marginBottom: 100 }}>
@@ -233,7 +229,6 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {
       <section style={{ padding: 'clamp(60px, 10vw, 160px) clamp(20px, 5vw, 40px)', background: '#f8fafc' }}>
         <div style={{ maxWidth: 1100, margin: '0 auto' }}>
           <motion.div initial={{ opacity: 0, scale: 0.96 }} whileInView={{ opacity: 1, scale: 1 }}
@@ -281,7 +276,6 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {
       <footer style={{ background: '#ffffff', borderTop: '1px solid #e2e8f0', padding: '64px 40px', textAlign: 'center' }}>
         <div className="flex items-center justify-center gap-4 mb-6">
           <div className="w-10 h-10 rounded-xl flex items-center justify-center"

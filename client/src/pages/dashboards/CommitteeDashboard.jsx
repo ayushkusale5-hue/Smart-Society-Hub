@@ -81,7 +81,6 @@ export default function CommitteeDashboard() {
   return (
     <div className="flex flex-col gap-8 animate-fade-in">
 
-      {
       <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }}
         className="welcome-banner"
         style={{ background: 'linear-gradient(135deg, #7c3aed 0%, #6d28d9 50%, #4f46e5 100%)', boxShadow: '0 16px 48px rgba(124,58,237,0.3)' }}>
@@ -107,7 +106,6 @@ export default function CommitteeDashboard() {
         </div>
       </motion.div>
 
-      {
       <div>
         <h3 className="text-xs font-extrabold text-slate-400 uppercase tracking-widest mb-5">Society Overview</h3>
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 stagger-children">
@@ -115,9 +113,7 @@ export default function CommitteeDashboard() {
         </div>
       </div>
 
-      {
       <div className="grid grid-cols-1 lg:grid-cols-[1fr_340px] gap-5 items-start">
-        {
         <div style={{ background: '#ffffff', border: '1px solid #e8ecf4', borderRadius: 24, padding: '32px', boxShadow: '0 2px 16px rgba(0,0,0,0.04)' }}>
           <div style={{ marginBottom: 28 }}>
             <h3 style={{ fontSize: 17, fontWeight: 800, color: '#0f172a', letterSpacing: '-0.015em' }}>Complaints Trend</h3>
@@ -149,7 +145,6 @@ export default function CommitteeDashboard() {
           </div>
         </div>
 
-        {
         <div style={{ background: '#ffffff', border: '1px solid #e8ecf4', borderRadius: 24, padding: '32px', boxShadow: '0 2px 16px rgba(0,0,0,0.04)' }}>
           <div style={{ marginBottom: 20 }}>
             <h3 style={{ fontSize: 17, fontWeight: 800, color: '#0f172a', letterSpacing: '-0.015em' }}>By Category</h3>
@@ -179,7 +174,6 @@ export default function CommitteeDashboard() {
         </div>
       </div>
 
-      {
       <div>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 20 }}>
           <h3 style={{ fontSize: 11.5, fontWeight: 800, color: '#9ca3af', textTransform: 'uppercase', letterSpacing: '0.08em' }}>Pending Actions</h3>

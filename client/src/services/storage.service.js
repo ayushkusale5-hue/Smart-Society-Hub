@@ -1,4 +1,4 @@
-
+/**
  * Smart Society Hub — localStorage Data Service
  * Replaces MongoDB + SQLite with browser localStorage
  * All data is stored in organized namespaced keys.

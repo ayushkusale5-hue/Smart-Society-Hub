@@ -89,7 +89,6 @@ export default function ManageNoticesPage() {
 
   return (
     <div className="space-y-6 pb-10">
-      {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h1 className="text-2xl font-bold text-slate-900">Manage Notices</h1>
@@ -108,7 +107,6 @@ export default function ManageNoticesPage() {
         </button>
       </div>
 
-      {
       {isLoading ? (
         <div className="space-y-3">
           {[1, 2, 3].map((i) => (
@@ -211,7 +209,6 @@ export default function ManageNoticesPage() {
         </div>
       )}
 
-      {
       <AnimatePresence>
         {isModalOpen && (
           <NoticeModal

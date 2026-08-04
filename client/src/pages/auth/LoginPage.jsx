@@ -20,7 +20,6 @@ import { useAuthStore } from "../../store/authStore";
 import { authService } from "../../services/auth.service";
 import { getDashboardRoute } from "../../components/auth/Guards";
 import toast from "react-hot-toast";
-import { GoogleLogin } from '@react-oauth/google';
 
 const features = [
   {
@@ -84,29 +83,9 @@ export default function LoginPage() {
     }
   };
 
-  const handleGoogleSuccess = async (credentialResponse) => {
-    setIsLoading(true);
-    try {
-      const response = await authService.googleLogin(credentialResponse.credential);
-      const { user, accessToken, refreshToken } = response.data;
-      setAuth({ user, accessToken, refreshToken });
-      toast.success(`Welcome back, ${user.firstName}!`);
-      const from = location.state?.from?.pathname || getDashboardRoute(user.role);
-      navigate(from, { replace: true });
-    } catch (err) {
-      console.error("Google Login Error details:", err);
-      const msg = err.response?.data?.message || err.message || "Google Login failed.";
-      setError(msg);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
   return (
     <div className="auth-container">
-      {
       <div className="auth-left hidden lg:flex">
-        {
         <div
           style={{
             position: "absolute",
@@ -142,7 +121,6 @@ export default function LoginPage() {
           transition={{ duration: 0.65 }}
           style={{ maxWidth: 480, position: "relative", zIndex: 1 }}
         >
-          {
           <div className="flex items-center gap-3" style={{ marginBottom: 60 }}>
             <div
               className="flex items-center justify-center"
@@ -277,7 +255,6 @@ export default function LoginPage() {
         </motion.div>
       </div>
 
-      {
       <div className="auth-right">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -285,7 +262,6 @@ export default function LoginPage() {
           transition={{ duration: 0.5 }}
           className="auth-card"
         >
-          {
           <div className="text-center" style={{ marginBottom: 36 }}>
             <div
               className="inline-flex items-center justify-center mb-5"
@@ -314,7 +290,6 @@ export default function LoginPage() {
             </p>
           </div>
 
-          {
           {error && (
             <motion.div
               initial={{ opacity: 0, y: -10 }}
@@ -334,7 +309,6 @@ export default function LoginPage() {
             </motion.div>
           )}
 
-          {
           <form onSubmit={handleSubmit} id="login-form">
             <div className="form-group">
               <label className="label" htmlFor="email">
@@ -457,35 +431,17 @@ export default function LoginPage() {
             </button>
           </form>
 
-          <div className="flex items-center gap-4 my-6">
-            <div className="h-px bg-slate-200 flex-1"></div>
-            <span className="text-sm text-slate-400 font-medium">OR</span>
-            <div className="h-px bg-slate-200 flex-1"></div>
-          </div>
-
-          <div className="flex justify-center w-full">
-            <GoogleLogin
-              onSuccess={handleGoogleSuccess}
-              onError={() => setError('Google Sign-In failed.')}
-              theme="outline"
-              size="large"
-              width="100%"
-              text="continue_with"
-            />
-          </div>
-
-          {
           <div
             style={{
               marginTop: 24,
-              padding: "14px 18px",
-              borderRadius: 14,
-              background: "#f0fdf4",
-              border: "1px solid #bbf7d0",
-              color: "#166534",
+              // padding: "14px 18px",
+              // borderRadius: 14,
+              // background: "#f0fdf4",
+              // border: "1px solid #bbf7d0",
+              // color: "#166534",
             }}
           >
-            <div
+            {/* <div
               className="flex items-center gap-2 font-semibold"
               style={{ marginBottom: 4, fontSize: 13 }}
             >
@@ -494,7 +450,7 @@ export default function LoginPage() {
             <p style={{ fontSize: 13 }}>
               Register a new account — all data saves to your browser's
               localStorage.
-            </p>
+            </p> */}
           </div>
 
           <p

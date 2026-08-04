@@ -90,7 +90,6 @@ export default function VisitorGatePage() {
 
   return (
     <div className="space-y-6">
-      {
       <div className="flex justify-between items-center">
         <div>
           <h1 className="text-2xl font-bold text-slate-900">Visitor Gate</h1>
@@ -101,7 +100,6 @@ export default function VisitorGatePage() {
         </button>
       </div>
 
-      {
       <div className="bg-gradient-to-br from-blue-600 to-indigo-700 rounded-3xl p-6 text-white shadow-xl shadow-blue-500/20">
         <div className="flex items-center gap-3 mb-4">
           <div className="w-10 h-10 bg-white/20 rounded-2xl flex items-center justify-center">
@@ -130,7 +128,6 @@ export default function VisitorGatePage() {
         </div>
       </div>
 
-      {
       <AnimatePresence>
         {scannedVisitor && (
           <motion.div
@@ -193,7 +190,6 @@ export default function VisitorGatePage() {
         )}
       </AnimatePresence>
 
-      {
       <div>
         <div className="flex items-center gap-2 mb-4">
           <h2 className="text-lg font-bold text-slate-900">Today's Expected Visitors</h2>

@@ -23,6 +23,11 @@ import pollRoutes from './routes/poll.routes.js';
 import facilityRoutes from './routes/facility.routes.js';
 import parkingRoutes from './routes/parking.routes.js';
 import marketplaceRoutes from './routes/marketplace.routes.js';
+import sosRoutes from './routes/sos.routes.js';
+import incidentRoutes from './routes/incident.routes.js';
+import vehicleRoutes from './routes/vehicle.routes.js';
+import eventRoutes from './routes/event.routes.js';
+import lostFoundRoutes from './routes/lostfound.routes.js';
 
 const app = express();
 const httpServer = createServer(app);
@@ -55,6 +60,11 @@ app.use('/api/polls', pollRoutes);
 app.use('/api/facilities', facilityRoutes);
 app.use('/api/parking', parkingRoutes);
 app.use('/api/marketplace', marketplaceRoutes);
+app.use('/api/sos', sosRoutes);
+app.use('/api/incidents', incidentRoutes);
+app.use('/api/vehicles', vehicleRoutes);
+app.use('/api/events', eventRoutes);
+app.use('/api/lost-found', lostFoundRoutes);
 
 
 app.get('/api/health', (_req, res) => {

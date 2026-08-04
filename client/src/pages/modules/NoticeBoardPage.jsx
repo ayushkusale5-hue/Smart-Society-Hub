@@ -58,7 +58,6 @@ export default function NoticeBoardPage() {
 
   return (
     <div className="space-y-6">
-      {
       <div>
         <h1 className="text-2xl font-bold text-slate-900">Notice Board</h1>
         <p className="text-slate-500 text-sm mt-1">
@@ -85,7 +84,6 @@ export default function NoticeBoardPage() {
         </div>
       ) : (
         <div className="space-y-6">
-          {
           {pinned.length > 0 && (
             <div>
               <div className="flex items-center gap-2 mb-3">
@@ -107,7 +105,6 @@ export default function NoticeBoardPage() {
             </div>
           )}
 
-          {
           {regular.length > 0 && (
             <div>
               {pinned.length > 0 && (
@@ -151,7 +148,6 @@ function NoticeCard({ notice, index, pinned = false }) {
     >
       <div className="p-6">
         <div className="flex items-start gap-4">
-          {
           <div
             className="w-10 h-10 rounded-2xl flex items-center justify-center flex-shrink-0 mt-0.5"
             style={{ background: typeConfig.bg }}

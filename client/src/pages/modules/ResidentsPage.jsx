@@ -43,13 +43,11 @@ export default function ResidentsPage() {
 
   return (
     <div className="space-y-6">
-      {
       <div>
         <h1 className="text-2xl font-bold text-slate-900">Residents & Members</h1>
         <p className="text-slate-500 text-sm mt-1">Manage all society members — {total} total</p>
       </div>
 
-      {
       <div className="flex flex-wrap gap-3 items-center">
         <div className="relative flex-1 min-w-[200px] max-w-sm">
           <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
@@ -81,7 +79,6 @@ export default function ResidentsPage() {
         </div>
       </div>
 
-      {
       <div className="bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden">
         {isLoading ? (
           <div className="p-6 space-y-3">{[1, 2, 3, 4, 5].map((i) => <div key={i} className="h-14 bg-slate-100 rounded-xl animate-pulse" />)}</div>
@@ -159,7 +156,6 @@ export default function ResidentsPage() {
           </div>
         )}
 
-        {
         {total > 20 && (
           <div className="px-6 py-4 border-t border-slate-100 flex items-center justify-between">
             <p className="text-sm text-slate-500">Showing {(page - 1) * 20 + 1}–{Math.min(page * 20, total)} of {total}</p>

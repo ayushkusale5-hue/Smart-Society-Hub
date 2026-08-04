@@ -4,7 +4,7 @@ import path from 'path';
 import crypto from 'crypto';
 
 
-const uploadDirs = ['avatars', 'complaints', 'documents', 'bills'].map(
+const uploadDirs = ['avatars', 'complaints', 'documents', 'bills', 'incidents'].map(
   (dir) => path.join(process.cwd(), 'uploads', dir)
 );
 
@@ -65,3 +65,9 @@ export const uploadBill = multer({
   storage: createStorage('bills'),
   limits: { fileSize: 10 * 1024 * 1024 }, 
 }).single('bill');
+
+export const uploadIncidentEvidence = multer({
+  storage: createStorage('incidents'),
+  limits: { fileSize: 10 * 1024 * 1024 },
+  fileFilter: imageFilter,
+}).array('evidence', 5);

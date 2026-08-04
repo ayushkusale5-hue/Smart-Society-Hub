@@ -117,7 +117,6 @@ export default function Sidebar({ isOpen, onClose }) {
 
   return (
     <>
-      {
       {isOpen && (
         <div
           className="fixed inset-0 bg-black/20 backdrop-blur-sm z-[99] lg:hidden"
@@ -126,7 +125,6 @@ export default function Sidebar({ isOpen, onClose }) {
       )}
 
       <aside className={`sidebar ${isOpen ? "open" : ""}`}>
-        {
         <div
           style={{
             padding: "24px 20px 16px",
@@ -193,7 +191,6 @@ export default function Sidebar({ isOpen, onClose }) {
           </button>
         </div>
 
-        {
         <div
           style={{
             margin: "16px 14px",
@@ -266,7 +263,6 @@ export default function Sidebar({ isOpen, onClose }) {
           </div>
         </div>
 
-        {
         <div style={{ padding: "12px 22px 8px" }}>
           <span
             style={{
@@ -281,7 +277,6 @@ export default function Sidebar({ isOpen, onClose }) {
           </span>
         </div>
 
-        {
         <nav style={{ flex: 1, padding: "0 8px 16px", overflowY: "auto" }}>
           {menuItems.map((item) => (
             <NavLink
@@ -321,7 +316,6 @@ export default function Sidebar({ isOpen, onClose }) {
           ))}
         </nav>
 
-        {
         <div
           style={{ padding: "12px 8px 16px", borderTop: "1px solid #e8ecf4" }}
         >

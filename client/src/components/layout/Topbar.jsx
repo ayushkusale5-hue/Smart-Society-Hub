@@ -28,7 +28,6 @@ export default function Topbar({ onMenuToggle, title }) {
 
   return (
     <header className="topbar">
-      {
       <div style={{ display: 'flex', alignItems: 'center', gap: 16, flex: 1 }}>
         <button id="sidebar-toggle" onClick={onMenuToggle}
           className="lg:hidden btn btn-ghost btn-icon-sm"
@@ -45,7 +44,6 @@ export default function Topbar({ onMenuToggle, title }) {
         </div>
       </div>
 
-      {
       <div className="hidden md:flex items-center flex-1 justify-center" style={{ maxWidth: 340 }}>
         <div style={{ position: 'relative', width: '100%' }}>
           <Search size={15} style={{ position: 'absolute', left: 14, top: '50%', transform: 'translateY(-50%)', color: '#9ca3af' }} />
@@ -59,15 +57,11 @@ export default function Topbar({ onMenuToggle, title }) {
         </div>
       </div>
 
-      {
       <div style={{ display: 'flex', alignItems: 'center', gap: 10, flex: 1, justifyContent: 'flex-end' }}>
-        {
         <NotificationPanel />
 
-        {
         <div style={{ width: 1, height: 32, background: '#e8ecf4', margin: '0 4px' }} />
 
-        {
         <div style={{ display: 'flex', alignItems: 'center', gap: 10, cursor: 'pointer', padding: '6px 10px', borderRadius: 12, transition: 'all 0.2s ease', border: '1.5px solid transparent' }}
           onMouseEnter={e => { e.currentTarget.style.background = '#f4f6fb'; e.currentTarget.style.borderColor = '#e8ecf4'; }}
           onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.borderColor = 'transparent'; }}>

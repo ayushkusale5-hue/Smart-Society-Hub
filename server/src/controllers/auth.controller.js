@@ -1,5 +1,4 @@
 import bcrypt from 'bcryptjs';
-import { OAuth2Client } from 'google-auth-library';
 import { v4 as uuidv4 } from 'uuid';
 import { getSQLiteDB } from '../config/db.sqlite.js';
 import {
@@ -100,7 +99,9 @@ export async function login(req, res, next) {
       WHERE u.email = ?
     `).get(email.toLowerCase());
 
+    console.log('Login attempt for:', email);
     if (!user) {
+      console.log('User not found in DB');
       return errorResponse(res, 'Invalid email or password', 401);
     }
 
@@ -109,7 +110,9 @@ export async function login(req, res, next) {
     }
 
     const isPasswordValid = await bcrypt.compare(password, user.password_hash);
+    console.log('Password valid:', isPasswordValid);
     if (!isPasswordValid) {
+      console.log('Password mismatch');
       return errorResponse(res, 'Invalid email or password', 401);
     }
 
@@ -339,96 +342,4 @@ export async function getMe(req, res) {
 }
 
 
-export async function googleLogin(req, res, next) {
-  try {
-    const db = getSQLiteDB();
-    const { credential } = req.body;
-    
-    if (!credential) {
-      return errorResponse(res, 'Google credential token is required', 400);
-    }
 
-    const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
-    
-    
-    const ticket = await client.verifyIdToken({
-      idToken: credential,
-      audience: process.env.GOOGLE_CLIENT_ID,
-    });
-    
-    const payload = ticket.getPayload();
-    const { email, given_name, family_name, picture, email_verified } = payload;
-    
-    if (!email_verified) {
-      return errorResponse(res, 'Google email is not verified', 401);
-    }
-
-    const lowerEmail = email.toLowerCase();
-    
-    
-    let user = db.prepare(`
-      SELECT u.*, r.name AS role
-      FROM users u
-      JOIN roles r ON u.role_id = r.id
-      WHERE u.email = ?
-    `).get(lowerEmail);
-
-    if (!user) {
-      
-      const roleRow = db.prepare("SELECT id, name FROM roles WHERE name = 'resident'").get();
-      const userId = uuidv4().replace(/-/g, '');
-      const placeholderPassword = await bcrypt.hash(uuidv4(), 12); 
-      
-      db.prepare(`
-        INSERT INTO users (id, email, password_hash, first_name, last_name, role_id, is_email_verified, avatar_url)
-        VALUES (?, ?, ?, ?, ?, ?, 1, ?)
-      `).run(userId, lowerEmail, placeholderPassword, given_name || 'Resident', family_name || '', roleRow.id, picture);
-      
-      user = db.prepare(`
-        SELECT u.*, r.name AS role
-        FROM users u
-        JOIN roles r ON u.role_id = r.id
-        WHERE u.id = ?
-      `).get(userId);
-      
-      
-      sendWelcomeEmail(lowerEmail, given_name, roleRow.name).catch(console.error);
-    }
-
-    if (!user.is_active) {
-      return errorResponse(res, 'Account is deactivated. Contact committee.', 403);
-    }
-
-    
-    const tokenPayload = { id: user.id, email: user.email, role: user.role };
-    const accessToken = generateAccessToken(tokenPayload);
-    const refreshToken = generateRefreshToken(tokenPayload);
-
-    
-    const expiresAt = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString();
-    db.prepare(`
-      INSERT INTO refresh_tokens (id, user_id, token, expires_at)
-      VALUES (?, ?, ?, ?)
-    `).run(uuidv4().replace(/-/g, ''), user.id, refreshToken, expiresAt);
-
-    
-    db.prepare('UPDATE users SET last_login = CURRENT_TIMESTAMP WHERE id = ?').run(user.id);
-
-    return successResponse(res, {
-      accessToken,
-      refreshToken,
-      user: {
-        id: user.id,
-        email: user.email,
-        firstName: user.first_name,
-        lastName: user.last_name,
-        role: user.role,
-        avatarUrl: user.avatar_url,
-        isEmailVerified: Boolean(user.is_email_verified),
-      },
-    }, 'Google Login successful');
-  } catch (err) {
-    console.error('Google OAuth Error:', err);
-    return errorResponse(res, `Google auth failed: ${err.message}`, 401);
-  }
-}

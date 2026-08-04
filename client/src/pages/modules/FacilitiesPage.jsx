@@ -59,7 +59,6 @@ export default function FacilitiesPage() {
         <p className="text-slate-500 mt-1">Reserve common areas and amenities</p>
       </div>
 
-      {
       <div>
         <h3 className="text-sm font-bold text-slate-400 uppercase tracking-wider mb-4">Available Facilities</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -95,7 +94,6 @@ export default function FacilitiesPage() {
         </div>
       </div>
 
-      {
       <div>
         <h3 className="text-sm font-bold text-slate-400 uppercase tracking-wider mb-4">My Bookings</h3>
         <div className="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm">
@@ -159,7 +157,6 @@ export default function FacilitiesPage() {
         </div>
       </div>
 
-      {
       <AnimatePresence>
         {selectedFacility && (
           <div className="modal-backdrop">

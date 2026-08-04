@@ -16,7 +16,6 @@ export default function DashboardLayout() {
     <div className="dashboard-layout">
       <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
 
-      {
       {sidebarOpen && (
         <div
           onClick={() => setSidebarOpen(false)}

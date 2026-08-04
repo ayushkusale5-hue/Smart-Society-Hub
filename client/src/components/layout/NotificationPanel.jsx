@@ -83,7 +83,6 @@ export default function NotificationPanel() {
 
   return (
     <div ref={panelRef} style={{ position: 'relative' }}>
-      {
       <button
         id="notifications-btn"
         onClick={() => setIsOpen(!isOpen)}
@@ -109,7 +108,6 @@ export default function NotificationPanel() {
         )}
       </button>
 
-      {
       <AnimatePresence>
         {isOpen && (
           <motion.div
@@ -126,7 +124,6 @@ export default function NotificationPanel() {
               zIndex: 1000, overflow: 'hidden',
             }}
           >
-            {
             <div style={{ padding: '16px 20px 14px', borderBottom: '1px solid #f1f5f9', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
               <div>
                 <div style={{ fontWeight: 800, fontSize: 15, color: '#0f172a' }}>Notifications</div>
@@ -146,7 +143,6 @@ export default function NotificationPanel() {
               </div>
             </div>
 
-            {
             <div style={{ maxHeight: 420, overflowY: 'auto' }}>
               {isLoading ? (
                 <div style={{ padding: 24, textAlign: 'center' }}>
@@ -175,14 +171,12 @@ export default function NotificationPanel() {
                       onMouseEnter={(e) => e.currentTarget.style.background = '#f8fafc'}
                       onMouseLeave={(e) => e.currentTarget.style.background = notif.isRead ? '#ffffff' : '#fafbff'}
                     >
-                      {
                       <div style={{
                         width: 36, height: 36, borderRadius: 10, flexShrink: 0, marginTop: 2,
                         background: `${typeCfg.color}15`, display: 'flex', alignItems: 'center', justifyContent: 'center',
                       }}>
                         <Icon size={16} style={{ color: typeCfg.color }} />
                       </div>
-                      {
                       <div style={{ flex: 1, minWidth: 0 }}>
                         <div style={{ fontWeight: notif.isRead ? 500 : 700, fontSize: 13.5, color: '#0f172a', lineHeight: 1.3 }}>{notif.title}</div>
                         <div style={{ fontSize: 12.5, color: '#64748b', marginTop: 3, lineHeight: 1.4 }}>{notif.message}</div>
@@ -190,7 +184,6 @@ export default function NotificationPanel() {
                           {formatDistanceToNow(new Date(notif.createdAt), { addSuffix: true })}
                         </div>
                       </div>
-                      {
                       <div style={{ display: 'flex', flexDirection: 'column', gap: 4, flexShrink: 0 }} onClick={(e) => e.stopPropagation()}>
                         {!notif.isRead && (
                           <button onClick={() => markRead(notif._id)} title="Mark read"

@@ -36,7 +36,6 @@ export default function SecurityDashboard() {
   return (
     <div className="flex flex-col gap-8 animate-fade-in">
 
-      {
       <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }}
         className="welcome-banner"
         style={{ background: 'linear-gradient(135deg, #2563eb 0%, #1d4ed8 50%, #1e40af 100%)', boxShadow: '0 16px 48px rgba(37,99,235,0.3)' }}>
@@ -61,7 +60,6 @@ export default function SecurityDashboard() {
             </div>
           </div>
 
-          {
           <motion.button whileHover={{ scale: 1.01 }} whileTap={{ scale: 0.98 }} id="sos-alert-btn"
             style={{ width: '100%', padding: '18px 24px', borderRadius: 16, background: 'linear-gradient(135deg, #dc2626, #b91c1c)', border: 'none', color: 'white', fontWeight: 800, fontSize: 16, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10, boxShadow: '0 8px 28px rgba(220,38,38,0.4)', letterSpacing: '-0.01em' }}>
             <AlertTriangle size={20} />
@@ -70,7 +68,6 @@ export default function SecurityDashboard() {
         </div>
       </motion.div>
 
-      {
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 stagger-children">
         <StatCard icon={Users}        label="Visitors Today" value="12" color="#4f46e5" delay={0.08} />
         <StatCard icon={CheckCircle}  label="Entries"        value="9"  color="#16a34a" delay={0.14} />
@@ -78,10 +75,8 @@ export default function SecurityDashboard() {
         <StatCard icon={AlertTriangle}label="Incidents"      value="0"  color="#dc2626" delay={0.26} />
       </div>
 
-      {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 items-start">
 
-        {
         <div style={{ background: '#ffffff', border: '1px solid #e8ecf4', borderRadius: 24, padding: '48px 40px', textAlign: 'center', boxShadow: '0 2px 16px rgba(0,0,0,0.04)', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
           <div style={{ width: 80, height: 80, borderRadius: 24, display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#eef2ff', border: '2px solid #c7d2fe', marginBottom: 24 }}>
             <QrCode size={36} style={{ color: '#6366f1' }} />
@@ -105,7 +100,6 @@ export default function SecurityDashboard() {
           </div>
         </div>
 
-        {
         <div style={{ background: '#ffffff', border: '1px solid #e8ecf4', borderRadius: 24, overflow: 'hidden', boxShadow: '0 2px 16px rgba(0,0,0,0.04)' }}>
           <div style={{ padding: '24px 28px', borderBottom: '1px solid #f4f6fb', background: '#fafbff', display: 'flex', alignItems: 'center', gap: 10 }}>
             <Eye size={17} style={{ color: '#2563eb' }} />
@@ -144,7 +138,6 @@ export default function SecurityDashboard() {
         </div>
       </div>
 
-      {
       <div>
         <h3 style={{ fontSize: 11.5, fontWeight: 800, color: '#9ca3af', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 20 }}>Recent Entry / Exit Log</h3>
         <div style={{ background: '#ffffff', border: '1px solid #e8ecf4', borderRadius: 24, overflow: 'hidden', boxShadow: '0 2px 16px rgba(0,0,0,0.04)' }}>

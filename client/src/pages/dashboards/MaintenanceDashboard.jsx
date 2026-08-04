@@ -19,7 +19,6 @@ export default function MaintenanceDashboard() {
   return (
     <div className="flex flex-col gap-8 animate-fade-in">
 
-      {
       <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }}
         className="welcome-banner"
         style={{ background: 'linear-gradient(135deg, #d97706 0%, #b45309 50%, #ea580c 100%)', boxShadow: '0 16px 48px rgba(217,119,6,0.3)' }}>
@@ -35,7 +34,6 @@ export default function MaintenanceDashboard() {
           <h2 className="welcome-banner-title">{user?.firstName} {user?.lastName}</h2>
           <p style={{ fontSize: 14, color: 'rgba(255,255,255,0.6)', marginBottom: 24 }}>Maintenance task management &amp; complaint resolution</p>
 
-          {
           <div className="grid grid-cols-3 gap-3 max-w-lg">
             {[
               { label: 'Assigned',        value: '4', icon: ListTodo },
@@ -57,7 +55,6 @@ export default function MaintenanceDashboard() {
         </div>
       </motion.div>
 
-      {
       <div>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 20 }}>
           <h3 style={{ fontSize: 11.5, fontWeight: 800, color: '#9ca3af', textTransform: 'uppercase', letterSpacing: '0.08em' }}>My Assigned Tasks</h3>
@@ -74,7 +71,6 @@ export default function MaintenanceDashboard() {
               whileHover={{ borderColor: PRIORITY_COLORS[task.priority] + '35', y: -2, boxShadow: `0 8px 28px ${PRIORITY_COLORS[task.priority]}10` }}>
               <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 24 }}>
 
-                {
                 <div style={{ display: 'flex', alignItems: 'flex-start', gap: 20, flex: 1 }}>
                   <div style={{ width: 56, height: 56, borderRadius: 18, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, background: `${PRIORITY_COLORS[task.priority]}10`, border: `1.5px solid ${PRIORITY_COLORS[task.priority]}20` }}>
                     <AlertTriangle size={24} style={{ color: PRIORITY_COLORS[task.priority] }} />
@@ -103,7 +99,6 @@ export default function MaintenanceDashboard() {
                   </div>
                 </div>
 
-                {
                 <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 16, flexShrink: 0 }}>
                   <span style={{
                     fontSize: 12.5, fontWeight: 700, padding: '6px 14px', borderRadius: 99, textTransform: 'capitalize',

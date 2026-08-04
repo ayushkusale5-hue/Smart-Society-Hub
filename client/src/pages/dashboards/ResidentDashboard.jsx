@@ -79,7 +79,6 @@ export default function ResidentDashboard() {
   return (
     <div className="flex flex-col gap-8">
 
-      {
       <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }}
         className="welcome-banner"
         style={{ background: 'linear-gradient(135deg, #6366f1 0%, #4f46e5 50%, #4338ca 100%)', boxShadow: '0 20px 48px rgba(99,102,241,0.3)' }}>
@@ -105,7 +104,6 @@ export default function ResidentDashboard() {
         </div>
       </motion.div>
 
-      {
       <div>
         <h3 className="text-xs font-extrabold text-slate-400 uppercase tracking-widest mb-5">Overview</h3>
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
@@ -113,7 +111,6 @@ export default function ResidentDashboard() {
         </div>
       </div>
 
-      {
       <div className="grid grid-cols-1 lg:grid-cols-[1fr_420px] gap-6 items-start">
         <div>
           <h3 className="text-xs font-extrabold text-slate-400 uppercase tracking-widest mb-5">Quick Actions</h3>
@@ -142,7 +139,6 @@ export default function ResidentDashboard() {
         </div>
       </div>
 
-      {
       <div>
         <div className="flex items-center justify-between mb-5">
           <h3 className="text-xs font-extrabold text-slate-400 uppercase tracking-widest">Notices & Events</h3>

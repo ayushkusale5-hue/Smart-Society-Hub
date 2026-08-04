@@ -24,10 +24,9 @@ api.interceptors.response.use(
   (response) => response.data, 
   (error) => {
     
-    if (error.response && error.response.status === 401) {
-      
+    const originalRequest = error.config;
+    if (error.response && error.response.status === 401 && !originalRequest.url.includes('/auth/login')) {
       useAuthStore.getState().clearAuth();
-      
       window.location.href = '/login';
     }
     return Promise.reject(error);

@@ -5,4 +5,8 @@ build/
 .DS_Store
 *.log
 database/*.db
+server/database/*
+*.db
+*.db-shm
+*.db-wal
 prd.md

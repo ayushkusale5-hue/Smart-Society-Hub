@@ -27,7 +27,6 @@ export default function VendorDashboard() {
   return (
     <div className="flex flex-col gap-8 animate-fade-in">
 
-      {
       <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }}
         className="welcome-banner"
         style={{ background: 'linear-gradient(135deg, #059669 0%, #047857 50%, #10b981 100%)', boxShadow: '0 16px 48px rgba(5,150,105,0.3)' }}>
@@ -47,7 +46,6 @@ export default function VendorDashboard() {
             </div>
           </div>
 
-          {
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
             {headerStats.map((s) => (
               <div key={s.label}
@@ -63,7 +61,6 @@ export default function VendorDashboard() {
         </div>
       </motion.div>
 
-      {
       <div>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 20 }}>
           <h3 style={{ fontSize: 11.5, fontWeight: 800, color: '#9ca3af', textTransform: 'uppercase', letterSpacing: '0.08em' }}>Service Requests</h3>
@@ -82,7 +79,6 @@ export default function VendorDashboard() {
                 whileHover={{ y: -2, boxShadow: '0 8px 28px rgba(0,0,0,0.08)', borderColor: '#c7d2fe' }}>
                 <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 24 }}>
 
-                  {
                   <div style={{ flex: 1 }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 12 }}>
                       <span style={{ fontSize: 12.5, fontFamily: 'monospace', fontWeight: 700, color: '#9ca3af' }}>#{sr.id}</span>
@@ -104,7 +100,6 @@ export default function VendorDashboard() {
                     </div>
                   </div>
 
-                  {
                   <div style={{ display: 'flex', flexDirection: 'column', gap: 10, flexShrink: 0 }}>
                     {sr.status === 'pending' && (
                       <>

@@ -7,7 +7,7 @@ import {
 } from 'lucide-react';
 import { authService } from '../../services/auth.service';
 import toast from 'react-hot-toast';
-import { GoogleLogin } from '@react-oauth/google';
+
 import { useAuthStore } from '../../store/authStore';
 
 const ROLES = [
@@ -69,28 +69,13 @@ export default function RegisterPage() {
     }
   };
 
-  const handleGoogleSuccess = async (credentialResponse) => {
-    setIsLoading(true);
-    try {
-      const response = await authService.register(form);
-      const { user, accessToken, refreshToken } = response.data;
-      setAuth({ user, accessToken, refreshToken });
-      toast.success(`Welcome to Smart Society Hub, ${user.firstName}!`);
-      navigate('/dashboard', { replace: true });
-    } catch (err) {
-      const msg = err.response?.data?.message || "Google Registration failed.";
-      toast.error(msg);
-    } finally {
-      setIsLoading(false);
-    }
-  };
+
 
   const inputCls = (field) => `input ${errors[field] ? 'input-error' : ''}`;
   const currentRole = ROLES.find(r => r.value === form.role);
 
   return (
     <div className="auth-container">
-      {
       <div className="auth-left hidden lg:flex">
         <div style={{ position: 'absolute', width: 500, height: 500, borderRadius: '50%', top: -150, right: -150, background: 'radial-gradient(circle, rgba(255,255,255,0.07), transparent 70%)', pointerEvents: 'none' }} />
 
@@ -132,7 +117,6 @@ export default function RegisterPage() {
         </motion.div>
       </div>
 
-      {
       <div className="auth-right">
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}
           className="auth-card">
@@ -148,7 +132,6 @@ export default function RegisterPage() {
             </p>
           </div>
 
-          {
           <div style={{ display: 'flex', gap: 8, marginBottom: 32 }}>
             {[1, 2].map((s) => (
               <div key={s} style={{ flex: 1, height: 5, borderRadius: 99, transition: 'all 0.3s ease',
@@ -305,22 +288,7 @@ export default function RegisterPage() {
                   </button>
                 </div>
 
-                <div className="flex items-center gap-4 my-6">
-                  <div className="h-px bg-slate-200 flex-1"></div>
-                  <span className="text-sm text-slate-400 font-medium">OR</span>
-                  <div className="h-px bg-slate-200 flex-1"></div>
-                </div>
 
-                <div className="flex justify-center w-full">
-                  <GoogleLogin
-                    onSuccess={handleGoogleSuccess}
-                    onError={() => toast.error('Google Sign-In failed.')}
-                    theme="outline"
-                    size="large"
-                    width="100%"
-                    text="continue_with"
-                  />
-                </div>
               </motion.div>
             )}
           </form>

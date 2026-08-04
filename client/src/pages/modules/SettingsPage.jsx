@@ -26,7 +26,6 @@ export default function SettingsPage() {
         <p className="text-slate-500 text-sm mt-1">Manage your account preferences</p>
       </div>
 
-      {
       <div className="flex gap-1 bg-slate-100 p-1 rounded-2xl w-fit">
         {TABS.map((tab) => {
           const Icon = tab.icon;
@@ -48,7 +47,6 @@ export default function SettingsPage() {
         })}
       </div>
 
-      {
       <motion.div
         key={activeTab}
         initial={{ opacity: 0, y: 10 }}
@@ -110,7 +108,6 @@ function ProfileTab() {
 
   return (
     <div className="bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden">
-      {
       <div className="p-6 border-b border-slate-100 bg-gradient-to-r from-slate-50 to-white flex items-center gap-5">
         <div className="relative">
           <div
@@ -143,7 +140,6 @@ function ProfileTab() {
         </div>
       </div>
 
-      {
       <form onSubmit={handleSubmit} className="p-6 space-y-5">
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
           <div className="form-group mb-0">
