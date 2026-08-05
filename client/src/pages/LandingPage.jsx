@@ -43,102 +43,112 @@ export default function LandingPage() {
   return (
     <div className="min-h-screen font-sans" style={{ background: '#f8fafc' }}>
 
-      <nav className="fixed top-0 w-full z-50 border-b border-slate-200/50"
-        style={{ background: 'rgba(255,255,255,0.95)', backdropFilter: 'blur(16px)' }}>
+      <nav className="fixed top-0 w-full z-50 border-b border-white/20 transition-all duration-300"
+        style={{ background: 'rgba(255,255,255,0.85)', backdropFilter: 'blur(20px)' }}>
         <div className="max-w-7xl mx-auto flex items-center justify-between px-6 sm:px-10 py-4">
-        <div className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded-xl flex items-center justify-center"
-            style={{ background: 'linear-gradient(135deg, #6366f1, #4f46e5)', boxShadow: '0 4px 14px rgba(99,102,241,0.35)' }}>
-            <Building2 size={18} className="text-white" />
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-xl flex items-center justify-center shadow-lg"
+              style={{ background: 'linear-gradient(135deg, #4f46e5, #7c3aed)' }}>
+              <Building2 size={20} className="text-white" />
+            </div>
+            <span className="font-extrabold text-slate-800 text-lg sm:text-xl tracking-tight">Smart Society Hub</span>
           </div>
-          <span className="font-bold text-slate-800 text-base sm:text-xl">Smart Society Hub</span>
-        </div>
-        <div className="flex items-center gap-3 sm:gap-6">
-          <Link to="/login" className="text-slate-700 font-bold hover:text-indigo-600 transition-colors text-sm sm:text-base">Sign In</Link>
-          <Link to="/register" className="btn btn-primary" style={{ padding: '9px 18px', fontSize: 14, borderRadius: 12 }}>
-            Get Started <ArrowRight size={14} />
-          </Link>
-        </div>
+          <div className="flex items-center gap-4 sm:gap-6">
+            <Link to="/login" className="text-slate-600 font-bold hover:text-indigo-600 transition-colors text-sm sm:text-base">Sign In</Link>
+            <Link to="/register" className="btn btn-primary shadow-indigo-200/50 shadow-lg hover:shadow-indigo-300/50 hover:-translate-y-0.5 transition-all" style={{ padding: '10px 20px', fontSize: 14, borderRadius: 12 }}>
+              Get Started <ArrowRight size={16} className="ml-1" />
+            </Link>
+          </div>
         </div>
       </nav>
 
       <section className="relative flex items-center justify-center overflow-hidden"
-        style={{ minHeight: '100vh', paddingTop: 100, background: '#ffffff' }}>
+        style={{ minHeight: '100vh', paddingTop: 100, background: 'url(https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2070&auto=format&fit=crop) center/cover no-repeat' }}>
+        
+        {/* Overlay for readability */}
+        <div className="absolute inset-0 bg-white/90 backdrop-blur-sm pointer-events-none" />
 
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute"
+          <motion.div animate={{ rotate: 360 }} transition={{ duration: 100, repeat: Infinity, ease: "linear" }}
+            className="absolute"
             style={{ width: 800, height: 800, borderRadius: '50%', top: -250, right: -250,
-              background: 'radial-gradient(circle, rgba(99,102,241,0.08) 0%, transparent 70%)' }} />
-          <div className="absolute"
+              background: 'radial-gradient(circle, rgba(99,102,241,0.15) 0%, transparent 70%)' }} />
+          <motion.div animate={{ rotate: -360 }} transition={{ duration: 120, repeat: Infinity, ease: "linear" }}
+            className="absolute"
             style={{ width: 700, height: 700, borderRadius: '50%', bottom: -200, left: -200,
-              background: 'radial-gradient(circle, rgba(168,85,247,0.06) 0%, transparent 70%)' }} />
+              background: 'radial-gradient(circle, rgba(168,85,247,0.15) 0%, transparent 70%)' }} />
         </div>
 
-        <div className="relative max-w-7xl mx-auto px-8 py-32 text-center w-full">
+        <div className="relative max-w-7xl mx-auto px-8 py-32 flex flex-col items-center text-center w-full z-10">
           <motion.div {...fadeUp} transition={{ duration: 0.5 }}
-            className="inline-flex items-center gap-3 mb-12 px-6 py-3 rounded-full"
-            style={{ background: '#eef2ff', border: '1px solid #c7d2fe' }}>
+            className="inline-flex items-center gap-3 mb-8 px-6 py-3 rounded-full bg-white/50 backdrop-blur-md shadow-sm border border-indigo-100"
+          >
             <Zap size={18} className="text-indigo-600" />
-            <span className="text-base font-bold text-indigo-700">All-in-one Residential Management Platform</span>
+            <span className="text-sm font-extrabold text-indigo-700 tracking-wide uppercase">The Future of Society Management</span>
           </motion.div>
 
           <motion.h1 {...fadeUp} transition={{ duration: 0.55, delay: 0.05 }}
-            className="font-black text-slate-900 tracking-tight mx-auto text-center"
-            style={{ textAlign: 'center', fontSize: 'clamp(42px, 8vw, 110px)', lineHeight: 1.05, letterSpacing: '-0.03em', maxWidth: 1000, marginBottom: 40 }}>
+            className="font-black text-slate-900 tracking-tight"
+            style={{ fontSize: 'clamp(42px, 8vw, 96px)', lineHeight: 1.05, letterSpacing: '-0.03em', maxWidth: 1000, marginBottom: 30 }}>
             Manage your society<br />
             <span style={{
-              background: 'linear-gradient(135deg, #6366f1 0%, #7c3aed 60%, #a855f7 100%)',
+              background: 'linear-gradient(135deg, #4f46e5 0%, #a855f7 60%, #ec4899 100%)',
               WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text'
             }}>
-              smarter.
+              smarter and better.
             </span>
           </motion.h1>
 
           <motion.p {...fadeUp} transition={{ duration: 0.55, delay: 0.12 }}
-            className="text-slate-500 mx-auto text-center px-4"
-            style={{ textAlign: 'center', fontSize: 'clamp(15px, 2.5vw, 22px)', lineHeight: 1.7, maxWidth: 750, marginBottom: 48 }}>
+            className="text-slate-600 font-medium"
+            style={{ fontSize: 'clamp(16px, 2.5vw, 22px)', lineHeight: 1.6, maxWidth: 750, marginBottom: 50 }}>
             Replace WhatsApp groups, paper registers and spreadsheets with
-            one beautiful platform connecting residents, committee, security and vendors.
+            one beautiful AI-powered platform connecting everyone in your community.
           </motion.p>
 
           <motion.div {...fadeUp} transition={{ duration: 0.5, delay: 0.18 }}
-            className="flex items-center justify-center gap-5 sm:gap-8 flex-wrap px-4" style={{ marginBottom: 64 }}>
+            className="flex items-center justify-center gap-5 sm:gap-6 flex-wrap px-4" style={{ marginBottom: 80 }}>
             <Link to="/register" id="hero-get-started"
               className="btn btn-primary"
               style={{
-                padding: 'clamp(12px, 2vw, 20px) clamp(24px, 4vw, 44px)',
-                borderRadius: 16, fontSize: 'clamp(15px, 2vw, 18px)', fontWeight: 700,
-                boxShadow: '0 8px 32px rgba(99,102,241,0.4)', textDecoration: 'none', gap: 10
-              }}>
-              Get Started Free
-              <ArrowRight size={20} />
+                padding: '16px 40px',
+                borderRadius: 99, fontSize: 18, fontWeight: 800,
+                boxShadow: '0 20px 40px rgba(79,70,229,0.25)', textDecoration: 'none', gap: 10,
+                transition: 'all 0.3s ease'
+              }}
+              onMouseEnter={e => e.currentTarget.style.transform = 'translateY(-2px)'}
+              onMouseLeave={e => e.currentTarget.style.transform = 'translateY(0)'}
+            >
+              Start Free Trial <ArrowRight size={20} />
             </Link>
             <Link to="/login" id="hero-sign-in"
               style={{
                 display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 10,
-                background: '#f8fafc', color: '#0f172a', border: '2px solid #e2e8f0',
-                padding: 'clamp(12px, 2vw, 20px) clamp(24px, 4vw, 44px)',
-                borderRadius: 16, fontSize: 'clamp(15px, 2vw, 18px)', fontWeight: 700,
-                textDecoration: 'none'
-              }}>
+                background: 'rgba(255,255,255,0.5)', backdropFilter: 'blur(10px)', color: '#0f172a', border: '2px solid rgba(226,232,240,0.8)',
+                padding: '16px 40px', borderRadius: 99, fontSize: 18, fontWeight: 800, textDecoration: 'none',
+                transition: 'all 0.3s ease'
+              }}
+              onMouseEnter={e => e.currentTarget.style.background = 'rgba(255,255,255,0.9)'}
+              onMouseLeave={e => e.currentTarget.style.background = 'rgba(255,255,255,0.5)'}
+            >
               Sign In
             </Link>
           </motion.div>
 
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.35 }}
-            className="flex justify-center gap-8 flex-wrap max-w-5xl mx-auto">
-            {stats.map((s) => (
-              <div key={s.label} className="flex items-center gap-4 px-6 py-4 rounded-2xl"
-                style={{ background: '#ffffff', border: '1px solid #e2e8f0', boxShadow: '0 4px 12px rgba(0,0,0,0.03)', minWidth: 180 }}>
-                <div className="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0"
-                  style={{ background: `${s.color}15` }}>
-                  <s.icon size={24} style={{ color: s.color }} />
+          <motion.div initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4, duration: 0.6 }}
+            className="flex justify-center gap-6 flex-wrap max-w-5xl mx-auto">
+            {stats.map((s, i) => (
+              <motion.div key={s.label} whileHover={{ y: -5, scale: 1.02 }} className="flex items-center gap-4 px-6 py-5 rounded-3xl"
+                style={{ background: 'rgba(255,255,255,0.7)', backdropFilter: 'blur(20px)', border: '1px solid rgba(255,255,255,0.5)', boxShadow: '0 10px 30px rgba(0,0,0,0.05)', minWidth: 190 }}>
+                <div className="w-14 h-14 rounded-2xl flex items-center justify-center flex-shrink-0 shadow-inner"
+                  style={{ background: `linear-gradient(135deg, ${s.color}20, ${s.color}10)` }}>
+                  <s.icon size={28} style={{ color: s.color }} />
                 </div>
                 <div className="text-left">
-                  <div className="font-black text-slate-900" style={{ fontSize: 26, lineHeight: 1 }}>{s.value}</div>
-                  <div className="text-slate-500 font-bold" style={{ fontSize: 13, marginTop: 4, textTransform: 'uppercase', letterSpacing: '0.05em' }}>{s.label}</div>
+                  <div className="font-black text-slate-900" style={{ fontSize: 28, lineHeight: 1 }}>{s.value}</div>
+                  <div className="text-slate-500 font-bold" style={{ fontSize: 12, marginTop: 4, textTransform: 'uppercase', letterSpacing: '0.08em' }}>{s.label}</div>
                 </div>
-              </div>
+              </motion.div>
             ))}
           </motion.div>
         </div>
@@ -146,37 +156,39 @@ export default function LandingPage() {
 
       <section id="features" style={{ padding: 'clamp(60px, 10vw, 160px) clamp(20px, 5vw, 40px)', background: '#f8fafc' }}>
         <div style={{ maxWidth: 1400, margin: '0 auto' }}>
-          <div className="text-center" style={{ marginBottom: 100 }}>
+          <div className="flex flex-col items-center text-center" style={{ marginBottom: 100 }}>
             <div className="inline-flex items-center gap-2 mb-6 px-5 py-2 rounded-full"
               style={{ background: '#eef2ff', border: '1px solid #c7d2fe' }}>
               <span className="text-sm font-black tracking-widest uppercase text-indigo-600">Features</span>
             </div>
-            <h2 className="font-black text-slate-900 tracking-tight mx-auto text-center"
-              style={{ textAlign: 'center', fontSize: 'clamp(48px, 6vw, 72px)', letterSpacing: '-0.025em', lineHeight: 1.1, marginBottom: 24 }}>
+            <h2 className="font-black text-slate-900 tracking-tight"
+              style={{ fontSize: 'clamp(48px, 6vw, 72px)', letterSpacing: '-0.025em', lineHeight: 1.1, marginBottom: 24 }}>
               Everything your society needs
             </h2>
-            <p className="text-slate-500 mx-auto text-center" style={{ textAlign: 'center', fontSize: 22, maxWidth: 640, lineHeight: 1.7 }}>
+            <p className="text-slate-500" style={{ fontSize: 22, maxWidth: 640, lineHeight: 1.7 }}>
               15+ integrated modules for every aspect of residential society management.
             </p>
           </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: 32 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', gap: 32 }}>
             {features.map((f, i) => (
               <motion.div key={f.title}
-                initial={{ opacity: 0, y: 32 }} whileInView={{ opacity: 1, y: 0 }}
+                initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: '-100px' }} transition={{ delay: 0.05 * (i % 3), duration: 0.5 }}
+                whileHover={{ y: -8, scale: 1.02 }}
                 style={{
-                  background: '#ffffff', padding: '40px', borderRadius: 32,
-                  border: '1px solid #e2e8f0', boxShadow: '0 4px 24px rgba(0,0,0,0.04)',
+                  background: '#ffffff', padding: '36px', borderRadius: 32,
+                  border: '1px solid #f1f5f9', boxShadow: '0 12px 32px rgba(0,0,0,0.04)',
+                  transition: 'all 0.3s ease', cursor: 'default'
                 }}>
-                <div className="flex items-start gap-6">
-                  <div className="flex-shrink-0 w-20 h-20 rounded-3xl flex items-center justify-center"
-                    style={{ background: `${f.color}12`, border: `1px solid ${f.color}25` }}>
-                    <f.icon size={36} style={{ color: f.color }} />
+                <div className="flex flex-col gap-6">
+                  <div className="w-16 h-16 rounded-2xl flex items-center justify-center shadow-sm"
+                    style={{ background: `linear-gradient(135deg, ${f.color}15, ${f.color}05)`, border: `1px solid ${f.color}20` }}>
+                    <f.icon size={32} style={{ color: f.color }} />
                   </div>
                   <div>
-                    <h3 className="font-black text-slate-900" style={{ fontSize: 24, marginBottom: 12 }}>{f.title}</h3>
-                    <p className="text-slate-500 font-medium" style={{ fontSize: 17, lineHeight: 1.7 }}>{f.desc}</p>
+                    <h3 className="font-black text-slate-900 tracking-tight" style={{ fontSize: 22, marginBottom: 12 }}>{f.title}</h3>
+                    <p className="text-slate-500 font-medium" style={{ fontSize: 16, lineHeight: 1.6 }}>{f.desc}</p>
                   </div>
                 </div>
               </motion.div>
@@ -185,18 +197,46 @@ export default function LandingPage() {
         </div>
       </section>
 
-      <section style={{ padding: 'clamp(60px, 10vw, 160px) clamp(20px, 5vw, 40px)', background: '#ffffff', borderTop: '1px solid #e2e8f0', borderBottom: '1px solid #e2e8f0' }}>
+      <section style={{ padding: 'clamp(60px, 10vw, 120px) clamp(20px, 5vw, 40px)', background: '#ffffff', borderTop: '1px solid #e2e8f0' }}>
+        <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-center gap-16">
+          <motion.div initial={{ opacity: 0, x: -40 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }}
+            className="flex-1 w-full relative">
+            <div className="absolute inset-0 bg-indigo-500 rounded-[40px] transform rotate-3 scale-[1.02] -z-10 opacity-20" />
+            <img src="https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?q=80&w=1935&auto=format&fit=crop" 
+              alt="Smart Living" 
+              className="w-full h-auto object-cover rounded-[40px] shadow-2xl border-4 border-white" 
+              style={{ maxHeight: 600 }}
+            />
+          </motion.div>
+          <motion.div initial={{ opacity: 0, x: 40 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }}
+            className="flex-1 w-full text-center lg:text-left flex flex-col items-center lg:items-start">
+            <h2 className="font-black text-slate-900 tracking-tight" style={{ fontSize: 'clamp(40px, 5vw, 64px)', lineHeight: 1.1, marginBottom: 24 }}>
+              A premium lifestyle, <br/><span className="text-indigo-600">digitized.</span>
+            </h2>
+            <p className="text-slate-500 font-medium" style={{ fontSize: 20, lineHeight: 1.7, marginBottom: 32, maxWidth: 500 }}>
+              Enjoy peace of mind with 24/7 smart security, instant visitor approvals, and a vibrant online community market. It's not just an app, it's an upgrade to your lifestyle.
+            </p>
+            <ul className="flex flex-col gap-4 text-left">
+              <li className="flex items-center gap-4 text-slate-700 font-bold text-lg"><CheckCircle className="text-green-500" /> Complete privacy control</li>
+              <li className="flex items-center gap-4 text-slate-700 font-bold text-lg"><CheckCircle className="text-green-500" /> Real-time mobile notifications</li>
+              <li className="flex items-center gap-4 text-slate-700 font-bold text-lg"><CheckCircle className="text-green-500" /> Automated billing and receipts</li>
+            </ul>
+          </motion.div>
+        </div>
+      </section>
+
+      <section style={{ padding: 'clamp(60px, 10vw, 160px) clamp(20px, 5vw, 40px)', background: '#f8fafc', borderTop: '1px solid #e2e8f0', borderBottom: '1px solid #e2e8f0' }}>
         <div style={{ maxWidth: 1400, margin: '0 auto' }}>
-          <div className="text-center" style={{ marginBottom: 100 }}>
+          <div className="flex flex-col items-center text-center" style={{ marginBottom: 100 }}>
             <div className="inline-flex items-center gap-2 mb-6 px-5 py-2 rounded-full"
               style={{ background: '#f5f3ff', border: '1px solid #ddd6fe' }}>
               <span className="text-sm font-black tracking-widest uppercase" style={{ color: '#7c3aed' }}>User Roles</span>
             </div>
-            <h2 className="font-black text-slate-900 tracking-tight mx-auto text-center"
-              style={{ textAlign: 'center', fontSize: 'clamp(48px, 6vw, 72px)', letterSpacing: '-0.025em', lineHeight: 1.1, marginBottom: 24 }}>
+            <h2 className="font-black text-slate-900 tracking-tight"
+              style={{ fontSize: 'clamp(48px, 6vw, 72px)', letterSpacing: '-0.025em', lineHeight: 1.1, marginBottom: 24 }}>
               Built for everyone
             </h2>
-            <p className="text-slate-500 mx-auto text-center" style={{ textAlign: 'center', fontSize: 22, maxWidth: 600, lineHeight: 1.7 }}>
+            <p className="text-slate-500" style={{ fontSize: 22, maxWidth: 600, lineHeight: 1.7 }}>
               Role-based access ensures the right features reach the right people.
             </p>
           </div>
@@ -245,31 +285,32 @@ export default function LandingPage() {
               <div style={{ position: 'absolute', width: 600, height: 600, borderRadius: '50%',
                 bottom: -200, right: -100, background: 'radial-gradient(circle, rgba(168,85,247,0.3), transparent 70%)' }} />
             </div>
-            <div style={{ position: 'relative', zIndex: 1 }}>
+            <div className="flex flex-col items-center text-center relative z-10 w-full">
               <div className="inline-flex items-center justify-center mx-auto"
                 style={{ width: 100, height: 100, borderRadius: 32, background: 'rgba(255,255,255,0.15)', backdropFilter: 'blur(12px)', border: '2px solid rgba(255,255,255,0.3)', marginBottom: 40 }}>
                 <Building2 size={48} className="text-white" />
               </div>
-              <h2 className="font-black text-white mx-auto"
+              <h2 className="font-black text-white"
                 style={{ fontSize: 'clamp(32px, 6vw, 64px)', letterSpacing: '-0.025em', lineHeight: 1.1, marginBottom: 24, maxWidth: 800 }}>
                 Ready to modernize<br />your society?
               </h2>
-              <p className="mx-auto text-center" style={{ color: 'rgba(255,255,255,0.8)', fontSize: 22, lineHeight: 1.7, maxWidth: 640, marginBottom: 56 }}>
+              <p className="text-white/80 font-medium" style={{ fontSize: 22, lineHeight: 1.7, maxWidth: 640, marginBottom: 56 }}>
                 Join Smart Society Hub today and transform how your residential community operates.
               </p>
               <Link to="/register" id="cta-get-started"
+                className="hover:scale-105 transition-transform"
                 style={{
                   display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 12,
                   background: '#ffffff', color: '#4f46e5',
-                  padding: '24px 56px', borderRadius: 20, fontSize: 20, fontWeight: 800,
-                  boxShadow: '0 12px 40px rgba(0,0,0,0.2)', textDecoration: 'none'
+                  padding: '24px 56px', borderRadius: 99, fontSize: 20, fontWeight: 900,
+                  boxShadow: '0 20px 40px rgba(0,0,0,0.3)', textDecoration: 'none'
                 }}>
-                Get Started Free
+                Start Your Journey
                 <ArrowRight size={24} />
               </Link>
-              <div className="flex items-center justify-center gap-3" style={{ color: 'rgba(255,255,255,0.6)', fontSize: 16, fontWeight: 500, marginTop: 40 }}>
+              <div className="flex items-center justify-center gap-3" style={{ color: 'rgba(255,255,255,0.8)', fontSize: 16, fontWeight: 600, marginTop: 40 }}>
                 <Star size={20} style={{ color: '#fbbf24', fill: '#fbbf24' }} />
-                No credit card required • Free to get started
+                No credit card required • Setup in minutes
               </div>
             </div>
           </motion.div>

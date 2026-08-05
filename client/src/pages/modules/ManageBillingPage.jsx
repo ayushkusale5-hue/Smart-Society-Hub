@@ -85,7 +85,7 @@ export default function ManageBillingPage() {
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
             <input type="text" placeholder="Search resident..." className="input pl-10 bg-slate-50 border-transparent focus:bg-white w-full" />
           </div>
-          <div className="flex items-center gap-2 overflow-x-auto pb-2 sm:pb-0 hide-scrollbar">
+          <div className="flex items-center gap-2 w-full sm:w-auto overflow-x-auto pb-2 sm:pb-0 no-scrollbar whitespace-nowrap">
             {['', 'Pending', 'Paid', 'Overdue'].map(f => (
               <button key={f} onClick={() => setFilter(f)}
                 className={`px-4 py-2 rounded-lg text-sm font-bold whitespace-nowrap transition-colors ${
@@ -98,7 +98,7 @@ export default function ManageBillingPage() {
         </div>
 
         <div className="overflow-x-auto">
-          <table className="w-full text-left border-collapse">
+          <table className="w-full min-w-[800px] text-left border-collapse whitespace-nowrap">
             <thead>
               <tr className="bg-slate-50/50 text-slate-500 text-xs uppercase tracking-wider">
                 <th className="p-4 font-bold border-b border-slate-100">Resident</th>

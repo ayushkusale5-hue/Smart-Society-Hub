@@ -68,11 +68,11 @@ export default function CommitteeDashboard() {
   ];
 
   const pendingActions = [
-    { msg: 'Priya Sharma — Resident approval pending',        time: '2h ago', priority: 'high' },
-    { msg: 'Complaint #C-041 — Elevator breakdown (Urgent)',  time: '4h ago', priority: 'urgent' },
-    { msg: 'Clubhouse booking approval — Mr. Rajan',          time: '6h ago', priority: 'normal' },
-    { msg: 'Vendor invoice pending review — CleanCo',         time: '1d ago', priority: 'normal' },
-    { msg: '14 residents have overdue maintenance bills',     time: '2d ago', priority: 'high' },
+    { msg: 'Priya Sharma — Resident approval pending',        time: '2h ago', priority: 'high', link: '/residents' },
+    { msg: 'Complaint #C-041 — Elevator breakdown (Urgent)',  time: '4h ago', priority: 'urgent', link: '/complaints/manage' },
+    { msg: 'Clubhouse booking approval — Mr. Rajan',          time: '6h ago', priority: 'normal', link: '/facilities/manage' },
+    { msg: 'Vendor invoice pending review — CleanCo',         time: '1d ago', priority: 'normal', link: '/vendors' },
+    { msg: '14 residents have overdue maintenance bills',     time: '2d ago', priority: 'high', link: '/billing/manage' },
   ];
 
   const priorityColor = { urgent: '#ef4444', high: '#f59e0b', normal: '#3b82f6' };
@@ -200,7 +200,7 @@ export default function CommitteeDashboard() {
                   </p>
                 </div>
               </div>
-              <button className="btn btn-secondary btn-sm" style={{ marginLeft: 16, whiteSpace: 'nowrap' }}>Review</button>
+              <Link to={action.link} className="btn btn-secondary btn-sm" style={{ marginLeft: 16, whiteSpace: 'nowrap', textDecoration: 'none' }}>Review</Link>
             </div>
           ))}
         </div>

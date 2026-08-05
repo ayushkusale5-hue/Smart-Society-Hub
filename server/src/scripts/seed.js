@@ -11,6 +11,8 @@ import { VehicleLog } from '../models/mongo/VehicleLog.js';
 import { SosAlert } from '../models/mongo/SosAlert.js';
 import { Event } from '../models/mongo/Event.js';
 import { LostFound } from '../models/mongo/LostFound.js';
+import { Notice } from '../models/mongo/Notice.js';
+import { Poll } from '../models/mongo/Poll.js';
 
 async function seedData() {
   console.log('🌱 Starting database seeding...');
@@ -28,6 +30,8 @@ async function seedData() {
     await SosAlert.deleteMany({});
     await Event.deleteMany({});
     await LostFound.deleteMany({});
+    await Notice.deleteMany({});
+    await Poll.deleteMany({});
     console.log('✅ Cleared existing MongoDB collections.');
 
     db.exec(`DELETE FROM users;`);
@@ -116,6 +120,18 @@ async function seedData() {
     await LostFound.create([
       { title: 'Lost Keys', description: 'Bunch of 3 keys with blue keychain', type: 'Lost', category: 'Keys', reportedBy: resId, reportedByName: resName, status: 'Active' },
       { title: 'Found Watch', description: 'Silver analog watch near gym', type: 'Found', category: 'Other', reportedBy: secId, reportedByName: secName, status: 'Active' },
+    ]);
+
+    // Notices
+    await Notice.create([
+      { title: 'Annual General Meeting 2026', content: 'Dear residents, the AGM will be held on the 20th of this month at the Clubhouse. All members are requested to attend. We will discuss the yearly budget and elect the new committee.', type: 'meeting', priority: 'high', isPinned: true, createdBy: adminId, societyId: 1 },
+      { title: 'Pool Maintenance Schedule', content: 'The swimming pool will be closed for deep cleaning this coming Tuesday from 6 AM to 4 PM. Inconvenience is regretted.', type: 'maintenance', priority: 'normal', isPinned: false, createdBy: adminId, societyId: 1 }
+    ]);
+
+    // Polls
+    await Poll.create([
+      { question: 'Should we install solar panels on clubhouse roof?', options: [{ text: 'Yes, great for environment', votes: 12 }, { text: 'No, too expensive right now', votes: 4 }, { text: 'Need more information', votes: 6 }], creatorId: adminId, status: 'active', societyId: 1, expiresAt: new Date(Date.now() + 86400000 * 5) },
+      { question: 'Preferred timing for yoga classes?', options: [{ text: '6:00 AM - 7:00 AM', votes: 15 }, { text: '7:00 AM - 8:00 AM', votes: 22 }, { text: 'Evening slots', votes: 8 }], creatorId: adminId, status: 'active', societyId: 1, expiresAt: new Date(Date.now() + 86400000 * 5) }
     ]);
 
     console.log('✅ MongoDB data seeded successfully.');

@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 
 const optionSchema = new mongoose.Schema({
   text: {
@@ -21,7 +21,10 @@ const pollSchema = new mongoose.Schema(
     options: {
       type: [optionSchema],
       required: true,
-      validate: [opts => opts.length >= 2, 'A poll must have at least 2 options'],
+      validate: [
+        (opts) => opts.length >= 2,
+        "A poll must have at least 2 options",
+      ],
     },
     isActive: {
       type: Boolean,
@@ -32,15 +35,15 @@ const pollSchema = new mongoose.Schema(
       required: true,
     },
     creatorId: {
-      type: Number, 
+      type: String,
       required: true,
     },
     votedUsers: {
-      type: [Number], 
+      type: [String],
       default: [],
     },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
-export const Poll = mongoose.model('Poll', pollSchema);
+export const Poll = mongoose.model("Poll", pollSchema);

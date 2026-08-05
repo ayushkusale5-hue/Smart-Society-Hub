@@ -15,4 +15,7 @@ export const noticeService = {
 
   
   togglePin: (id) => api.patch(`/notices/${id}/pin`),
+
+  // Generate notice draft via AI
+  generateNoticeDraft: (prompt) => api.post('/notices/generate', { prompt }),
 };

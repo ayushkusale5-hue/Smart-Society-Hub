@@ -63,7 +63,7 @@ export default function VehicleLogsPage() {
       ) : (
         <div className="bg-white rounded-2xl border border-slate-200/60 shadow-sm overflow-hidden">
           <div className="overflow-x-auto">
-            <table className="w-full">
+            <table className="w-full min-w-[800px] whitespace-nowrap">
               <thead>
                 <tr className="bg-slate-50/80">
                   {['Vehicle #', 'Type', 'Driver', 'Flat', 'Purpose', 'Entry', 'Exit', 'Action'].map(h => (

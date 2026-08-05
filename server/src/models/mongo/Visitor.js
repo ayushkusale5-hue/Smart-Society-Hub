@@ -46,6 +46,5 @@ const visitorSchema = new mongoose.Schema(
 
 visitorSchema.index({ hostId: 1, status: 1 });
 visitorSchema.index({ societyId: 1, createdAt: -1 });
-visitorSchema.index({ qrCode: 1 });
 
 export const Visitor = mongoose.model('Visitor', visitorSchema);

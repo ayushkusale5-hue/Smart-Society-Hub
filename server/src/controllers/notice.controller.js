@@ -2,6 +2,7 @@ import { Notice } from '../models/mongo/Notice.js';
 import { getSQLiteDB } from '../config/db.sqlite.js';
 import { successResponse, errorResponse } from '../utils/response.utils.js';
 import { emitToSociety } from '../config/socket.js';
+import { generateNoticeAI } from '../utils/ai.utils.js';
 
 
 export async function createNotice(req, res, next) {
@@ -133,6 +134,24 @@ export async function togglePin(req, res, next) {
     await notice.save();
 
     return successResponse(res, notice, `Notice ${notice.isPinned ? 'pinned' : 'unpinned'}`);
+  } catch (err) {
+    next(err);
+  }
+}
+
+// Generate notice using AI
+export async function generateNoticeDraft(req, res, next) {
+  try {
+    if (req.user.role !== 'committee') {
+      return errorResponse(res, 'Only committee members can generate notices', 403);
+    }
+
+    const { prompt } = req.body;
+    if (!prompt) return errorResponse(res, 'Prompt is required', 400);
+
+    const generatedContent = await generateNoticeAI(prompt);
+    
+    return successResponse(res, { content: generatedContent }, 'Notice generated successfully');
   } catch (err) {
     next(err);
   }

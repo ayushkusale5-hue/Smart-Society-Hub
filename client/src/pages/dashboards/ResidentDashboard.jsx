@@ -3,7 +3,8 @@ import { useAuthStore } from '../../store/authStore';
 import {
   Users, Wrench, FileText, Calendar, Car, Bell, ShoppingBag,
   AlertCircle, CheckCircle, Clock, Home, Vote,
-  ChevronRight, ArrowUpRight
+  ChevronRight, ArrowUpRight,
+  Sun, Wind, Quote
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
@@ -81,7 +82,12 @@ export default function ResidentDashboard() {
 
       <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }}
         className="welcome-banner"
-        style={{ background: 'linear-gradient(135deg, #6366f1 0%, #4f46e5 50%, #4338ca 100%)', boxShadow: '0 20px 48px rgba(99,102,241,0.3)' }}>
+        style={{ 
+          background: 'linear-gradient(135deg, rgba(99,102,241,0.9) 0%, rgba(79,70,229,0.9) 50%, rgba(67,56,202,0.9) 100%), url(https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2070&auto=format&fit=crop)',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          boxShadow: '0 20px 48px rgba(99,102,241,0.3)' 
+        }}>
         <div style={{ position: 'absolute', width: 350, height: 350, borderRadius: '50%', top: -120, right: -80, background: 'radial-gradient(circle, rgba(255,255,255,0.08), transparent 70%)', pointerEvents: 'none' }} />
         <div className="welcome-banner-inner">
           <div>
@@ -105,9 +111,35 @@ export default function ResidentDashboard() {
       </motion.div>
 
       <div>
-        <h3 className="text-xs font-extrabold text-slate-400 uppercase tracking-widest mb-5">Overview</h3>
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+        <h3 className="text-xs font-extrabold text-slate-400 uppercase tracking-widest mb-5">Overview & Updates</h3>
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
           {stats.map((s) => <StatCard key={s.label} {...s} />)}
+        </div>
+        
+        {/* Handy Minute Features: Weather & Quote */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}
+            style={{ background: 'linear-gradient(to right, #0ea5e9, #38bdf8)', borderRadius: 20, padding: 20, color: 'white', display: 'flex', alignItems: 'center', gap: 16 }}>
+            <Sun size={36} className="text-yellow-300" />
+            <div>
+              <div style={{ fontSize: 13, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em', opacity: 0.9 }}>Today's Weather</div>
+              <div style={{ fontSize: 24, fontWeight: 800 }}>28°C <span style={{ fontSize: 14, fontWeight: 500, opacity: 0.8, marginLeft: 8 }}>Sunny</span></div>
+              <div style={{ fontSize: 13, opacity: 0.8, display: 'flex', alignItems: 'center', gap: 4, marginTop: 4 }}>
+                <Wind size={14} /> 12 km/h • AQI: Good
+              </div>
+            </div>
+          </motion.div>
+
+          <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }}
+            style={{ background: '#fff', border: '1px solid #e8ecf4', borderRadius: 20, padding: 20, display: 'flex', gap: 16, alignItems: 'flex-start' }}>
+            <div style={{ width: 40, height: 40, borderRadius: 12, background: '#f3e8ff', color: '#9333ea', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+              <Quote size={18} />
+            </div>
+            <div>
+              <div style={{ fontSize: 13, fontWeight: 600, color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: 4 }}>Quote of the day</div>
+              <p style={{ fontSize: 14, color: '#334155', fontStyle: 'italic', lineHeight: 1.5, fontWeight: 500 }}>"Community is not just about living together, it's about growing together."</p>
+            </div>
+          </motion.div>
         </div>
       </div>
 

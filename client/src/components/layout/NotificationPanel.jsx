@@ -115,14 +115,7 @@ export default function NotificationPanel() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 8, scale: 0.97 }}
             transition={{ duration: 0.18 }}
-            style={{
-              position: 'absolute', top: 'calc(100% + 10px)', right: 0,
-              width: 380, maxWidth: '95vw',
-              background: '#ffffff', borderRadius: 20,
-              border: '1.5px solid #e8ecf4',
-              boxShadow: '0 20px 60px rgba(0,0,0,0.12)',
-              zIndex: 1000, overflow: 'hidden',
-            }}
+            className="notification-dropdown"
           >
             <div style={{ padding: '16px 20px 14px', borderBottom: '1px solid #f1f5f9', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
               <div>

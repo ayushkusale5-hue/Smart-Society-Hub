@@ -22,6 +22,7 @@ import billingRoutes from './routes/billing.routes.js';
 import pollRoutes from './routes/poll.routes.js';
 import facilityRoutes from './routes/facility.routes.js';
 import parkingRoutes from './routes/parking.routes.js';
+import aiRoutes from './routes/ai.routes.js';
 import marketplaceRoutes from './routes/marketplace.routes.js';
 import sosRoutes from './routes/sos.routes.js';
 import incidentRoutes from './routes/incident.routes.js';
@@ -33,7 +34,7 @@ const app = express();
 const httpServer = createServer(app);
 
 
-app.use(helmet());
+app.use(helmet({ crossOriginResourcePolicy: { policy: "cross-origin" } }));
 app.use(cors({
   origin: process.env.CLIENT_URL || 'http://localhost:5173',
   credentials: true,
@@ -55,6 +56,7 @@ app.use('/api/visitors', visitorRoutes);
 app.use('/api/notices', noticeRoutes);
 app.use('/api/notifications', notificationRoutes);
 app.use('/api/analytics', analyticsRoutes);
+app.use('/api/ai', aiRoutes);
 app.use('/api/billing', billingRoutes);
 app.use('/api/polls', pollRoutes);
 app.use('/api/facilities', facilityRoutes);

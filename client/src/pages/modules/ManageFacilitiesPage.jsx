@@ -36,7 +36,7 @@ export default function ManageFacilitiesPage() {
       </div>
 
       <div className="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
-        <div className="p-4 border-b border-slate-100 flex items-center gap-2 overflow-x-auto hide-scrollbar">
+        <div className="p-4 border-b border-slate-100 flex items-center gap-2 overflow-x-auto no-scrollbar whitespace-nowrap">
           {['', 'pending', 'approved', 'rejected', 'completed'].map(f => (
             <button key={f} onClick={() => setFilter(f)}
               className={`px-4 py-2 rounded-lg text-sm font-bold whitespace-nowrap transition-colors ${
@@ -48,7 +48,7 @@ export default function ManageFacilitiesPage() {
         </div>
 
         <div className="overflow-x-auto">
-          <table className="w-full text-left border-collapse">
+          <table className="w-full min-w-[700px] text-left border-collapse whitespace-nowrap">
             <thead>
               <tr className="bg-slate-50/50 text-slate-500 text-xs uppercase tracking-wider">
                 <th className="p-4 font-bold border-b border-slate-100">Resident</th>

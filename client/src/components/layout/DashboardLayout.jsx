@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Outlet, useLocation } from "react-router-dom";
 import Sidebar from "./Sidebar";
 import Topbar from "./Topbar";
+import AIAssistantWidget from "./AIAssistantWidget";
 
 export default function DashboardLayout() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -36,6 +37,8 @@ export default function DashboardLayout() {
           <Outlet />
         </main>
       </div>
+
+      <AIAssistantWidget />
     </div>
   );
 }

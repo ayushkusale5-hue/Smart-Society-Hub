@@ -24,12 +24,15 @@ export function errorHandler(err, req, res, _next) {
     return res.status(401).json({ success: false, message: 'Token expired' });
   }
 
-  
   if (err.code === 'LIMIT_FILE_SIZE') {
-    return res.status(400).json({ success: false, message: 'File size too large (max 10MB)' });
+    return res.status(400).json({ success: false, message: 'File size too large. Please upload a smaller file.' });
   }
 
-  
+  // Multer file filter error
+  if (err.message && err.message.includes('Only JPEG, PNG, and WebP images are allowed')) {
+    return res.status(400).json({ success: false, message: err.message });
+  }
+
   if (err.type === 'validation') {
     return res.status(400).json({ success: false, message: 'Validation failed', errors: err.errors });
   }

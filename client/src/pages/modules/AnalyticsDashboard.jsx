@@ -37,31 +37,31 @@ export default function AnalyticsDashboard() {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="flex flex-col gap-8">
       <div>
         <h1 className="text-2xl font-bold text-slate-900 tracking-tight">Analytics Dashboard</h1>
         <p className="text-slate-500 text-sm mt-1">Comprehensive society overview and insights</p>
       </div>
 
       {/* Stat Cards */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
         <StatCard icon={Users} label="Total Residents" value={o.totalResidents || 0} sub={`${o.activeResidents || 0} active`} color="#6366f1" delay={0.05} />
         <StatCard icon={Wrench} label="Open Complaints" value={o.openComplaints || 0} sub={`${o.totalComplaints || 0} total`} color="#ea580c" delay={0.1} />
         <StatCard icon={Eye} label="Visitors This Month" value={o.visitorsThisMonth || 0} sub={`${o.visitorsToday || 0} today`} color="#2563eb" delay={0.15} />
         <StatCard icon={AlertTriangle} label="Open Incidents" value={o.openIncidents || 0} sub={`${o.totalIncidents || 0} total`} color="#dc2626" delay={0.2} />
       </div>
 
-      <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
+      <div className="grid grid-cols-2 lg:grid-cols-3 gap-6">
         <StatCard icon={Car} label="Vehicles Today" value={o.vehiclesToday || 0} color="#0ea5e9" delay={0.25} />
         <StatCard icon={Shield} label="Active SOS" value={o.activeSos || 0} sub={`${o.totalSos || 0} total`} color="#dc2626" delay={0.3} />
         <StatCard icon={CheckCircle} label="Resolved Complaints" value={o.resolvedComplaints || 0} color="#16a34a" delay={0.35} />
       </div>
 
       {/* Charts */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Complaint Trends */}
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}
-          className="bg-white rounded-2xl border border-slate-200/60 shadow-sm p-6">
+          className="bg-white rounded-2xl border border-slate-200/60 shadow-sm p-6 sm:p-8">
           <h3 className="text-sm font-bold text-slate-900 mb-1 flex items-center gap-2"><TrendingUp size={16} className="text-indigo-500" /> Complaint Trends</h3>
           <p className="text-xs text-slate-400 mb-6">Last 6 months</p>
           <ResponsiveContainer width="100%" height={260}>
@@ -88,7 +88,7 @@ export default function AnalyticsDashboard() {
 
         {/* Visitor Trends */}
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.35 }}
-          className="bg-white rounded-2xl border border-slate-200/60 shadow-sm p-6">
+          className="bg-white rounded-2xl border border-slate-200/60 shadow-sm p-6 sm:p-8">
           <h3 className="text-sm font-bold text-slate-900 mb-1 flex items-center gap-2"><BarChart3 size={16} className="text-blue-500" /> Visitor Trends</h3>
           <p className="text-xs text-slate-400 mb-6">Last 6 months</p>
           <ResponsiveContainer width="100%" height={260}>
@@ -106,7 +106,7 @@ export default function AnalyticsDashboard() {
       {/* Complaint Categories Pie */}
       {analytics.categories.length > 0 && (
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }}
-          className="bg-white rounded-2xl border border-slate-200/60 shadow-sm p-6">
+          className="bg-white rounded-2xl border border-slate-200/60 shadow-sm p-6 sm:p-8">
           <h3 className="text-sm font-bold text-slate-900 mb-6">Complaint Categories</h3>
           <div className="flex flex-col lg:flex-row items-center gap-8">
             <ResponsiveContainer width={260} height={260}>

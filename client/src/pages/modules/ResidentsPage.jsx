@@ -58,7 +58,7 @@ export default function ResidentsPage() {
             onChange={(e) => { setSearch(e.target.value); setPage(1); }}
           />
         </div>
-        <div className="flex gap-2 flex-wrap">
+        <div className="flex gap-2 w-full md:w-auto overflow-x-auto no-scrollbar whitespace-nowrap pb-2 md:pb-0">
           {ROLES.map((role) => {
             const config = ROLE_COLORS[role];
             return (
@@ -89,7 +89,7 @@ export default function ResidentsPage() {
           </div>
         ) : (
           <div className="overflow-x-auto">
-            <table className="w-full text-sm">
+            <table className="w-full min-w-[800px] text-sm whitespace-nowrap">
               <thead>
                 <tr className="border-b border-slate-100 bg-slate-50">
                   <th className="text-left px-6 py-3.5 text-slate-500 font-semibold text-xs uppercase tracking-wider">Member</th>

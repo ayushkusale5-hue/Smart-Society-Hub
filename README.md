@@ -12,7 +12,7 @@ An all-in-one digital platform for residential society management connecting res
 | Auth | JWT (Access + Refresh Tokens) |
 | DB (Relational) | SQLite3 (Node.js built-in) |
 | DB (Document) | MongoDB + Mongoose |
-| File Storage | Cloudinary |
+| File Storage | Local Disk (Multer) |
 | Charts | Recharts |
 
 
@@ -113,4 +113,4 @@ Smart Society Hub/
 - **Phase 1** ✅ — Core foundation: Auth, RBAC, Role dashboards, DB setup
 - **Phase 2** ✅ — Visitor management, Complaints, Billing, Notifications (Full CRUD & Role Restrictions)
 - **Phase 3** ✅ — Parking, Marketplace, Notice Board, Events, Facilities, Polls (Full CRUD & Premium UI/UX)
-- **Phase 4** 🔜 — Security, Analytics, Gamification & AI features
+- **Phase 4** ✅ — Security, Analytics, & Society AI Assistant (Fully Featured)

@@ -6,11 +6,13 @@ import {
   updateNotice,
   deleteNotice,
   togglePin,
+  generateNoticeDraft,
 } from '../controllers/notice.controller.js';
 
 const router = Router();
 router.use(authenticate);
 
+router.post('/generate', generateNoticeDraft);
 router.post('/', createNotice);
 router.get('/', getNotices);
 router.patch('/:id', updateNotice);

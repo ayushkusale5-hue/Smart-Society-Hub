@@ -34,11 +34,10 @@ const createStorage = (folderName) => {
 
 
 const imageFilter = (_req, file, cb) => {
-  const allowed = ['image/jpeg', 'image/png', 'image/webp'];
-  if (allowed.includes(file.mimetype)) {
+  if (file.mimetype.startsWith('image/')) {
     cb(null, true);
   } else {
-    cb(new Error('Only JPEG, PNG, and WebP images are allowed'), false);
+    cb(new Error('Only image files are allowed'), false);
   }
 };
 
@@ -46,7 +45,7 @@ const imageFilter = (_req, file, cb) => {
 
 export const uploadAvatar = multer({
   storage: createStorage('avatars'),
-  limits: { fileSize: 5 * 1024 * 1024 }, 
+  limits: { fileSize: 15 * 1024 * 1024 }, 
   fileFilter: imageFilter,
 }).single('avatar');
 

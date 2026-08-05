@@ -14,6 +14,7 @@ import {
   Wrench,
   CreditCard,
   Users,
+  Sparkles,
 } from "lucide-react";
 import { toast } from "react-hot-toast";
 import { format } from "date-fns";
@@ -231,6 +232,8 @@ export default function ManageNoticesPage() {
 
 function NoticeModal({ notice, onClose, onSuccess }) {
   const isEdit = Boolean(notice);
+  const [showAI, setShowAI] = useState(false);
+  const [aiPrompt, setAiPrompt] = useState("");
   const [form, setForm] = useState({
     title: notice?.title || "",
     content: notice?.content || "",
@@ -253,6 +256,22 @@ function NoticeModal({ notice, onClose, onSuccess }) {
     },
     onError: (err) => toast.error(err.response?.data?.message || "Failed"),
   });
+
+  const { mutate: generateNotice, isPending: isGenerating } = useMutation({
+    mutationFn: (prompt) => noticeService.generateNoticeDraft(prompt),
+    onSuccess: (res) => {
+      setForm({ ...form, content: res.data.content });
+      setShowAI(false);
+      setAiPrompt("");
+      toast.success("Notice generated successfully!");
+    },
+    onError: () => toast.error("Failed to generate notice"),
+  });
+
+  const handleGenerate = () => {
+    if (!aiPrompt) return toast.error("Please enter a prompt");
+    generateNotice(aiPrompt);
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -331,9 +350,48 @@ function NoticeModal({ notice, onClose, onSuccess }) {
           </div>
 
           <div className="form-group">
-            <label className="label">
-              Content <span className="text-red-500">*</span>
-            </label>
+            <div className="flex items-center justify-between mb-1">
+              <label className="label !mb-0">
+                Content <span className="text-red-500">*</span>
+              </label>
+              <button
+                type="button"
+                onClick={() => setShowAI(!showAI)}
+                className="text-xs font-bold text-indigo-600 flex items-center gap-1 hover:text-indigo-700 bg-indigo-50 px-2 py-1 rounded-md transition-colors"
+              >
+                <Sparkles size={12} /> Generate with AI
+              </button>
+            </div>
+
+            <AnimatePresence>
+              {showAI && (
+                <motion.div
+                  initial={{ opacity: 0, height: 0 }}
+                  animate={{ opacity: 1, height: 'auto' }}
+                  exit={{ opacity: 0, height: 0 }}
+                  className="mb-3 bg-indigo-50 p-3 rounded-xl border border-indigo-100 overflow-hidden"
+                >
+                  <label className="text-xs font-semibold text-indigo-800 mb-1 block">What should the notice be about?</label>
+                  <div className="flex gap-2">
+                    <input
+                      className="input !py-1.5 !text-sm flex-1 !bg-white"
+                      placeholder="e.g. Water supply off tomorrow from 10am to 2pm"
+                      value={aiPrompt}
+                      onChange={(e) => setAiPrompt(e.target.value)}
+                    />
+                    <button
+                      type="button"
+                      onClick={handleGenerate}
+                      disabled={isGenerating}
+                      className="btn btn-primary !py-1.5 !px-3 !text-sm whitespace-nowrap"
+                    >
+                      {isGenerating ? "Generating..." : "Generate"}
+                    </button>
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+
             <textarea
               className="input min-h-[120px] resize-none"
               placeholder="Write the notice content..."

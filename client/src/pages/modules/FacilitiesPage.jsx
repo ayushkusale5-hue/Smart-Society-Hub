@@ -96,8 +96,8 @@ export default function FacilitiesPage() {
 
       <div>
         <h3 className="text-sm font-bold text-slate-400 uppercase tracking-wider mb-4">My Bookings</h3>
-        <div className="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm">
-          <table className="w-full text-left">
+        <div className="bg-white rounded-2xl border border-slate-200 overflow-x-auto shadow-sm">
+          <table className="w-full min-w-[800px] text-left whitespace-nowrap">
             <thead>
               <tr className="bg-slate-50 text-slate-500 text-xs uppercase tracking-wider">
                 <th className="p-4 font-bold">Facility</th>

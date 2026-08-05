@@ -1,14 +1,17 @@
 import { useState, useEffect, useRef } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useAuthStore } from '../../store/authStore';
 import { getSocket } from '../../hooks/useSocket';
-import { Send, Image as ImageIcon, Smile, MessageSquare, Info } from 'lucide-react';
+import { Send, Image as ImageIcon, Smile, MessageSquare, Info, X } from 'lucide-react';
+import EmojiPicker from 'emoji-picker-react';
 
 export default function CommunityChat() {
   const { user } = useAuthStore();
   const socket = getSocket();
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState('');
+  const [showEmoji, setShowEmoji] = useState(false);
+  const fileInputRef = useRef(null);
   const messagesEndRef = useRef(null);
 
   useEffect(() => {
@@ -30,21 +33,50 @@ export default function CommunityChat() {
   }, [messages]);
 
   const sendMessage = (e) => {
-    e.preventDefault();
+    if (e) e.preventDefault();
     if (!input.trim() || !socket) return;
 
     const msgData = {
       id: Date.now().toString(),
       text: input,
-      userId: user.id,
-      userName: `${user.first_name} ${user.last_name}`,
+      userId: user.id || user._id,
+      userName: `${user.firstName || user.first_name || ''} ${user.lastName || user.last_name || ''}`.trim(),
       role: user.role,
-      societyId: user.society_id,
-      timestamp: new Date().toISOString()
+      societyId: user.societyId || user.society_id || '1',
+      timestamp: new Date().toISOString(),
+      type: 'text'
     };
 
     socket.emit('chat:message', msgData);
     setInput('');
+    setShowEmoji(false);
+  };
+
+  const onEmojiClick = (emojiObject) => {
+    setInput(prev => prev + emojiObject.emoji);
+  };
+
+  const handleImageUpload = (e) => {
+    const file = e.target.files?.[0];
+    if (!file || !socket) return;
+
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      const msgData = {
+        id: Date.now().toString(),
+        text: '',
+        imageUrl: reader.result,
+        userId: user.id || user._id,
+        userName: `${user.firstName || user.first_name || ''} ${user.lastName || user.last_name || ''}`.trim(),
+        role: user.role,
+        societyId: user.societyId || user.society_id || '1',
+        timestamp: new Date().toISOString(),
+        type: 'image'
+      };
+      socket.emit('chat:message', msgData);
+    };
+    reader.readAsDataURL(file);
+    e.target.value = ''; // Reset input
   };
 
   return (
@@ -88,7 +120,11 @@ export default function CommunityChat() {
                 <div className={`px-4 py-2.5 rounded-2xl max-w-[80%] ${
                   isMe ? 'bg-indigo-600 text-white rounded-tr-sm shadow-md shadow-indigo-200' : 'bg-white text-slate-700 border border-slate-200 rounded-tl-sm shadow-sm'
                 }`}>
-                  <p className="text-sm leading-relaxed">{msg.text}</p>
+                  {msg.type === 'image' && msg.imageUrl ? (
+                    <img src={msg.imageUrl} alt="uploaded" className="rounded-xl max-h-60 object-contain" />
+                  ) : (
+                    <p className="text-sm leading-relaxed">{msg.text}</p>
+                  )}
                 </div>
                 <span className="text-[10px] text-slate-400 mt-1 mx-1">
                   {new Date(msg.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
@@ -101,12 +137,24 @@ export default function CommunityChat() {
       </div>
 
       {/* Input Area */}
-      <div className="p-4 bg-white border-t border-slate-100">
+      <div className="p-4 bg-white border-t border-slate-100 relative">
+        <AnimatePresence>
+          {showEmoji && (
+            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 20 }}
+              className="absolute bottom-20 left-4 z-50 shadow-2xl rounded-xl overflow-hidden border border-slate-200">
+              <EmojiPicker onEmojiClick={onEmojiClick} />
+            </motion.div>
+          )}
+        </AnimatePresence>
+
         <form onSubmit={sendMessage} className="flex items-center gap-2">
-          <button type="button" className="p-2 text-slate-400 hover:text-slate-600 transition-colors">
+          <input type="file" ref={fileInputRef} onChange={handleImageUpload} accept="image/*" className="hidden" />
+          
+          <button type="button" onClick={() => fileInputRef.current?.click()} className="p-2 text-slate-400 hover:text-slate-600 transition-colors">
             <ImageIcon size={20} />
           </button>
-          <button type="button" className="p-2 text-slate-400 hover:text-slate-600 transition-colors">
+          
+          <button type="button" onClick={() => setShowEmoji(!showEmoji)} className={`p-2 transition-colors ${showEmoji ? 'text-indigo-600' : 'text-slate-400 hover:text-slate-600'}`}>
             <Smile size={20} />
           </button>
           <div className="flex-1 relative">

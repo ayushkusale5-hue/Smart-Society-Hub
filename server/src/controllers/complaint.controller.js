@@ -1,5 +1,6 @@
 import { Complaint } from '../models/mongo/Complaint.js';
 import { successResponse, errorResponse } from '../utils/response.utils.js';
+import { categorizeComplaintAI } from '../utils/ai.utils.js';
 
 
 export async function createComplaint(req, res, next) {
@@ -9,11 +10,22 @@ export async function createComplaint(req, res, next) {
     
     const images = req.files ? req.files.map(f => `/uploads/complaints/${f.filename}`) : [];
 
+    let finalCategory = category;
+    let finalPriority = priority;
+
+    if (!finalCategory || finalCategory === 'Other') {
+      const aiResult = await categorizeComplaintAI(title, description);
+      if (aiResult) {
+        finalCategory = aiResult.category || 'Other';
+        finalPriority = aiResult.priority || finalPriority || 'Low';
+      }
+    }
+
     const complaint = new Complaint({
       title,
       description,
-      category,
-      priority,
+      category: finalCategory || 'Other',
+      priority: finalPriority || 'Low',
       images,
       residentId: req.user.id,
     });

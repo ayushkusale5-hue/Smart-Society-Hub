@@ -34,13 +34,14 @@ export default function MaintenanceDashboard() {
           <h2 className="welcome-banner-title">{user?.firstName} {user?.lastName}</h2>
           <p style={{ fontSize: 14, color: 'rgba(255,255,255,0.6)', marginBottom: 24 }}>Maintenance task management &amp; complaint resolution</p>
 
-          <div className="grid grid-cols-3 gap-3 max-w-lg">
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 max-w-lg">
             {[
               { label: 'Assigned',        value: '4', icon: ListTodo },
               { label: 'In Progress',     value: '2', icon: Clock },
               { label: 'Completed Today', value: '3', icon: CheckCircle },
             ].map((s) => (
               <div key={s.label}
+                className={s.label === 'Completed Today' ? 'col-span-2 sm:col-span-1' : ''}
                 style={{ display: 'flex', alignItems: 'center', gap: 12, background: 'rgba(255,255,255,0.12)', border: '1px solid rgba(255,255,255,0.2)', borderRadius: 14, padding: '12px 16px', backdropFilter: 'blur(8px)' }}>
                 <div style={{ width: 36, height: 36, borderRadius: 11, background: 'rgba(255,255,255,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
                   <s.icon size={16} className="text-white" />
@@ -69,37 +70,37 @@ export default function MaintenanceDashboard() {
               initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.06 * i, duration: 0.4 }}
               style={{ background: '#ffffff', border: '1.5px solid #e8ecf4', borderRadius: 24, padding: '28px 32px', boxShadow: '0 2px 16px rgba(0,0,0,0.04)', transition: 'all 0.25s ease', cursor: 'pointer' }}
               whileHover={{ borderColor: PRIORITY_COLORS[task.priority] + '35', y: -2, boxShadow: `0 8px 28px ${PRIORITY_COLORS[task.priority]}10` }}>
-              <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 24 }}>
+              <div className="flex flex-col lg:flex-row lg:items-start justify-between gap-6">
 
-                <div style={{ display: 'flex', alignItems: 'flex-start', gap: 20, flex: 1 }}>
+                <div className="flex items-start gap-4 sm:gap-5 flex-1">
                   <div style={{ width: 56, height: 56, borderRadius: 18, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, background: `${PRIORITY_COLORS[task.priority]}10`, border: `1.5px solid ${PRIORITY_COLORS[task.priority]}20` }}>
                     <AlertTriangle size={24} style={{ color: PRIORITY_COLORS[task.priority] }} />
                   </div>
-                  <div style={{ flex: 1 }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 8 }}>
-                      <span style={{ fontSize: 12.5, fontFamily: 'monospace', fontWeight: 700, color: '#9ca3af' }}>#{task.id}</span>
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-3 mb-2">
+                      <span className="text-xs font-mono font-bold text-slate-400">#{task.id}</span>
                       <span style={{
                         fontSize: 11.5, fontWeight: 700, padding: '3px 10px', borderRadius: 99, textTransform: 'capitalize',
                         color: PRIORITY_COLORS[task.priority], background: `${PRIORITY_COLORS[task.priority]}10`,
                         border: `1px solid ${PRIORITY_COLORS[task.priority]}25`
                       }}>{task.priority}</span>
                     </div>
-                    <h4 style={{ fontSize: 17, fontWeight: 800, color: '#0f172a', letterSpacing: '-0.01em', marginBottom: 14, lineHeight: 1.3 }}>{task.title}</h4>
-                    <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 8 }}>
-                      <span style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 13, fontWeight: 600, color: '#374151', background: '#f4f6fb', padding: '5px 12px', borderRadius: 8, border: '1px solid #e8ecf4' }}>
-                        <Home size={12} style={{ color: '#9ca3af' }} /> {task.flat}
+                    <h4 className="text-base sm:text-lg font-extrabold text-slate-900 tracking-tight mb-3 leading-snug">{task.title}</h4>
+                    <div className="flex flex-wrap items-center gap-2">
+                      <span className="flex items-center gap-1.5 text-xs sm:text-sm font-semibold text-slate-700 bg-slate-50 px-3 py-1.5 rounded-lg border border-slate-200">
+                        <Home size={12} className="text-slate-400" /> {task.flat}
                       </span>
-                      <span style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 13, fontWeight: 600, color: '#374151', background: '#f4f6fb', padding: '5px 12px', borderRadius: 8, border: '1px solid #e8ecf4' }}>
-                        <FolderOpen size={12} style={{ color: '#9ca3af' }} /> {task.category}
+                      <span className="flex items-center gap-1.5 text-xs sm:text-sm font-semibold text-slate-700 bg-slate-50 px-3 py-1.5 rounded-lg border border-slate-200">
+                        <FolderOpen size={12} className="text-slate-400" /> {task.category}
                       </span>
-                      <span style={{ display: 'flex', alignItems: 'center', gap: 5, fontSize: 13, color: '#9ca3af', fontWeight: 500 }}>
+                      <span className="flex items-center gap-1.5 text-xs sm:text-sm text-slate-400 font-medium ml-1 mt-1 sm:mt-0">
                         <Clock size={12} /> {task.assignedAt}
                       </span>
                     </div>
                   </div>
                 </div>
 
-                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 16, flexShrink: 0 }}>
+                <div className="flex flex-row lg:flex-col items-center lg:items-end justify-between lg:justify-start gap-4 flex-shrink-0 w-full lg:w-auto pt-4 lg:pt-0 border-t border-slate-100 lg:border-0">
                   <span style={{
                     fontSize: 12.5, fontWeight: 700, padding: '6px 14px', borderRadius: 99, textTransform: 'capitalize',
                     color: STATUS_COLORS[task.status], background: STATUS_BG[task.status],
@@ -107,16 +108,16 @@ export default function MaintenanceDashboard() {
                   }}>
                     {task.status.replace('_', ' ')}
                   </span>
-                  <div style={{ display: 'flex', gap: 10 }}>
+                  <div className="flex gap-2">
                     {task.status === 'open' && (
-                      <button className="btn btn-secondary btn-sm">Start Work</button>
+                      <button className="btn btn-secondary btn-sm whitespace-nowrap">Start Work</button>
                     )}
                     {task.status === 'in_progress' && (
                       <>
-                        <button className="btn btn-ghost btn-sm" style={{ gap: 6 }}>
-                          <Camera size={14} /> Photo
+                        <button className="btn btn-ghost btn-sm gap-1.5 whitespace-nowrap">
+                          <Camera size={14} /> <span className="hidden sm:inline">Photo</span>
                         </button>
-                        <button className="btn btn-primary btn-sm" style={{ gap: 6 }}>
+                        <button className="btn btn-primary btn-sm gap-1.5 whitespace-nowrap">
                           <CheckCircle size={14} /> Mark Done
                         </button>
                       </>

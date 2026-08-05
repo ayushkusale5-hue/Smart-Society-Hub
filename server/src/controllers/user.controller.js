@@ -26,10 +26,11 @@ export async function getAllUsers(req, res, next) {
     }
 
     const countQuery = query.replace(
-      /SELECT .* FROM users u/,
+      /SELECT[\s\S]*?FROM users u/,
       'SELECT COUNT(*) as total FROM users u'
     );
-    const { total } = db.prepare(countQuery).get(...params);
+    const countRow = db.prepare(countQuery).get(...params);
+    const total = countRow ? countRow.total : 0;
 
     query += ` ORDER BY u.created_at DESC LIMIT ? OFFSET ?`;
     const users = db.prepare(query).all(...params, Number(limit), Number(offset));
